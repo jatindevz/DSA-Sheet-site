@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model DSATopic {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  icon      String        @default("📚")
+  color     String        @default("#10b981")
+  order     Int           @default(0)
+  problems  DSAProblem[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model DSAProblem {
+  id         String    @id @default(cuid())
+  title      String
+  topicId    String
+  topic      DSATopic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  difficulty String    @default("medium") // easy, medium, hard
+  status     String    @default("todo") // todo, practicing, solved, revision
+  platform   String    @default("leetcode") // leetcode, gfg, hackerrank, codeforces, other
+  url        String?
+  notes      String?
+  solvedAt   DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model DailyActivity {
+  id        String   @id @default(cuid())
+  date      String   @unique // YYYY-MM-DD format
+  count     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
