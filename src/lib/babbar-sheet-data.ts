@@ -167,6 +167,7 @@ export const BABBAR_SHEET_DATA: RawTopic[] = [
       { title: 'Find the inversion count', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/inversion-of-array-1587115620/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/inversion-count-in-array-using-merge-sort/' },
       { title: 'Implement Merge-sort in-place', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/dsa/in-place-merge-sort/', articleUrl: 'https://www.geeksforgeeks.org/dsa/in-place-merge-sort/' },
       { title: 'Partitioning and Sorting Arrays with Many Repeated Entries', difficulty: 'easy', url: 'https://www.baeldung.com/java-sorting-arrays-with-repeated-entries', articleUrl: 'https://www.baeldung.com/java-sorting-arrays-with-repeated-entries' },
+      { title: 'Count Reverse Pairs', difficulty: 'hard', url: 'https://www.geeksforgeeks.org/problems/count-reverse-pairs/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/count-reverse-pairs/' },
     ]
   },
   {
