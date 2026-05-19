@@ -14,6 +14,7 @@ export default function Home() {
   const { selectedTopicId, setSelectedTopicId, progress, resetProgress } = useDSAStore();
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [globalSearch, setGlobalSearch] = useState('');
 
   useEffect(() => {
     setMounted(true);
@@ -119,6 +120,14 @@ export default function Home() {
     );
   }, [rawTopicProblems, searchQuery]);
 
+  // Global search matching problems
+  const globalFilteredProblems = useMemo(() => {
+    if (!globalSearch) return [];
+    return allProblems.filter(p =>
+      p.title.toLowerCase().includes(globalSearch.toLowerCase())
+    );
+  }, [allProblems, globalSearch]);
+
   if (!mounted) return null; // Prevent hydration mismatch
 
   return (
@@ -140,7 +149,19 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          {/* Global Search Bar */}
+          <div className="relative w-48 sm:w-64">
+            <Search size={13} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/50" />
+            <input
+              type="text"
+              value={globalSearch}
+              onChange={(e) => setGlobalSearch(e.target.value)}
+              placeholder="Search all 443 problems..."
+              className="w-full bg-[#0d0d12]/60 border border-white/[0.06] focus:border-emerald/40 focus:ring-1 focus:ring-emerald/5 text-xs px-8 py-1.5 rounded-lg text-white placeholder-muted-foreground/40 transition-all outline-none"
+            />
+          </div>
+
           <Button
             onClick={() => {
               if (confirm('Reset tracker? All your custom solving status, confidence ratings, and notes will be permanently deleted.')) {
@@ -318,42 +339,78 @@ export default function Home() {
 
           {/* CORE PROBLEMS GRID WORKSPACE */}
           <div className="flex flex-col gap-4">
-            {selectedTopic && (
-              <div className="glass-card noise-texture p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/[0.04] bg-[#0a0a0d]/60">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">{selectedTopic.icon}</span>
+            {globalSearch ? (
+              // GLOBAL SEARCH RESULTS VIEW
+              <>
+                <div className="glass-card noise-texture p-4 rounded-xl flex items-center justify-between border border-emerald/20 bg-emerald/[0.01]">
                   <div>
-                    <h2 className="text-base font-extrabold text-white">{selectedTopic.name} Problems</h2>
-                    <p className="text-[10px] text-muted-foreground font-medium">Love Babbar 450 Sheet Core Section</p>
+                    <h2 className="text-base font-extrabold text-white flex items-center gap-2">
+                      <Sparkles size={16} className="text-emerald animate-pulse" />
+                      Search Results for "{globalSearch}"
+                    </h2>
+                    <p className="text-[10px] text-muted-foreground font-medium">
+                      Found {globalFilteredProblems.length} matching problems across all categories
+                    </p>
                   </div>
+                  <Button
+                    onClick={() => setGlobalSearch('')}
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs text-muted-foreground hover:text-white"
+                  >
+                    Clear Search
+                  </Button>
                 </div>
-
-                {/* Highly efficient instant search bar */}
-                <div className="relative w-full md:w-64">
-                  <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/60" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={`Search ${selectedTopic.name} problems...`}
-                    className="w-full bg-[#0d0d12] border border-white/[0.08] focus:border-emerald/50 focus:ring-1 focus:ring-emerald/10 text-xs px-9 py-2 rounded-xl text-white placeholder-muted-foreground/50 transition-all outline-none"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Interactive Problems list when a topic is selected */}
-            <AnimatePresence mode="wait">
-              {selectedTopicId && selectedTopic && (
+                
                 <div className="bento-animate">
                   <TopicProblems
-                    problems={topicProblems}
+                    problems={globalFilteredProblems}
                     isLoading={false}
-                    topicName={selectedTopic.name}
+                    topicName="Global Search"
                   />
                 </div>
-              )}
-            </AnimatePresence>
+              </>
+            ) : (
+              // STANDARD TOPIC VIEW
+              <>
+                {selectedTopic && (
+                  <div className="glass-card noise-texture p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/[0.04] bg-[#0a0a0d]/60">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">{selectedTopic.icon}</span>
+                      <div>
+                        <h2 className="text-base font-extrabold text-white">{selectedTopic.name} Problems</h2>
+                        <p className="text-[10px] text-muted-foreground font-medium">Love Babbar 450 Sheet Core Section</p>
+                      </div>
+                    </div>
+
+                    {/* Topic-specific local search bar */}
+                    <div className="relative w-full md:w-64">
+                      <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/60" />
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder={`Search ${selectedTopic.name} problems...`}
+                        className="w-full bg-[#0d0d12] border border-white/[0.08] focus:border-emerald/50 focus:ring-1 focus:ring-emerald/10 text-xs px-9 py-2 rounded-xl text-white placeholder-muted-foreground/50 transition-all outline-none"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Interactive Problems list when a topic is selected */}
+                <AnimatePresence mode="wait">
+                  {selectedTopicId && selectedTopic && (
+                    <div className="bento-animate">
+                      <TopicProblems
+                        problems={topicProblems}
+                        isLoading={false}
+                        topicName={selectedTopic.name}
+                      />
+                    </div>
+                  )}
+                </AnimatePresence>
+              </>
+            )}
           </div>
         </main>
       </div>
