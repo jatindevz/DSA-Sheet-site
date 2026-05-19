@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Trophy, Flame, Calendar, Target } from 'lucide-react';
+import { Trophy, Flame, BookOpen, Target } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface StatsHeroProps {
@@ -11,14 +11,15 @@ interface StatsHeroProps {
     currentStreak: number;
     todayCount: number;
     accuracy: number;
+    pendingRevisions: number;
   };
   isLoading?: boolean;
 }
 
 const statItems = [
   { key: 'totalSolved', label: 'Total Solved', icon: Trophy, color: '#10b981' },
+  { key: 'pendingRevisions', label: 'Due Today', icon: BookOpen, color: '#f43f5e' },
   { key: 'currentStreak', label: 'Current Streak', icon: Flame, color: '#f59e0b' },
-  { key: 'todayCount', label: "Today's Count", icon: Calendar, color: '#06b6d4' },
   { key: 'accuracy', label: 'Accuracy %', icon: Target, color: '#8b5cf6' },
 ];
 
@@ -65,9 +66,9 @@ export function StatsHero({ stats, isLoading }: StatsHeroProps) {
                 <Icon size={20} style={{ color: item.color }} />
               </div>
               <span className="font-mono text-2xl font-bold text-foreground">
-                {value?.toString()}
+                {value?.toString() ?? 0}
               </span>
-              <span className="text-xs text-muted-foreground uppercase tracking-wider">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider text-center font-medium">
                 {item.label}
               </span>
             </div>

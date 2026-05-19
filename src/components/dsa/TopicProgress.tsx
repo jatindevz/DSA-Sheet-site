@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useDSAStore } from '@/store/dsa-store';
 
 interface Topic {
   id: string;
@@ -18,6 +19,8 @@ interface TopicProgressProps {
 }
 
 export function TopicProgress({ topics, isLoading }: TopicProgressProps) {
+  const { selectedTopicId, setSelectedTopicId } = useDSAStore();
+
   if (isLoading) {
     return (
       <div className="glass-card noise-texture p-6">
@@ -44,12 +47,24 @@ export function TopicProgress({ topics, isLoading }: TopicProgressProps) {
       <div className="max-h-80 overflow-y-auto custom-scrollbar space-y-3 pr-1">
         {topics?.map((topic) => {
           const progress = topic.total > 0 ? (topic.solved / topic.total) * 100 : 0;
+          const isSelected = selectedTopicId === topic.id;
+
           return (
-            <div key={topic.id} className="group">
+            <div
+              key={topic.id}
+              onClick={() => setSelectedTopicId(isSelected ? null : topic.id)}
+              className={`group cursor-pointer p-2 -mx-2 rounded-xl transition-all ${
+                isSelected
+                  ? 'bg-emerald/10 border-white/[0.04] shadow-md shadow-emerald/5'
+                  : 'hover:bg-white/[0.02]'
+              }`}
+            >
               <div className="flex items-center justify-between mb-1.5">
                 <div className="flex items-center gap-2">
                   <span className="text-sm">{topic.icon}</span>
-                  <span className="text-sm text-foreground group-hover:text-emerald transition-colors">
+                  <span className={`text-sm transition-colors ${
+                    isSelected ? 'text-emerald font-semibold' : 'text-foreground group-hover:text-emerald'
+                  }`}>
                     {topic.name}
                   </span>
                 </div>
@@ -64,7 +79,9 @@ export function TopicProgress({ topics, isLoading }: TopicProgressProps) {
                   transition={{ duration: 0.8, ease: 'easeOut' }}
                   className="h-full rounded-full"
                   style={{
-                    background: `linear-gradient(90deg, ${topic.color}, ${topic.color}99)`,
+                    background: isSelected
+                      ? `linear-gradient(90deg, #10b981, #34d399)`
+                      : `linear-gradient(90deg, ${topic.color}, ${topic.color}99)`,
                   }}
                 />
               </div>

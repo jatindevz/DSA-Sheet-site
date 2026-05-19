@@ -1,130 +1,367 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Plus, Terminal } from 'lucide-react';
+import { useEffect, useState, useMemo } from 'react';
+import { Terminal, Database, Sparkles, BookOpen, Flame, Trophy, Award, Search, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useDSAStore } from '@/store/dsa-store';
-import { StatsHero } from '@/components/dsa/StatsHero';
-import { TopicProgress } from '@/components/dsa/TopicProgress';
-import { DifficultyBreakdown } from '@/components/dsa/DifficultyBreakdown';
-import { ActivityHeatmap } from '@/components/dsa/ActivityHeatmap';
-import { RecentProblems } from '@/components/dsa/RecentProblems';
-import { QuickAdd } from '@/components/dsa/QuickAdd';
-import { PlatformDistribution } from '@/components/dsa/PlatformDistribution';
-import { StreakCard } from '@/components/dsa/StreakCard';
+import { BABBAR_SHEET_DATA } from '@/lib/babbar-sheet-data';
+import { TopicProblems } from '@/components/dsa/TopicProblems';
+import { RevisionQueue } from '@/components/dsa/RevisionQueue';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
-  const { quickAddOpen, setQuickAddOpen } = useDSAStore();
+  const { selectedTopicId, setSelectedTopicId, progress, resetProgress } = useDSAStore();
+  const [mounted, setMounted] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Seed topics on first load
   useEffect(() => {
-    fetch('/api/seed', { method: 'POST' }).catch(console.error);
-  }, []);
+    setMounted(true);
+    // Default select Arrays topic if nothing is selected to keep dashboard full and engaging
+    if (!selectedTopicId) {
+      setSelectedTopicId('Arrays');
+    }
+  }, [selectedTopicId, setSelectedTopicId]);
 
-  // Fetch stats
-  const { data: stats, isLoading: statsLoading } = useQuery({
-    queryKey: ['stats'],
-    queryFn: () => fetch('/api/stats').then((r) => r.json()),
-  });
+  // Compute problems array from BABBAR_SHEET_DATA + progress
+  const allProblems = useMemo(() => {
+    const arr: any[] = [];
+    BABBAR_SHEET_DATA.forEach(topic => {
+      topic.problems.forEach(p => {
+        const userProg = progress[p.title] || {};
+        arr.push({
+          id: p.title,
+          title: p.title,
+          difficulty: p.difficulty,
+          url: p.url,
+          articleUrl: p.articleUrl,
+          topicId: topic.name,
+          topic: { name: topic.name, icon: topic.icon, color: topic.color },
+          platform: 'gfg',
+          status: userProg.status || 'todo',
+          marks: userProg.marks || 0,
+          revisionStage: userProg.revisionStage || 0,
+          nextRevisionDate: userProg.nextRevisionDate || null,
+          solvedAt: userProg.solvedAt || null,
+          notes: userProg.notes || '',
+        });
+      });
+    });
+    return arr;
+  }, [progress]);
 
-  // Fetch problems
-  const { data: problems, isLoading: problemsLoading } = useQuery({
-    queryKey: ['problems'],
-    queryFn: () => fetch('/api/problems').then((r) => r.json()),
-  });
+  // Compute Topics
+  const topics = useMemo(() => {
+    return BABBAR_SHEET_DATA.map(t => {
+      const topicProbs = allProblems.filter(p => p.topicId === t.name);
+      return {
+        id: t.name,
+        name: t.name,
+        icon: t.icon,
+        color: t.color,
+        total: topicProbs.length,
+        solved: topicProbs.filter(p => p.status === 'solved').length,
+      };
+    });
+  }, [allProblems]);
 
-  // Fetch topics
-  const { data: topics, isLoading: topicsLoading } = useQuery({
-    queryKey: ['topics'],
-    queryFn: () => fetch('/api/topics').then((r) => r.json()),
-  });
+  // General Stats
+  const stats = useMemo(() => {
+    const total = allProblems.length;
+    const solved = allProblems.filter(p => p.status === 'solved').length;
+    const easySolved = allProblems.filter(p => p.difficulty === 'easy' && p.status === 'solved').length;
+    const mediumSolved = allProblems.filter(p => p.difficulty === 'medium' && p.status === 'solved').length;
+    const hardSolved = allProblems.filter(p => p.difficulty === 'hard' && p.status === 'solved').length;
+    const easyTotal = allProblems.filter(p => p.difficulty === 'easy').length;
+    const mediumTotal = allProblems.filter(p => p.difficulty === 'medium').length;
+    const hardTotal = allProblems.filter(p => p.difficulty === 'hard').length;
+    
+    const dueRevisions = allProblems.filter(p => {
+      if (p.status !== 'solved' || !p.nextRevisionDate) return false;
+      if (p.revisionStage >= 5) return false;
+      const due = new Date(p.nextRevisionDate);
+      const today = new Date();
+      due.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+      return due.getTime() <= today.getTime();
+    });
 
-  // Fetch activity
-  const { data: activity, isLoading: activityLoading } = useQuery({
-    queryKey: ['activity'],
-    queryFn: () => fetch('/api/activity').then((r) => r.json()),
-  });
+    // Estimate streak based on daily count
+    const solvedDates = allProblems
+      .filter(p => p.status === 'solved' && p.solvedAt)
+      .map(p => p.solvedAt!.split('T')[0]);
+    const uniqueDates = Array.from(new Set(solvedDates));
+    const currentStreak = uniqueDates.length; // Simplified streak calculation
+
+    return {
+      total,
+      solved,
+      easySolved,
+      mediumSolved,
+      hardSolved,
+      easyTotal,
+      mediumTotal,
+      hardTotal,
+      dueRevisionsCount: dueRevisions.length,
+      currentStreak,
+      accuracy: total > 0 ? Math.round((solved / total) * 100) : 0
+    };
+  }, [allProblems]);
+
+  const selectedTopic = topics.find(t => t.id === selectedTopicId);
+  const rawTopicProblems = allProblems.filter(p => p.topicId === selectedTopicId);
+
+  // Filter problems by search query if any
+  const topicProblems = useMemo(() => {
+    if (!searchQuery) return rawTopicProblems;
+    return rawTopicProblems.filter(p =>
+      p.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [rawTopicProblems, searchQuery]);
+
+  if (!mounted) return null; // Prevent hydration mismatch
 
   return (
-    <div className="min-h-screen flex flex-col relative z-10">
-      {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0a0a0c]/80 border-b border-white/[0.04]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Terminal size={20} className="text-emerald" />
-            <h1 className="text-lg font-bold gradient-text">DSA Tracker</h1>
+    <div className="min-h-screen flex flex-col bg-[#08080a] text-[#e2e2e9] font-sans selection:bg-emerald/30 selection:text-white">
+      {/* Header Banner */}
+      <header className="h-16 border-b border-white/[0.04] bg-[#0a0a0d]/80 backdrop-blur-xl sticky top-0 z-50 px-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-xl bg-emerald/10 border border-emerald/20 text-emerald animate-pulse">
+            <Terminal size={18} />
           </div>
+          <div>
+            <h1 className="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
+              Love Babbar DSA Console
+              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-emerald/10 text-emerald border border-emerald/20">
+                v2.0
+              </span>
+            </h1>
+            <p className="text-[10px] text-muted-foreground">Premium Spaced-Repetition Analytics Dashboard</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
           <Button
             onClick={() => {
-              setQuickAddOpen(!quickAddOpen);
-              if (!quickAddOpen) {
-                setTimeout(() => {
-                  document.getElementById('quick-add-section')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center',
-                  });
-                }, 100);
+              if (confirm('Reset tracker? All your custom solving status, confidence ratings, and notes will be permanently deleted.')) {
+                resetProgress();
               }
             }}
+            variant="ghost"
             size="sm"
-            className="bg-emerald hover:bg-emerald/90 text-emerald-foreground gap-1.5 h-8"
+            className="h-8 border border-white/[0.06] bg-white/[0.02] text-xs text-muted-foreground hover:text-foreground hover:bg-white/[0.04] gap-1.5 rounded-lg px-3"
           >
-            <Plus size={14} />
-            <span className="hidden sm:inline">Add Problem</span>
+            <Database size={13} />
+            Reset Console
           </Button>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Row 1: StatsHero (2) + StreakCard (1) + DifficultyBreakdown (1) */}
-          <div className="sm:col-span-2 bento-animate">
-            <StatsHero stats={stats} isLoading={statsLoading} />
-          </div>
-          <div className="bento-animate">
-            <StreakCard
-              stats={stats}
-              last7Days={activity?.last7Days}
-              isLoading={statsLoading || activityLoading}
-            />
-          </div>
-          <div className="bento-animate">
-            <DifficultyBreakdown
-              difficulty={stats ? { easy: stats.easy, medium: stats.medium, hard: stats.hard } : undefined}
-              isLoading={statsLoading}
-            />
+      {/* Main Workspace Frame */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-[1600px] w-full mx-auto">
+        {/* LEFT COLUMN: Clean Sidebar Nav & Overall Progress */}
+        <aside className="w-full lg:w-[360px] border-r border-white/[0.04] bg-[#0a0a0d]/40 p-5 flex flex-col gap-5 shrink-0 overflow-y-auto custom-scrollbar">
+          {/* Main Progress Ring widget */}
+          <div className="glass-card-glow noise-texture p-4 rounded-2xl flex items-center gap-4 border border-emerald/20">
+            <div className="relative w-16 h-16 flex items-center justify-center shrink-0">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <path
+                  className="text-white/[0.03]"
+                  strokeWidth="3"
+                  stroke="currentColor"
+                  fill="transparent"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <motion.path
+                  initial={{ strokeDasharray: '0, 100' }}
+                  animate={{ strokeDasharray: `${stats.accuracy}, 100` }}
+                  transition={{ duration: 1.2, ease: 'easeOut' }}
+                  className="text-emerald"
+                  strokeWidth="3.2"
+                  strokeDasharray={`${stats.accuracy}, 100`}
+                  strokeLinecap="round"
+                  stroke="currentColor"
+                  fill="transparent"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="font-mono text-sm font-bold text-white leading-none">{stats.accuracy}%</span>
+                <span className="text-[8px] text-muted-foreground/80 font-medium">accuracy</span>
+              </div>
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-xs font-semibold uppercase text-muted-foreground/60 tracking-wider">Overall Progress</h3>
+              <p className="font-mono text-xl font-extrabold text-white mt-0.5 leading-none">
+                {stats.solved} <span className="text-xs text-muted-foreground font-normal">/ {stats.total} Solved</span>
+              </p>
+              <div className="flex items-center gap-1.5 mt-1.5">
+                <Award size={12} className="text-emerald shrink-0" />
+                <span className="text-[10px] text-muted-foreground font-medium">Love Babbar 450 Sheet</span>
+              </div>
+            </div>
           </div>
 
-          {/* Row 2: ActivityHeatmap (2) + TopicProgress (1) + QuickAdd (1) */}
-          <div className="sm:col-span-2 bento-animate">
-            <ActivityHeatmap activity={activity} isLoading={activityLoading} />
-          </div>
-          <div className="bento-animate">
-            <TopicProgress topics={topics} isLoading={topicsLoading} />
-          </div>
-          <div id="quick-add-section" className="bento-animate">
-            <QuickAdd topics={topics} />
+          {/* Difficulty Splits */}
+          <div className="glass-card noise-texture p-4 rounded-2xl flex flex-col gap-3">
+            <h3 className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider">Difficulty Split</h3>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="bg-emerald/5 border border-emerald/10 rounded-xl p-2 flex flex-col items-center">
+                <span className="text-[9px] font-semibold text-emerald uppercase font-mono">Easy</span>
+                <span className="text-sm font-bold font-mono text-white mt-0.5">{stats.easySolved}/{stats.easyTotal}</span>
+              </div>
+              <div className="bg-amber/5 border border-amber/10 rounded-xl p-2 flex flex-col items-center">
+                <span className="text-[9px] font-semibold text-amber uppercase font-mono">Medium</span>
+                <span className="text-sm font-bold font-mono text-white mt-0.5">{stats.mediumSolved}/{stats.mediumTotal}</span>
+              </div>
+              <div className="bg-rose/5 border border-rose/10 rounded-xl p-2 flex flex-col items-center">
+                <span className="text-[9px] font-semibold text-rose uppercase font-mono">Hard</span>
+                <span className="text-sm font-bold font-mono text-white mt-0.5">{stats.hardSolved}/{stats.hardTotal}</span>
+              </div>
+            </div>
           </div>
 
-          {/* Row 3: RecentProblems (2) + PlatformDistribution (2) */}
-          <div className="sm:col-span-2 bento-animate">
-            <RecentProblems problems={problems} isLoading={problemsLoading} />
-          </div>
-          <div className="sm:col-span-2 bento-animate">
-            <PlatformDistribution problems={problems} isLoading={problemsLoading} />
-          </div>
-        </div>
-      </main>
+          {/* Topics List Navigation Menu */}
+          <div className="flex-1 flex flex-col min-h-[300px]">
+            <h3 className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2.5 px-1">
+              Select DSA Topic ({topics.length})
+            </h3>
+            <div className="space-y-1.5 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[420px] lg:max-h-none">
+              {topics.map((t) => {
+                const isSelected = selectedTopicId === t.id;
+                const percent = t.total > 0 ? Math.round((t.solved / t.total) * 100) : 0;
+                
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setSelectedTopicId(t.id)}
+                    className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between gap-3 group relative overflow-hidden ${
+                      isSelected
+                        ? 'bg-emerald/[0.04] border-emerald/40 shadow-lg shadow-emerald/[0.02]'
+                        : 'bg-white/[0.01] border-white/[0.04] hover:bg-white/[0.02] hover:border-white/[0.08]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0 z-10">
+                      <span className="text-base shrink-0">{t.icon}</span>
+                      <span className={`text-xs font-semibold truncate ${isSelected ? 'text-white' : 'text-[#a6a6b8] group-hover:text-white'}`}>
+                        {t.name}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 shrink-0 z-10">
+                      <span className="font-mono text-[10px] text-muted-foreground/80 font-semibold">
+                        {t.solved}/{t.total}
+                      </span>
+                      {percent > 0 && (
+                        <span className={`text-[8px] font-bold font-mono px-1 rounded ${
+                          percent === 100 ? 'bg-emerald/20 text-emerald' : 'bg-white/10 text-[#a6a6b8]'
+                        }`}>
+                          {percent}%
+                        </span>
+                      )}
+                    </div>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-white/[0.04] py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-xs text-muted-foreground/40">
-            Built with focus. Track your DSA journey.
-          </p>
-        </div>
+                    {/* Minimal Progress Line Accent */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/[0.02]">
+                      <div
+                        className="h-full rounded-full transition-all duration-500"
+                        style={{
+                          width: `${percent}%`,
+                          backgroundColor: isSelected ? '#10b981' : t.color
+                        }}
+                      />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
+
+        {/* RIGHT COLUMN: Interactive Workspace Grid */}
+        <main className="flex-1 p-6 overflow-y-auto custom-scrollbar flex flex-col gap-6">
+          {/* TOP METRIC BANNER ROW: Highly aesthetic summary */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="glass-card noise-texture p-4 rounded-xl flex items-center gap-3 border border-white/[0.04]">
+              <div className="p-2 rounded-lg bg-emerald/10 text-emerald">
+                <Trophy size={18} />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-muted-foreground">Total Solved</span>
+                <p className="font-mono text-lg font-extrabold text-white mt-0.5">{stats.solved} Problems</p>
+              </div>
+            </div>
+
+            <div className="glass-card noise-texture p-4 rounded-xl flex items-center gap-3 border border-white/[0.04]">
+              <div className="p-2 rounded-lg bg-amber/10 text-amber animate-pulse">
+                <Flame size={18} />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-muted-foreground">Active Streak</span>
+                <p className="font-mono text-lg font-extrabold text-white mt-0.5">{stats.currentStreak} Days</p>
+              </div>
+            </div>
+
+            <div className="glass-card noise-texture p-4 rounded-xl flex items-center gap-3 border border-white/[0.04]">
+              <div className="p-2 rounded-lg bg-rose/10 text-rose">
+                <BookOpen size={18} />
+              </div>
+              <div>
+                <span className="text-[10px] uppercase font-bold text-muted-foreground">Due Revisions</span>
+                <p className="font-mono text-lg font-extrabold text-white mt-0.5">{stats.dueRevisionsCount} Today</p>
+              </div>
+            </div>
+          </div>
+
+          {/* ACTIVE DUE REVISIONS QUEUE (Notification Banner Alert style) */}
+          <RevisionQueue allProblems={allProblems} />
+
+          {/* CORE PROBLEMS GRID WORKSPACE */}
+          <div className="flex flex-col gap-4">
+            {selectedTopic && (
+              <div className="glass-card noise-texture p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/[0.04] bg-[#0a0a0d]/60">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{selectedTopic.icon}</span>
+                  <div>
+                    <h2 className="text-base font-extrabold text-white">{selectedTopic.name} Problems</h2>
+                    <p className="text-[10px] text-muted-foreground font-medium">Love Babbar 450 Sheet Core Section</p>
+                  </div>
+                </div>
+
+                {/* Highly efficient instant search bar */}
+                <div className="relative w-full md:w-64">
+                  <Search size={14} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/60" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={`Search ${selectedTopic.name} problems...`}
+                    className="w-full bg-[#0d0d12] border border-white/[0.08] focus:border-emerald/50 focus:ring-1 focus:ring-emerald/10 text-xs px-9 py-2 rounded-xl text-white placeholder-muted-foreground/50 transition-all outline-none"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Interactive Problems list when a topic is selected */}
+            <AnimatePresence mode="wait">
+              {selectedTopicId && selectedTopic && (
+                <div className="bento-animate">
+                  <TopicProblems
+                    problems={topicProblems}
+                    isLoading={false}
+                    topicName={selectedTopic.name}
+                  />
+                </div>
+              )}
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
+
+      <footer className="h-10 border-t border-white/[0.04] flex items-center justify-center">
+        <p className="text-[9px] text-muted-foreground/30 font-medium">
+          Hardcoded and Local. Fast and Resilient. Built with focus.
+        </p>
       </footer>
     </div>
   );

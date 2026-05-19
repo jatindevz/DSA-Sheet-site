@@ -12,8 +12,24 @@ export async function GET() {
     const mediumTotal = await db.dSAProblem.count({ where: { difficulty: 'medium' } });
     const hardTotal = await db.dSAProblem.count({ where: { difficulty: 'hard' } });
 
-    // Calculate streak
+    // Calculate pending revisions due today or overdue
     const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    const pendingRevisions = await db.dSAProblem.count({
+      where: {
+        status: 'solved',
+        revisionStage: {
+          gt: 0,
+          lt: 5,
+        },
+        nextRevisionDate: {
+          lte: today,
+        },
+      },
+    });
+
+    // Calculate streak
+    const todayDate = new Date();
     let currentStreak = 0;
     let bestStreak = 0;
     let tempStreak = 0;
@@ -25,8 +41,7 @@ export async function GET() {
     const activityMap = new Map(allActivities.map((a) => [a.date, a.count]));
 
     // Calculate current streak from today going backwards
-    const checkDate = new Date(today);
-    // Check if today has activity; if not, start from yesterday
+    const checkDate = new Date(todayDate);
     const todayStr = checkDate.toISOString().split('T')[0];
     if (!activityMap.get(todayStr)) {
       checkDate.setDate(checkDate.getDate() - 1);
@@ -68,6 +83,7 @@ export async function GET() {
       bestStreak,
       todayCount: todayActivity?.count ?? 0,
       accuracy,
+      pendingRevisions,
       easy: { solved: easySolved, total: easyTotal },
       medium: { solved: mediumSolved, total: mediumTotal },
       hard: { solved: hardSolved, total: hardTotal },
