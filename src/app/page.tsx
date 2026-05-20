@@ -122,6 +122,7 @@ export default function Home() {
           title: p.title,
           difficulty: p.difficulty,
           url: p.url,
+          leetcodeUrl: (p as any).leetcodeUrl || null,
           articleUrl: p.articleUrl,
           topicId: topic.name,
           topic: { name: topic.name, icon: topic.icon, color: topic.color },

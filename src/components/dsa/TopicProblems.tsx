@@ -15,6 +15,7 @@ interface Problem {
   difficulty: string;
   status: string;
   url: string | null;
+  leetcodeUrl?: string | null;
   articleUrl: string | null;
   notes: string | null;
   marks: number;
@@ -229,26 +230,45 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
                     </Badge>
                   </div>
 
-                  <div className="flex gap-2 mt-1">
-                    {activeProblem.url && (
-                      <Button
-                        asChild
-                        variant="outline"
-                        size="sm"
-                        className="flex-1 h-8 bg-emerald/10 border-emerald/30 hover:bg-emerald/20 text-emerald hover:text-emerald text-xs gap-1.5"
-                      >
-                        <a href={activeProblem.url} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink size={12} />
-                          Solve on GFG
-                        </a>
-                      </Button>
-                    )}
+                  <div className="flex flex-col gap-2 mt-1">
+                    {/* Row 1: Branded Platform Solvers */}
+                    <div className="flex gap-2">
+
+                      {activeProblem.leetcodeUrl && (
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 h-8 bg-[#ffa116]/10 border-[#ffa116]/30 hover:bg-[#ffa116]/20 text-[#ffa116] hover:text-[#ffa116] text-xs gap-1.5"
+                        >
+                          <a href={activeProblem.leetcodeUrl} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink size={12} />
+                            Solve on LC
+                          </a>
+                        </Button>
+                      )}
+                      {activeProblem.url && (
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 h-8 bg-emerald/10 border-emerald/30 hover:bg-emerald/20 text-emerald hover:text-emerald text-xs gap-1.5"
+                        >
+                          <a href={activeProblem.url} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink size={12} />
+                            Solve on GFG
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+
+                    {/* Row 2: Solution Article Explanation */}
                     {activeProblem.articleUrl && (
                       <Button
                         asChild
                         variant="outline"
                         size="sm"
-                        className="flex-1 h-8 bg-cyan/10 border-cyan/30 hover:bg-cyan/20 text-cyan hover:text-cyan text-xs gap-1.5"
+                        className="w-full h-8 bg-cyan/10 border-cyan/30 hover:bg-cyan/20 text-cyan hover:text-cyan text-xs gap-1.5"
                       >
                         <a href={activeProblem.articleUrl} target="_blank" rel="noopener noreferrer">
                           <BookOpen size={12} />
