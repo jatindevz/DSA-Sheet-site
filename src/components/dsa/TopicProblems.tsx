@@ -119,7 +119,7 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
         {/* Problems List */}
-        <div className="lg:col-span-2 space-y-2 max-h-[calc(100vh-300px)] min-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
+        <div className="lg:col-span-2 space-y-2 max-h-[calc(100vh-265px)] min-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
           {problems?.map((problem) => {
             const isSolved = problem.status === 'solved';
             const diff = difficultyConfig[problem.difficulty] || difficultyConfig.medium;

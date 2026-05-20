@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { Terminal, Database, Sparkles, BookOpen, Flame, Trophy, Award, Search, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Terminal, Database, Sparkles, BookOpen, Flame, Trophy, Award, Search, CheckCircle2, AlertCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useDSAStore } from '@/store/dsa-store';
@@ -17,6 +17,12 @@ export interface LeetCodePOTD {
   date: string;
 }
 
+export interface GfgPOTD {
+  title: string;
+  url: string;
+  difficulty: string;
+}
+
 export default function Home() {
   const { selectedTopicId, setSelectedTopicId, progress, resetProgress } = useDSAStore();
   const [mounted, setMounted] = useState(false);
@@ -24,6 +30,8 @@ export default function Home() {
   const [globalSearch, setGlobalSearch] = useState('');
   const [potd, setPotd] = useState<LeetCodePOTD | null>(null);
   const [potdLoading, setPotdLoading] = useState(true);
+  const [gfgPotd, setGfgPotd] = useState<GfgPOTD | null>(null);
+  const [gfgPotdLoading, setGfgPotdLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -52,6 +60,27 @@ export default function Home() {
       .catch((err) => {
         console.error('Error fetching LeetCode POTD:', err);
         setPotdLoading(false);
+      });
+
+    // Fetch live GFG POTD
+    fetch('/api/gfg-potd')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch GFG POTD');
+        return res.json();
+      })
+      .then((data) => {
+        if (data && data.problem_name) {
+          setGfgPotd({
+            title: data.problem_name,
+            url: data.problem_url,
+            difficulty: data.difficulty,
+          });
+        }
+        setGfgPotdLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error fetching GFG POTD:', err);
+        setGfgPotdLoading(false);
       });
   }, [selectedTopicId, setSelectedTopicId]);
 
@@ -254,44 +283,52 @@ export default function Home() {
             </div>
           </div>
 
-          {/* LeetCode POTD in Sidebar */}
-          {!potdLoading && potd && (
+          {/* POTD in Sidebar */}
+          {(!potdLoading || !gfgPotdLoading) && (
             <div className="glass-card-glow noise-texture p-4 rounded-2xl flex flex-col gap-3 border border-amber/20 bg-amber/[0.01]">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between border-b border-white/[0.04] pb-2">
                 <div className="flex items-center gap-2">
                   <div className="p-1.5 rounded-lg bg-amber/10 text-amber animate-pulse">
                     <Sparkles size={14} />
                   </div>
-                  <span className="text-[10px] font-extrabold uppercase text-amber tracking-wider">LeetCode POTD</span>
+                  <span className="text-[10px] font-extrabold uppercase text-amber tracking-wider font-bold">Daily Challenges</span>
                 </div>
                 <span className="text-[8px] font-mono font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/[0.06] text-muted-foreground">
-                  {potd.date}
+                  {potd?.date || new Date().toISOString().split('T')[0]}
                 </span>
               </div>
 
-              {/* <div className="min-w-0 mt-0.5">
-                <h4 className="text-xs font-bold text-white leading-snug line-clamp-2">
-                  {potd.title}
-                </h4>
-                <div className="flex items-center gap-2 mt-1.5">
-                  <Badge className={`text-[8px] font-bold px-1.5 py-0 uppercase tracking-wide border-0 ${potd.difficulty === 'easy' ? 'bg-emerald/10 text-emerald' :
-                      potd.difficulty === 'medium' ? 'bg-amber/10 text-amber' :
-                        'bg-rose/10 text-rose'
-                    }`}>
-                    {potd.difficulty}
-                  </Badge>
-                </div>
-              </div> */}
+              <div className="flex flex-col gap-2">
+                {/* LeetCode Row */}
+                {potd && (
+                  <a
+                    href={potd.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2.5 rounded-xl bg-black/20 border border-white/[0.03] hover:bg-[#ffa116]/5 hover:border-[#ffa116]/20 transition-all gap-2 group/lc"
+                  >
+                    <span className="text-[10px] font-extrabold text-[#ffa116] tracking-wide uppercase ml-4">LeetCode POTD</span>
+                    <div className="shrink-0 bg-[#ffa116]/10 group-hover/lc:bg-[#ffa116]/20 text-[#ffa116] p-1.5 rounded-md transition-all border border-[#ffa116]/20 flex items-center justify-center">
+                      <ExternalLink size={12} />
+                    </div>
+                  </a>
+                )}
 
-              <a
-                href={potd.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full text-center bg-amber hover:bg-amber/90 text-[#08080a] text-[10px] font-extrabold py-2 rounded-xl transition-all shadow-lg shadow-amber/10 flex items-center justify-center gap-1.5 mt-4"
-              >
-                <Trophy size={11} />
-                Solve on LeetCode
-              </a>
+                {/* GFG Row */}
+                {gfgPotd && (
+                  <a
+                    href={gfgPotd.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2.5 rounded-xl bg-black/20 border border-white/[0.03] hover:bg-[#2f8d46]/5 hover:border-[#2f8d46]/20 transition-all gap-2 group/gfg"
+                  >
+                    <span className="text-[10px] font-extrabold text-[#2f8d46] tracking-wide uppercase ml-4">GeeksforGeeks POTD</span>
+                    <div className="shrink-0 bg-[#2f8d46]/10 group-hover/gfg:bg-[#2f8d46]/20 text-[#2f8d46] p-1.5 rounded-md transition-all border border-[#2f8d46]/20 flex items-center justify-center">
+                      <ExternalLink size={12} />
+                    </div>
+                  </a>
+                )}
+              </div>
             </div>
           )}
 
