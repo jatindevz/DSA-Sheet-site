@@ -165,39 +165,12 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
                 <div className="flex items-center gap-3 shrink-0" onClick={(e) => e.stopPropagation()}>
                   <Badge
                     variant="outline"
-                    className="text-[10px] px-1.5 py-0 h-5 border-0 font-mono hidden sm:inline-flex"
+                    className="text-[12px] px-1.5 py-0 h-5 border-0 font-mono hidden sm:inline-flex"
                     style={{ color: diff.color, backgroundColor: diff.bg }}
                   >
                     {problem.difficulty}
                   </Badge>
 
-                  {/* Links */}
-                  <div className="flex items-center gap-1">
-                    {problem.url && (
-                      <Button
-                        asChild
-                        variant="ghost"
-                        size="sm"
-                        className="h-7 w-7 p-0 text-muted-foreground hover:text-emerald hover:bg-emerald/10 rounded-lg"
-                      >
-                        <a href={problem.url} target="_blank" rel="noopener noreferrer" title="Solve on GFG">
-                          <ExternalLink size={14} />
-                        </a>
-                      </Button>
-                    )}
-                    {problem.articleUrl && (
-                      <Button
-                        asChild
-                        variant="ghost"
-                        size="sm"
-                        className="h-7 w-7 p-0 text-muted-foreground hover:text-cyan hover:bg-cyan/10 rounded-lg"
-                      >
-                        <a href={problem.articleUrl} target="_blank" rel="noopener noreferrer" title="View Article / Solution">
-                          <BookOpen size={14} />
-                        </a>
-                      </Button>
-                    )}
-                  </div>
                 </div>
               </div>
             );

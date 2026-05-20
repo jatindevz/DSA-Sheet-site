@@ -24,7 +24,7 @@ export interface GfgPOTD {
 }
 
 export default function Home() {
-  const { selectedTopicId, setSelectedTopicId, progress, resetProgress } = useDSAStore();
+  const { selectedTopicId, setSelectedTopicId, progress, resetProgress, updateProgress } = useDSAStore();
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [globalSearch, setGlobalSearch] = useState('');
