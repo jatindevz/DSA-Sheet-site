@@ -253,7 +253,7 @@ export default function Home() {
               type="text"
               value={globalSearch}
               onChange={(e) => setGlobalSearch(e.target.value)}
-              placeholder="Search all 443 problems..."
+              placeholder="Search problems......"
               className="w-full bg-[#0d0d12]/60 border border-white/[0.06] focus:border-emerald/40 focus:ring-1 focus:ring-emerald/5 text-xs px-8 py-1.5 rounded-lg text-white placeholder-muted-foreground/40 transition-all outline-none"
             />
           </div>
