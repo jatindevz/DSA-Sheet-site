@@ -10,11 +10,20 @@ import { TopicProblems } from '@/components/dsa/TopicProblems';
 import { RevisionQueue } from '@/components/dsa/RevisionQueue';
 import { motion, AnimatePresence } from 'framer-motion';
 
+export interface LeetCodePOTD {
+  title: string;
+  url: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  date: string;
+}
+
 export default function Home() {
   const { selectedTopicId, setSelectedTopicId, progress, resetProgress } = useDSAStore();
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [globalSearch, setGlobalSearch] = useState('');
+  const [potd, setPotd] = useState<LeetCodePOTD | null>(null);
+  const [potdLoading, setPotdLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -22,6 +31,28 @@ export default function Home() {
     if (!selectedTopicId) {
       setSelectedTopicId('Arrays');
     }
+
+    // Fetch live LeetCode POTD
+    fetch('/api/leetcode-potd')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch POTD');
+        return res.json();
+      })
+      .then((data) => {
+        if (data && data.question) {
+          setPotd({
+            title: data.question.title,
+            url: `https://leetcode.com${data.link}`,
+            difficulty: data.question.difficulty.toLowerCase() as any,
+            date: data.date,
+          });
+        }
+        setPotdLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error fetching LeetCode POTD:', err);
+        setPotdLoading(false);
+      });
   }, [selectedTopicId, setSelectedTopicId]);
 
   // Compute problems array from BABBAR_SHEET_DATA + progress
@@ -76,14 +107,14 @@ export default function Home() {
     const easyTotal = allProblems.filter(p => p.difficulty === 'easy').length;
     const mediumTotal = allProblems.filter(p => p.difficulty === 'medium').length;
     const hardTotal = allProblems.filter(p => p.difficulty === 'hard').length;
-    
+
     const dueRevisions = allProblems.filter(p => {
       if (p.status !== 'solved' || !p.nextRevisionDate) return false;
       if (p.revisionStage >= 5) return false;
       const due = new Date(p.nextRevisionDate);
       const today = new Date();
-      due.setHours(0,0,0,0);
-      today.setHours(0,0,0,0);
+      due.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
       return due.getTime() <= today.getTime();
     });
 
@@ -223,24 +254,46 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Difficulty Splits */}
-          <div className="glass-card noise-texture p-4 rounded-2xl flex flex-col gap-3">
-            <h3 className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider">Difficulty Split</h3>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="bg-emerald/5 border border-emerald/10 rounded-xl p-2 flex flex-col items-center">
-                <span className="text-[9px] font-semibold text-emerald uppercase font-mono">Easy</span>
-                <span className="text-sm font-bold font-mono text-white mt-0.5">{stats.easySolved}/{stats.easyTotal}</span>
+          {/* LeetCode POTD in Sidebar */}
+          {!potdLoading && potd && (
+            <div className="glass-card-glow noise-texture p-4 rounded-2xl flex flex-col gap-3 border border-amber/20 bg-amber/[0.01]">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-amber/10 text-amber animate-pulse">
+                    <Sparkles size={14} />
+                  </div>
+                  <span className="text-[10px] font-extrabold uppercase text-amber tracking-wider">LeetCode POTD</span>
+                </div>
+                <span className="text-[8px] font-mono font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/[0.06] text-muted-foreground">
+                  {potd.date}
+                </span>
               </div>
-              <div className="bg-amber/5 border border-amber/10 rounded-xl p-2 flex flex-col items-center">
-                <span className="text-[9px] font-semibold text-amber uppercase font-mono">Medium</span>
-                <span className="text-sm font-bold font-mono text-white mt-0.5">{stats.mediumSolved}/{stats.mediumTotal}</span>
-              </div>
-              <div className="bg-rose/5 border border-rose/10 rounded-xl p-2 flex flex-col items-center">
-                <span className="text-[9px] font-semibold text-rose uppercase font-mono">Hard</span>
-                <span className="text-sm font-bold font-mono text-white mt-0.5">{stats.hardSolved}/{stats.hardTotal}</span>
-              </div>
+
+              {/* <div className="min-w-0 mt-0.5">
+                <h4 className="text-xs font-bold text-white leading-snug line-clamp-2">
+                  {potd.title}
+                </h4>
+                <div className="flex items-center gap-2 mt-1.5">
+                  <Badge className={`text-[8px] font-bold px-1.5 py-0 uppercase tracking-wide border-0 ${potd.difficulty === 'easy' ? 'bg-emerald/10 text-emerald' :
+                      potd.difficulty === 'medium' ? 'bg-amber/10 text-amber' :
+                        'bg-rose/10 text-rose'
+                    }`}>
+                    {potd.difficulty}
+                  </Badge>
+                </div>
+              </div> */}
+
+              <a
+                href={potd.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full text-center bg-amber hover:bg-amber/90 text-[#08080a] text-[10px] font-extrabold py-2 rounded-xl transition-all shadow-lg shadow-amber/10 flex items-center justify-center gap-1.5 mt-4"
+              >
+                <Trophy size={11} />
+                Solve on LeetCode
+              </a>
             </div>
-          </div>
+          )}
 
           {/* Topics List Navigation Menu */}
           <div className="flex-1 flex flex-col min-h-[300px]">
@@ -251,16 +304,15 @@ export default function Home() {
               {topics.map((t) => {
                 const isSelected = selectedTopicId === t.id;
                 const percent = t.total > 0 ? Math.round((t.solved / t.total) * 100) : 0;
-                
+
                 return (
                   <button
                     key={t.id}
                     onClick={() => setSelectedTopicId(t.id)}
-                    className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between gap-3 group relative overflow-hidden ${
-                      isSelected
-                        ? 'bg-emerald/[0.04] border-emerald/40 shadow-lg shadow-emerald/[0.02]'
-                        : 'bg-white/[0.01] border-white/[0.04] hover:bg-white/[0.02] hover:border-white/[0.08]'
-                    }`}
+                    className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between gap-3 group relative overflow-hidden ${isSelected
+                      ? 'bg-emerald/[0.04] border-emerald/40 shadow-lg shadow-emerald/[0.02]'
+                      : 'bg-white/[0.01] border-white/[0.04] hover:bg-white/[0.02] hover:border-white/[0.08]'
+                      }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0 z-10">
                       <span className="text-base shrink-0">{t.icon}</span>
@@ -268,15 +320,14 @@ export default function Home() {
                         {t.name}
                       </span>
                     </div>
-                    
+
                     <div className="flex items-center gap-2 shrink-0 z-10">
                       <span className="font-mono text-[10px] text-muted-foreground/80 font-semibold">
                         {t.solved}/{t.total}
                       </span>
                       {percent > 0 && (
-                        <span className={`text-[8px] font-bold font-mono px-1 rounded ${
-                          percent === 100 ? 'bg-emerald/20 text-emerald' : 'bg-white/10 text-[#a6a6b8]'
-                        }`}>
+                        <span className={`text-[8px] font-bold font-mono px-1 rounded ${percent === 100 ? 'bg-emerald/20 text-emerald' : 'bg-white/10 text-[#a6a6b8]'
+                          }`}>
                           {percent}%
                         </span>
                       )}
@@ -338,7 +389,7 @@ export default function Home() {
           <RevisionQueue allProblems={allProblems} />
 
           {/* CORE PROBLEMS GRID WORKSPACE */}
-          <div className="flex flex-col gap-4">
+          <div className="flex-1 flex flex-col gap-4 min-h-0">
             {globalSearch ? (
               // GLOBAL SEARCH RESULTS VIEW
               <>
@@ -361,8 +412,8 @@ export default function Home() {
                     Clear Search
                   </Button>
                 </div>
-                
-                <div className="bento-animate">
+
+                <div className="bento-animate flex-1 flex flex-col min-h-0">
                   <TopicProblems
                     problems={globalFilteredProblems}
                     isLoading={false}
@@ -400,7 +451,7 @@ export default function Home() {
                 {/* Interactive Problems list when a topic is selected */}
                 <AnimatePresence mode="wait">
                   {selectedTopicId && selectedTopic && (
-                    <div className="bento-animate">
+                    <div className="bento-animate flex-1 flex flex-col min-h-0">
                       <TopicProblems
                         problems={topicProblems}
                         isLoading={false}

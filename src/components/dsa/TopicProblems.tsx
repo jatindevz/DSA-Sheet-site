@@ -50,7 +50,7 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
 
   const handleSaveSolve = () => {
     if (!selectedProblemId) return;
-    
+
     // Add logic for nextRevisionDate based on marks and revisionStage
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -95,7 +95,7 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="glass-card noise-texture p-6 col-span-2 sm:col-span-4"
+      className="glass-card noise-texture p-6 col-span-2 sm:col-span-4 flex-1 flex flex-col min-h-[600px]"
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -117,9 +117,9 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
         {/* Problems List */}
-        <div className="lg:col-span-2 space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+        <div className="lg:col-span-2 space-y-2 max-h-[calc(100vh-300px)] min-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
           {problems?.map((problem) => {
             const isSolved = problem.status === 'solved';
             const diff = difficultyConfig[problem.difficulty] || difficultyConfig.medium;
@@ -128,13 +128,12 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
               <div
                 key={problem.id}
                 onClick={() => handleOpenSolveDialog(problem)}
-                className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-4 group ${
-                  selectedProblemId === problem.id
-                    ? 'bg-emerald/5 border-emerald/30 shadow-lg shadow-emerald/5'
-                    : isSolved
+                className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-4 group ${selectedProblemId === problem.id
+                  ? 'bg-emerald/5 border-emerald/30 shadow-lg shadow-emerald/5'
+                  : isSolved
                     ? 'bg-white/[0.02] border-white/[0.04] hover:bg-white/[0.04]'
                     : 'bg-white/[0.01] border-white/[0.03] hover:bg-white/[0.02]'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="shrink-0 text-muted-foreground">
@@ -229,7 +228,7 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
                       {activeProblem.difficulty}
                     </Badge>
                   </div>
-                  
+
                   <div className="flex gap-2 mt-1">
                     {activeProblem.url && (
                       <Button
@@ -346,6 +345,7 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
           </AnimatePresence>
         </div>
       </div>
+
     </motion.div>
   );
 }
