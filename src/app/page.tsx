@@ -324,15 +324,9 @@ export default function Home() {
             <div className="relative glass-card-glow noise-texture p-4 rounded-2xl flex flex-col gap-3 border border-amber/20 bg-amber/[0.01] overflow-hidden">
               {potdDone && (
                 <div className="absolute inset-0 bg-[#0a0a0e]/95 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4 z-20 border border-emerald/20 rounded-2xl animate-fade-in">
-                  <div className="flex items-center gap-1.5 bg-emerald/10 text-emerald border border-emerald/20 px-2.5 py-1 rounded-xl mb-1">
-                    <Trophy size={14} className="shrink-0" />
-                    <h3 className="text-[10px] font-black uppercase tracking-widest">
-                      CONGRATS!
-                    </h3>
-                  </div>
-                  <p className="text-[9px] font-extrabold text-white uppercase tracking-wider">
-                    YOU ARE A WINNER 🏆
-                  </p>
+                  <span className="text-[18px] font-extrabold uppercase tracking-widest text-emerald">
+                    Today's challenge completed
+                  </span>
                   <button
                     onClick={() => {
                       localStorage.removeItem('potdDoneDate');
@@ -340,9 +334,9 @@ export default function Home() {
                       setLcClicked(false);
                       setGfgClicked(false);
                     }}
-                    className="mt-3 text-[8px] font-mono font-bold text-muted-foreground hover:text-white transition-colors"
+                    className="mt-3 text-[10px] font-mono font-bold text-muted-foreground hover:text-white transition-colors"
                   >
-                    [ Reset Challenge ]
+                    Reset
                   </button>
                 </div>
               )}
