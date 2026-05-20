@@ -33,6 +33,17 @@ export default function Home() {
   const [gfgPotd, setGfgPotd] = useState<GfgPOTD | null>(null);
   const [gfgPotdLoading, setGfgPotdLoading] = useState(true);
   const [onlineCount, setOnlineCount] = useState(14);
+  const [lcClicked, setLcClicked] = useState(false);
+  const [gfgClicked, setGfgClicked] = useState(false);
+  const [potdDone, setPotdDone] = useState(false);
+
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const savedDoneDate = localStorage.getItem('potdDoneDate');
+    if (savedDoneDate === today) {
+      setPotdDone(true);
+    }
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -310,7 +321,32 @@ export default function Home() {
 
           {/* POTD in Sidebar */}
           {(!potdLoading || !gfgPotdLoading) && (
-            <div className="glass-card-glow noise-texture p-4 rounded-2xl flex flex-col gap-3 border border-amber/20 bg-amber/[0.01]">
+            <div className="relative glass-card-glow noise-texture p-4 rounded-2xl flex flex-col gap-3 border border-amber/20 bg-amber/[0.01] overflow-hidden">
+              {potdDone && (
+                <div className="absolute inset-0 bg-[#0a0a0e]/95 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4 z-20 border border-emerald/20 rounded-2xl animate-fade-in">
+                  <div className="flex items-center gap-1.5 bg-emerald/10 text-emerald border border-emerald/20 px-2.5 py-1 rounded-xl mb-1">
+                    <Trophy size={14} className="shrink-0" />
+                    <h3 className="text-[10px] font-black uppercase tracking-widest">
+                      CONGRATS!
+                    </h3>
+                  </div>
+                  <p className="text-[9px] font-extrabold text-white uppercase tracking-wider">
+                    YOU ARE A WINNER 🏆
+                  </p>
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem('potdDoneDate');
+                      setPotdDone(false);
+                      setLcClicked(false);
+                      setGfgClicked(false);
+                    }}
+                    className="mt-3 text-[8px] font-mono font-bold text-muted-foreground hover:text-white transition-colors"
+                  >
+                    [ Reset Challenge ]
+                  </button>
+                </div>
+              )}
+
               <div className="flex items-center justify-between border-b border-white/[0.04] pb-2">
                 <div className="flex items-center gap-2">
                   <div className="p-1.5 rounded-lg bg-amber/10 text-amber animate-pulse">
@@ -318,9 +354,20 @@ export default function Home() {
                   </div>
                   <span className="text-[10px] font-extrabold uppercase text-amber tracking-wider font-bold">Daily Challenges</span>
                 </div>
-                <span className="text-[8px] font-mono font-medium px-1.5 py-0.5 rounded bg-white/5 border border-white/[0.06] text-muted-foreground">
-                  {potd?.date || new Date().toISOString().split('T')[0]}
-                </span>
+                <button
+                  onClick={() => {
+                    if (!lcClicked && !gfgClicked) {
+                      alert("Please open and solve the POTD first! 🚀");
+                      return;
+                    }
+                    const today = new Date().toISOString().split('T')[0];
+                    localStorage.setItem('potdDoneDate', today);
+                    setPotdDone(true);
+                  }}
+                  className="text-[8px] font-mono font-bold px-2 py-0.5 rounded bg-emerald/10 hover:bg-emerald/20 text-emerald border border-emerald/20 transition-all flex items-center gap-1 active:scale-95 shadow-md shadow-emerald/10 cursor-pointer"
+                >
+                  DONE
+                </button>
               </div>
 
               <div className="flex flex-col gap-2">
@@ -330,6 +377,7 @@ export default function Home() {
                     href={potd.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => setLcClicked(true)}
                     className="flex items-center justify-between p-2.5 rounded-xl bg-black/20 border border-white/[0.03] hover:bg-[#ffa116]/5 hover:border-[#ffa116]/20 transition-all gap-2 group/lc"
                   >
                     <span className="text-[10px] font-extrabold text-[#ffa116] tracking-wide uppercase ml-4">LeetCode POTD</span>
@@ -345,6 +393,7 @@ export default function Home() {
                     href={gfgPotd.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => setGfgClicked(true)}
                     className="flex items-center justify-between p-2.5 rounded-xl bg-black/20 border border-white/[0.03] hover:bg-[#2f8d46]/5 hover:border-[#2f8d46]/20 transition-all gap-2 group/gfg"
                   >
                     <span className="text-[10px] font-extrabold text-[#2f8d46] tracking-wide uppercase ml-4">GeeksforGeeks POTD</span>
