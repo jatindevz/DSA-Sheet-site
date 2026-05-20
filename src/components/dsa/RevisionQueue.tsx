@@ -104,7 +104,9 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
     <motion.div
       whileHover={{ scale: 1.002, y: -1 }}
       transition={{ duration: 0.2 }}
-      className="glass-card noise-texture p-6 col-span-2 flex flex-col min-h-[420px]"
+      className={`glass-card noise-texture p-6 col-span-2 flex flex-col transition-all duration-300 ${
+        items.length === 0 ? 'min-h-[180px]' : 'min-h-[420px]'
+      }`}
     >
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
@@ -125,19 +127,19 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
-        {/* Left column: Problems due for revision */}
-        <div className="lg:col-span-2 space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-          {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-14 text-muted-foreground text-center">
-              <CheckCircle size={32} className="mb-2 text-emerald opacity-60" />
-              <p className="text-sm font-medium text-foreground">All Revisions Cleared!</p>
-              <p className="text-[11px] text-muted-foreground/60 max-w-[200px] mt-0.5">
-                Outstanding! Your revision queue is empty. Keep solving new problems.
-              </p>
-            </div>
-          ) : (
-            items.map((item) => {
+      {items.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center py-6 text-muted-foreground text-center">
+          <CheckCircle size={32} className="mb-2 text-emerald opacity-60" />
+          <p className="text-sm font-medium text-foreground">All Revisions Cleared!</p>
+          <p className="text-[11px] text-muted-foreground/60 max-w-[280px] mt-0.5">
+            Outstanding! Your revision queue is empty. Keep solving new problems.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
+          {/* Left column: Problems due for revision */}
+          <div className="lg:col-span-2 space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+            {items.map((item) => {
               const stage = stageConfig[item.revisionStage] || { label: 'Review', color: '#71717a', bg: 'rgba(113,113,122,0.1)', icon: '⚪' };
               const overdueDays = getOverdueDays(item.nextRevisionDate);
               const diff = difficultyConfig[item.difficulty] || difficultyConfig.medium;
@@ -191,162 +193,162 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
                   </div>
                 </div>
               );
-            })
-          )}
-        </div>
+            })}
+          </div>
 
-        {/* Right column: Action / Review Panel */}
-        <div className="lg:col-span-1 border-t lg:border-t-0 lg:border-l border-white/[0.06] pt-6 lg:pt-0 lg:pl-6">
-          <AnimatePresence mode="wait">
-            {activeProblem ? (
-              <motion.div
-                key={activeProblem.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-4"
-              >
-                <div className="flex flex-col gap-2">
-                  <h4 className="text-sm font-semibold text-foreground leading-snug">{activeProblem.title}</h4>
-                  <div className="flex items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="text-[10px] px-1.5 py-0.5 border-0 font-mono"
-                      style={{
-                        color: difficultyConfig[activeProblem.difficulty]?.color,
-                        backgroundColor: difficultyConfig[activeProblem.difficulty]?.bg,
-                      }}
-                    >
-                      {activeProblem.difficulty}
-                    </Badge>
-                    <span className="text-[10px] text-amber font-mono font-bold">Prev rating: {activeProblem.marks}/5 ⭐</span>
-                  </div>
+          {/* Right column: Action / Review Panel */}
+          <div className="lg:col-span-1 border-t lg:border-t-0 lg:border-l border-white/[0.06] pt-6 lg:pt-0 lg:pl-6">
+            <AnimatePresence mode="wait">
+              {activeProblem ? (
+                <motion.div
+                  key={activeProblem.id}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4"
+                >
+                  <div className="flex flex-col gap-2">
+                    <h4 className="text-sm font-semibold text-foreground leading-snug">{activeProblem.title}</h4>
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant="outline"
+                        className="text-[10px] px-1.5 py-0.5 border-0 font-mono"
+                        style={{
+                          color: difficultyConfig[activeProblem.difficulty]?.color,
+                          backgroundColor: difficultyConfig[activeProblem.difficulty]?.bg,
+                        }}
+                      >
+                        {activeProblem.difficulty}
+                      </Badge>
+                      <span className="text-[10px] text-amber font-mono font-bold">Prev rating: {activeProblem.marks}/5 ⭐</span>
+                    </div>
 
-                  <div className="flex flex-col gap-2 mt-1">
-                    {/* Row 1: GFG / LC links */}
-                    <div className="flex gap-2">
-                      {activeProblem.leetcodeUrl && (
+                    <div className="flex flex-col gap-2 mt-1">
+                      {/* Row 1: GFG / LC links */}
+                      <div className="flex gap-2">
+                        {activeProblem.leetcodeUrl && (
+                          <Button
+                            asChild
+                            variant="outline"
+                            size="sm"
+                            className="flex-1 h-8 bg-[#ffa116]/10 border-[#ffa116]/30 hover:bg-[#ffa116]/20 text-[#ffa116] hover:text-[#ffa116] text-xs gap-1.5"
+                          >
+                            <a href={activeProblem.leetcodeUrl} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink size={12} />
+                              Solve on LC
+                            </a>
+                          </Button>
+                        )}
+                        {activeProblem.url && (
+                          <Button
+                            asChild
+                            variant="outline"
+                            size="sm"
+                            className="flex-1 h-8 bg-emerald/10 border-emerald/30 hover:bg-emerald/20 text-emerald hover:text-emerald text-xs gap-1.5"
+                          >
+                            <a href={activeProblem.url} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink size={12} />
+                              Solve on GFG
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+
+                      {/* Row 2: Solution Article */}
+                      {activeProblem.articleUrl && (
                         <Button
                           asChild
                           variant="outline"
                           size="sm"
-                          className="flex-1 h-8 bg-[#ffa116]/10 border-[#ffa116]/30 hover:bg-[#ffa116]/20 text-[#ffa116] hover:text-[#ffa116] text-xs gap-1.5"
+                          className="w-full h-8 bg-cyan/10 border-cyan/30 hover:bg-cyan/20 text-cyan hover:text-cyan text-xs gap-1.5"
                         >
-                          <a href={activeProblem.leetcodeUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink size={12} />
-                            Solve on LC
-                          </a>
-                        </Button>
-                      )}
-                      {activeProblem.url && (
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className="flex-1 h-8 bg-emerald/10 border-emerald/30 hover:bg-emerald/20 text-emerald hover:text-emerald text-xs gap-1.5"
-                        >
-                          <a href={activeProblem.url} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink size={12} />
-                            Solve on GFG
+                          <a href={activeProblem.articleUrl} target="_blank" rel="noopener noreferrer">
+                            <BookOpen size={12} />
+                            Explanation
                           </a>
                         </Button>
                       )}
                     </div>
-
-                    {/* Row 2: Solution Article */}
-                    {activeProblem.articleUrl && (
-                      <Button
-                        asChild
-                        variant="outline"
-                        size="sm"
-                        className="w-full h-8 bg-cyan/10 border-cyan/30 hover:bg-cyan/20 text-cyan hover:text-cyan text-xs gap-1.5"
-                      >
-                        <a href={activeProblem.articleUrl} target="_blank" rel="noopener noreferrer">
-                          <BookOpen size={12} />
-                          Explanation
-                        </a>
-                      </Button>
-                    )}
                   </div>
-                </div>
 
-                {/* Rating */}
-                <div className="space-y-2">
-                  <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider block">
-                    New Confidence Rating
-                  </label>
-                  <div className="flex items-center gap-1.5">
-                    {Array.from({ length: 5 }).map((_, i) => {
-                      const starVal = i + 1;
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => setMarks(starVal)}
-                          className="text-muted-foreground hover:scale-125 transition-transform"
-                        >
-                          <Star
-                            size={20}
-                            className={
-                              starVal <= marks
-                                ? 'text-amber fill-amber filter drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-                                : 'text-muted-foreground/30'
-                            }
-                          />
-                        </button>
-                      );
-                    })}
+                  {/* Rating */}
+                  <div className="space-y-2">
+                    <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider block">
+                      New Confidence Rating
+                    </label>
+                    <div className="flex items-center gap-1.5">
+                      {Array.from({ length: 5 }).map((_, i) => {
+                        const starVal = i + 1;
+                        return (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => setMarks(starVal)}
+                            className="text-muted-foreground hover:scale-125 transition-transform"
+                          >
+                            <Star
+                              size={20}
+                              className={
+                                starVal <= marks
+                                  ? 'text-amber fill-amber filter drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                                  : 'text-muted-foreground/30'
+                              }
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <span className="text-[10px] text-muted-foreground/60 italic block">
+                      {marks === 1 && 'Extremely Hard / Struggled'}
+                      {marks === 2 && 'Hard / Needed Hints'}
+                      {marks === 3 && 'Decent / Got it slowly'}
+                      {marks === 4 && 'Good / Comfortable solution'}
+                      {marks === 5 && 'Mastered / Flawless speed & accuracy'}
+                    </span>
                   </div>
-                  <span className="text-[10px] text-muted-foreground/60 italic block">
-                    {marks === 1 && 'Extremely Hard / Struggled'}
-                    {marks === 2 && 'Hard / Needed Hints'}
-                    {marks === 3 && 'Decent / Got it slowly'}
-                    {marks === 4 && 'Good / Comfortable solution'}
-                    {marks === 5 && 'Mastered / Flawless speed & accuracy'}
-                  </span>
-                </div>
 
-                {/* Notes */}
-                <div className="space-y-2">
-                  <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider block">
-                    Revision Notes
-                  </label>
-                  <Textarea
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    placeholder="intuitions, complexity analysis, potential corner cases..."
-                    className="h-20 text-xs bg-white/[0.03] border-white/[0.08] text-foreground focus:border-emerald/50 focus:ring-emerald/20 resize-none"
-                  />
-                </div>
+                  {/* Notes */}
+                  <div className="space-y-2">
+                    <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider block">
+                      Revision Notes
+                    </label>
+                    <Textarea
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      placeholder="intuitions, complexity analysis, potential corner cases..."
+                      className="h-20 text-xs bg-white/[0.03] border-white/[0.08] text-foreground focus:border-emerald/50 focus:ring-emerald/20 resize-none"
+                    />
+                  </div>
 
-                <div className="flex gap-2">
-                  <Button
-                    onClick={handleSaveReview}
-                    size="sm"
-                    className="flex-1 bg-emerald hover:bg-emerald/90 text-emerald-foreground text-xs gap-1.5 h-9"
-                  >
-                    <Save size={14} />
-                    Complete Review
-                  </Button>
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty-state"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="h-full flex flex-col items-center justify-center text-center py-10 text-muted-foreground"
-              >
-                <Clock size={32} className="mb-2 opacity-20 text-emerald" />
-                <h4 className="text-sm font-medium">Select a revision</h4>
-                <p className="text-xs max-w-[200px] mt-1">
-                  Click any problem in the revision list to review details and mark review stage complete.
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleSaveReview}
+                      size="sm"
+                      className="flex-1 bg-emerald hover:bg-emerald/90 text-emerald-foreground text-xs gap-1.5 h-9"
+                    >
+                      <Save size={14} />
+                      Complete Review
+                    </Button>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty-state"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="h-full flex flex-col items-center justify-center text-center py-10 text-muted-foreground"
+                >
+                  <Clock size={32} className="mb-2 opacity-20 text-emerald" />
+                  <h4 className="text-sm font-medium">Select a revision</h4>
+                  <p className="text-xs max-w-[200px] mt-1">
+                    Click any problem in the revision list to review details and mark review stage complete.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
+      )}
     </motion.div>
   );
 }
