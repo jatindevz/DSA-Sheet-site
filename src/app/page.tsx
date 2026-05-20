@@ -32,6 +32,7 @@ export default function Home() {
   const [potdLoading, setPotdLoading] = useState(true);
   const [gfgPotd, setGfgPotd] = useState<GfgPOTD | null>(null);
   const [gfgPotdLoading, setGfgPotdLoading] = useState(true);
+  const [onlineCount, setOnlineCount] = useState(14);
 
   useEffect(() => {
     setMounted(true);
@@ -83,6 +84,21 @@ export default function Home() {
         setGfgPotdLoading(false);
       });
   }, [selectedTopicId, setSelectedTopicId]);
+
+  // Online user count simulated oscillation effect
+  useEffect(() => {
+    setOnlineCount(Math.floor(Math.random() * (22 - 12 + 1)) + 12);
+    const interval = setInterval(() => {
+      setOnlineCount((prev) => {
+        const change = Math.random() > 0.5 ? 1 : -1;
+        const newCount = prev + change;
+        if (newCount < 11) return 11;
+        if (newCount > 25) return 25;
+        return newCount;
+      });
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Compute problems array from BABBAR_SHEET_DATA + progress
   const allProblems = useMemo(() => {
@@ -210,6 +226,15 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-4">
+          {/* Fake Online Active Users */}
+          {/* <div className="hidden md:flex items-center gap-1.5 bg-emerald/5 border border-emerald/10 px-2.5 py-1 rounded-full font-mono text-[15px] font-bold text-emerald tracking-wide shrink-0 shadow-lg shadow-emerald/5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald"></span>
+            </span>
+            {onlineCount} ONLINE
+          </div> */}
+
           {/* Global Search Bar */}
           <div className="relative w-48 sm:w-64">
             <Search size={13} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/50" />

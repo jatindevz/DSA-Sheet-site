@@ -56,6 +56,7 @@ export const BABBAR_SHEET_DATA: RawTopic[] = [
       { title: 'Minimum no. of operations required to make an array palindrome', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/palindromic-array-1587115620/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/check-if-all-elements-of-the-array-are-palindrome-or-not/' },
       { title: 'Median of 2 sorted arrays of equal size', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/find-the-median0527/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/median-of-two-sorted-arrays/' },
       { title: 'Median of 2 sorted arrays of different size', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/median-of-2-sorted-arrays-of-different-sizes/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/median-of-two-sorted-arrays-of-different-sizes/' },
+      { title: 'Equal to Product', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/equal-to-product3836/1', articleUrl: 'https://www.geeksforgeeks.org/problems/equal-to-product3836/1' },
     ]
   },
   {
