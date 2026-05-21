@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, ExternalLink, CheckCircle, Circle, Star, Save, Loader2, ArrowLeft } from 'lucide-react';
+import { BookOpen, ExternalLink, CheckCircle, Circle, Star, Save, Loader2, ArrowLeft, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
@@ -41,8 +41,17 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
   const [tempMarks, setTempMarks] = useState<number>(0);
   const [tempNotes, setTempNotes] = useState<string>('');
+  const [showSolvedOnly, setShowSolvedOnly] = useState<boolean>(false);
 
   const activeProblem = problems?.find((p) => p.id === selectedProblemId);
+
+  const displayedProblems = useMemo(() => {
+    if (!problems) return [];
+    if (showSolvedOnly) {
+      return problems.filter((p) => p.status === 'solved');
+    }
+    return problems;
+  }, [problems, showSolvedOnly]);
 
   const handleOpenSolveDialog = (problem: Problem) => {
     setSelectedProblemId(problem.id);
@@ -99,7 +108,7 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
       exit={{ opacity: 0, y: -10 }}
       className="glass-card noise-texture p-6 col-span-2 sm:col-span-4 flex-1 flex flex-col min-h-[600px]"
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <div className="flex items-center gap-3">
           <Button
             onClick={() => {
@@ -120,15 +129,38 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
             <p className="text-xs text-muted-foreground">Love Babbar 450 Sheet</p>
           </div>
         </div>
-        <Badge variant="outline" className="border-emerald/30 bg-emerald/5 text-emerald font-mono">
-          {problems?.filter((p) => p.status === 'solved').length} / {problems?.length} Solved
-        </Badge>
+        
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowSolvedOnly(!showSolvedOnly)}
+            className={`h-8 text-xs font-medium gap-1.5 transition-colors ${
+              showSolvedOnly 
+                ? 'bg-emerald/10 text-emerald border-emerald/30 hover:bg-emerald/20 hover:text-emerald' 
+                : 'bg-white/[0.02] text-muted-foreground border-white/[0.08] hover:bg-white/[0.05] hover:text-foreground'
+            }`}
+          >
+            <Filter size={12} className={showSolvedOnly ? 'fill-emerald' : ''} />
+            {showSolvedOnly ? 'Solved Only' : 'All Problems'}
+          </Button>
+          
+          <Badge variant="outline" className="h-8 border-emerald/30 bg-emerald/5 text-emerald font-mono">
+            {problems?.filter((p) => p.status === 'solved').length} / {problems?.length} Solved
+          </Badge>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
         {/* Problems List */}
         <div className="lg:col-span-2 space-y-2 max-h-[calc(100vh-265px)] min-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
-          {problems?.map((problem) => {
+          {displayedProblems?.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-10 text-muted-foreground">
+              <Circle className="opacity-20 mb-2" size={32} />
+              <p className="text-sm font-medium">No problems found</p>
+            </div>
+          ) : (
+            displayedProblems?.map((problem) => {
             const isSolved = problem.status === 'solved';
             const diff = difficultyConfig[problem.difficulty] || difficultyConfig.medium;
 
@@ -181,7 +213,8 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
                 </div>
               </div>
             );
-          })}
+          })
+          )}
         </div>
 
         {/* Action Panel (Solve / Revision Panel) */}
