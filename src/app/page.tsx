@@ -524,6 +524,7 @@ export default function Home() {
                     problems={globalFilteredProblems}
                     isLoading={false}
                     topicName="Global Search"
+                    onBack={() => setGlobalSearch('')}
                   />
                 </div>
               </>

@@ -27,6 +27,7 @@ interface TopicProblemsProps {
   problems?: Problem[];
   isLoading?: boolean;
   topicName: string;
+  onBack?: () => void;
 }
 
 const difficultyConfig: Record<string, { color: string; bg: string }> = {
@@ -35,7 +36,7 @@ const difficultyConfig: Record<string, { color: string; bg: string }> = {
   hard: { color: '#f43f5e', bg: 'rgba(244, 63, 94, 0.1)' },
 };
 
-export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsProps) {
+export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicProblemsProps) {
   const { setSelectedTopicId, updateProgress } = useDSAStore();
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
   const [tempMarks, setTempMarks] = useState<number>(0);
@@ -101,7 +102,13 @@ export function TopicProblems({ problems, isLoading, topicName }: TopicProblemsP
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Button
-            onClick={() => setSelectedTopicId(null)}
+            onClick={() => {
+              if (onBack) {
+                onBack();
+              } else {
+                setSelectedTopicId(null);
+              }
+            }}
             variant="ghost"
             size="sm"
             className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground bg-white/[0.03]"
