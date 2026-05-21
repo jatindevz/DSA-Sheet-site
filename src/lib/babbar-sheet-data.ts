@@ -3,6 +3,7 @@ export interface RawProblem {
   difficulty: 'easy' | 'medium' | 'hard';
   url: string;
   articleUrl?: string;
+  leetcodeUrl?: string;
 }
 
 export interface RawTopic {
@@ -137,7 +138,7 @@ export const BABBAR_SHEET_DATA: RawTopic[] = [
       { title: 'Find first and last positions of an element in a sorted array', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/first-and-last-occurrences-of-x3116/1', leetcodeUrl: 'https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/', articleUrl: 'https://www.geeksforgeeks.org/dsa/find-first-and-last-positions-of-an-element-in-a-sorted-array/' },
       { title: 'Find a Fixed Point (Value equal to index) in a given array', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/value-equal-to-index-value1330/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/find-a-fixed-point-in-a-given-array/' },
       { title: 'Search in a rotated sorted array', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/search-in-a-rotated-array0959/1?category=', leetcodeUrl: 'https://leetcode.com/problems/search-in-rotated-sorted-array/', articleUrl: 'https://www.geeksforgeeks.org/dsa/search-an-element-in-a-sorted-and-pivoted-array/' },
-      { title: 'Square root of an integer', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/count-squares3649/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/square-root-of-an-integer/' },
+      { title: 'Square root of an integer', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/count-squares3649/1', leetcodeUrl: 'https://leetcode.com/problems/sqrtx/', articleUrl: 'https://www.geeksforgeeks.org/dsa/square-root-of-an-integer/' },
       { title: 'Maximum and minimum of an array using minimum number of comparisons', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/middle-of-three2926/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/maximum-and-minimum-in-an-array/' },
       { title: 'Optimum location of point to minimize total distance', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/optimum-location-of-point-to-minimize-total-distance/0', articleUrl: 'https://www.geeksforgeeks.org/dsa/optimum-location-point-minimize-total-distance/#:~:text=We%20need%20to%20find%20a,set%20of%20points%20is%20minimum.&text=In%20above%20figure%20optimum%20location,is%20minimum%20obtainable%20total%20distance.' },
       { title: 'Find the repeating and the missing', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/find-missing-and-repeating2512/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/find-a-repeating-and-a-missing-number/' },
@@ -155,6 +156,8 @@ export const BABBAR_SHEET_DATA: RawTopic[] = [
       { title: 'Kth smallest number again', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/find-k-th-smallest-element-in-given-n-ranges/1?utm_source=gfg&utm_medium=article&utm_campaign=bottom_sticky_on_article', articleUrl: 'https://www.geeksforgeeks.org/dsa/find-k-th-smallest-element-in-given-n-ranges/' },
       { title: 'Find Minimum in Rotated Sorted Array (Pivot element)', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/minimum-element-in-a-sorted-and-rotated-array3611/1', leetcodeUrl: 'https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/', articleUrl: 'https://www.geeksforgeeks.org/dsa/find-minimum-element-in-a-sorted-and-rotated-array/' },
       { title: 'Search in Rotated Sorted Array II', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/search-in-rotated-array-2/1', leetcodeUrl: 'https://leetcode.com/problems/search-in-rotated-sorted-array-ii/', articleUrl: 'https://www.geeksforgeeks.org/dsa/search-an-element-in-a-sorted-and-pivoted-array/' },
+        { title: 'Find Peak Element', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/find-the-peak-element/1', leetcodeUrl: 'https://leetcode.com/problems/find-peak-element/', articleUrl: 'https://www.geeksforgeeks.org/dsa/peak-element/' },
+        { title: 'Single Element in a Sorted Array', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/find-the-element-that-appears-once-in-sorted-array0624/1', leetcodeUrl: 'https://leetcode.com/problems/single-element-in-a-sorted-array/', articleUrl: 'https://www.geeksforgeeks.org/dsa/single-element-in-sorted-array/' },
       { title: 'K-th Element of Two Sorted Arrays', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/k-th-element-of-two-sorted-array1317/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/k-th-element-two-sorted-arrays/' },
       { title: 'Aggressive cows', difficulty: 'easy', url: 'https://www.geeksforgeeks.org/problems/aggressive-cows/1' },
       { title: 'Book Allocation Problem', difficulty: 'medium', url: 'https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1', articleUrl: 'https://www.geeksforgeeks.org/dsa/allocate-minimum-number-pages/' },
