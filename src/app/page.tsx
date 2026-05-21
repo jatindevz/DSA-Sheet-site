@@ -28,6 +28,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [globalSearch, setGlobalSearch] = useState('');
+  const [globalSearchInput, setGlobalSearchInput] = useState('');
   const [potd, setPotd] = useState<LeetCodePOTD | null>(null);
   const [potdLoading, setPotdLoading] = useState(true);
   const [gfgPotd, setGfgPotd] = useState<GfgPOTD | null>(null);
@@ -216,6 +217,14 @@ export default function Home() {
     );
   }, [allProblems, globalSearch]);
 
+  // Debounce global search input to avoid heavy filtering on every keystroke
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setGlobalSearch(globalSearchInput);
+    }, 300);
+    return () => clearTimeout(id);
+  }, [globalSearchInput]);
+
   if (!mounted) return null; // Prevent hydration mismatch
 
   return (
@@ -252,8 +261,8 @@ export default function Home() {
             <Search size={13} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/50" />
             <input
               type="text"
-              value={globalSearch}
-              onChange={(e) => setGlobalSearch(e.target.value)}
+              value={globalSearchInput}
+              onChange={(e) => setGlobalSearchInput(e.target.value)}
               placeholder="Search problems......"
               className="w-full bg-[#0d0d12]/60 border border-white/[0.06] focus:border-emerald/40 focus:ring-1 focus:ring-emerald/5 text-xs px-8 py-1.5 rounded-lg text-white placeholder-muted-foreground/40 transition-all outline-none"
             />
@@ -510,7 +519,10 @@ export default function Home() {
                     </p>
                   </div>
                   <Button
-                    onClick={() => setGlobalSearch('')}
+                    onClick={() => {
+                      setGlobalSearch('');
+                      setGlobalSearchInput('');
+                    }}
                     variant="ghost"
                     size="sm"
                     className="h-7 text-xs text-muted-foreground hover:text-white"
@@ -524,7 +536,10 @@ export default function Home() {
                     problems={globalFilteredProblems}
                     isLoading={false}
                     topicName="Global Search"
-                    onBack={() => setGlobalSearch('')}
+                    onBack={() => {
+                      setGlobalSearch('');
+                      setGlobalSearchInput('');
+                    }}
                   />
                 </div>
               </>
