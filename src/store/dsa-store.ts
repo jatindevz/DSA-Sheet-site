@@ -11,8 +11,12 @@ export interface UserProgress {
 }
 
 interface DSAStore {
+  viewMode: 'topic' | 'pattern';
+  setViewMode: (mode: 'topic' | 'pattern') => void;
   selectedTopicId: string | null;
   setSelectedTopicId: (topicId: string | null) => void;
+  selectedPatternId: string | null;
+  setSelectedPatternId: (patternId: string | null) => void;
   progress: Record<string, UserProgress>; // Key is problem title
   updateProgress: (problemTitle: string, update: Partial<UserProgress>) => void;
   setBulkProgress: (progress: Record<string, UserProgress>) => void;
@@ -22,8 +26,12 @@ interface DSAStore {
 export const useDSAStore = create<DSAStore>()(
   persist(
     (set) => ({
+      viewMode: 'topic',
+      setViewMode: (mode) => set({ viewMode: mode }),
       selectedTopicId: null,
       setSelectedTopicId: (topicId) => set({ selectedTopicId: topicId }),
+      selectedPatternId: null,
+      setSelectedPatternId: (patternId) => set({ selectedPatternId: patternId }),
       progress: {},
       updateProgress: (problemTitle, update) => {
         set((state) => {
