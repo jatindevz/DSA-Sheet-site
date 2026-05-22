@@ -25,7 +25,12 @@ export interface GfgPOTD {
 }
 
 export default function Home() {
-  const { selectedTopicId, setSelectedTopicId, progress, resetProgress, updateProgress } = useDSAStore();
+  const {
+    viewMode, setViewMode,
+    selectedTopicId, setSelectedTopicId,
+    selectedPatternId, setSelectedPatternId,
+    progress, resetProgress, updateProgress
+  } = useDSAStore();
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [globalSearch, setGlobalSearch] = useState('');
@@ -52,6 +57,9 @@ export default function Home() {
     // Default select Arrays topic if nothing is selected to keep dashboard full and engaging
     if (!selectedTopicId) {
       setSelectedTopicId('Arrays');
+    }
+    if (!selectedPatternId) {
+      setSelectedPatternId('Two Pointers');
     }
 
     // Fetch live LeetCode POTD
@@ -120,7 +128,7 @@ export default function Home() {
       topic.problems.forEach(p => {
         const userProg = progress[p.title] || {};
         arr.push({
-          id: p.title,
+          id: `${topic.name}-${p.title}`,
           title: p.title,
           difficulty: p.difficulty,
           url: p.url,
@@ -135,6 +143,7 @@ export default function Home() {
           nextRevisionDate: userProg.nextRevisionDate || null,
           solvedAt: userProg.solvedAt || null,
           notes: userProg.notes || '',
+          pattern: p.pattern || 'Uncategorized',
         });
       });
     });
@@ -153,6 +162,71 @@ export default function Home() {
         total: topicProbs.length,
         solved: topicProbs.filter(p => p.status === 'solved').length,
       };
+    });
+  }, [allProblems]);
+
+  // Compute Patterns
+  const patterns = useMemo(() => {
+    const patternMap = new Map<string, any[]>();
+
+    allProblems.forEach(p => {
+      if (!patternMap.has(p.pattern)) {
+        patternMap.set(p.pattern, []);
+      }
+      patternMap.get(p.pattern)!.push(p);
+    });
+
+    return Array.from(patternMap.entries()).map(([name, probs]) => {
+      // Map icons for common patterns (fallback to puzzle piece)
+      let icon = '🧩';
+      let color = '#f59e0b';
+
+      const patternStyles: Record<string, { i: string, c: string }> = {
+        'Two Pointers': { i: '✌️', c: '#3b82f6' },
+        'Sliding Window': { i: '🪟', c: '#10b981' },
+        'Fast & Slow Pointers': { i: '🐢', c: '#06b6d4' },
+        'Merge Intervals': { i: '↔️', c: '#8b5cf6' },
+        'Cyclic Sort': { i: '🔄', c: '#f43f5e' },
+        'Binary Search': { i: '🔍', c: '#eab308' },
+        'Backtracking': { i: '🔙', c: '#ec4899' },
+        'Depth-First Search (DFS)': { i: '🕳️', c: '#84cc16' },
+        'Breadth-First Search (BFS)': { i: '🌊', c: '#0ea5e9' },
+        'Dynamic Programming (DP)': { i: '🧠', c: '#a855f7' },
+        'Greedy Algorithms': { i: '🤑', c: '#f97316' },
+        'Topological Sort': { i: '🕸️', c: '#14b8a6' },
+        'Union Find / Disjoint Set': { i: '🔗', c: '#6366f1' },
+        'Heap / Priority Queue': { i: '🏔️', c: '#fb923c' },
+        'Monotonic Stack / Queue': { i: '📉', c: '#ef4444' },
+        'Trie': { i: '🌲', c: '#22c55e' },
+        'Prefix Sum': { i: '➕', c: '#d946ef' },
+        'Bit Manipulation': { i: '0️⃣', c: '#64748b' },
+        'Kadane’s Algorithm': { i: '📈', c: '#10b981' },
+        'Graph Shortest Path (Dijkstra, Bellman-Ford)': { i: '🗺️', c: '#3b82f6' },
+        'Tree Traversals': { i: '🌳', c: '#84cc16' },
+        'Divide and Conquer': { i: '⚔️', c: '#f43f5e' },
+        'Recursion': { i: '🪆', c: '#ec4899' },
+        'Hashing': { i: '#️⃣', c: '#f59e0b' },
+        'Segment Tree / Fenwick Tree': { i: '🪵', c: '#8b5cf6' },
+        'Uncategorized': { i: '📁', c: '#71717a' },
+      };
+
+      if (patternStyles[name]) {
+        icon = patternStyles[name].i;
+        color = patternStyles[name].c;
+      }
+
+      return {
+        id: name,
+        name: name,
+        icon,
+        color,
+        total: probs.length,
+        solved: probs.filter(p => p.status === 'solved').length,
+      };
+    }).sort((a, b) => {
+      if (a.name === 'Uncategorized') return 1;
+      if (b.name === 'Uncategorized') return -1;
+      return b.total - a.total; // Sort by problem count descending
     });
   }, [allProblems]);
 
@@ -200,15 +274,21 @@ export default function Home() {
   }, [allProblems]);
 
   const selectedTopic = topics.find(t => t.id === selectedTopicId);
+  const selectedPattern = patterns.find(p => p.id === selectedPatternId);
+
   const rawTopicProblems = allProblems.filter(p => p.topicId === selectedTopicId);
+  const rawPatternProblems = allProblems.filter(p => p.pattern === selectedPatternId);
+
+  const activeRawProblems = viewMode === 'topic' ? rawTopicProblems : rawPatternProblems;
+  const activeSelection = viewMode === 'topic' ? selectedTopic : selectedPattern;
 
   // Filter problems by search query if any
   const topicProblems = useMemo(() => {
-    if (!searchQuery) return rawTopicProblems;
-    return rawTopicProblems.filter(p =>
+    if (!searchQuery) return activeRawProblems;
+    return activeRawProblems.filter(p =>
       p.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [rawTopicProblems, searchQuery]);
+  }, [activeRawProblems, searchQuery]);
 
   // Global search matching problems
   const globalFilteredProblems = useMemo(() => {
@@ -399,20 +479,37 @@ export default function Home() {
             </div>
           )}
 
-          {/* Topics List Navigation Menu */}
-          <div className="flex-1 flex flex-col min-h-[300px]">
-            <h3 className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-2.5 px-1">
-              Select DSA Topic ({topics.length})
-            </h3>
+          <div className="flex-1 flex flex-col min-h-[300px] gap-3">
+            <div className="flex items-center bg-black/20 p-1 rounded-xl border border-white/[0.04]">
+              <button
+                onClick={() => setViewMode('topic')}
+                className={`flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${viewMode === 'topic'
+                  ? 'bg-white/10 text-white shadow-sm'
+                  : 'text-muted-foreground hover:text-white/80'
+                  }`}
+              >
+                📂 By Topic
+              </button>
+              {/* <button
+              onClick={() => setViewMode('pattern')}
+              className={`flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${viewMode === 'pattern'
+                ? 'bg-emerald/20 text-emerald shadow-sm'
+                : 'text-muted-foreground hover:text-white/80'
+                }`}
+            >
+              🧩 By Pattern
+            </button> */}
+            </div>
+
             <div className="space-y-1.5 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[420px] lg:max-h-none">
-              {topics.map((t) => {
-                const isSelected = selectedTopicId === t.id;
+              {(viewMode === 'topic' ? topics : patterns).map((t) => {
+                const isSelected = viewMode === 'topic' ? selectedTopicId === t.id : selectedPatternId === t.id;
                 const percent = t.total > 0 ? Math.round((t.solved / t.total) * 100) : 0;
 
                 return (
                   <button
                     key={t.id}
-                    onClick={() => setSelectedTopicId(t.id)}
+                    onClick={() => viewMode === 'topic' ? setSelectedTopicId(t.id) : setSelectedPatternId(t.id)}
                     className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between gap-3 group relative overflow-hidden ${isSelected
                       ? 'bg-emerald/[0.04] border-emerald/40 shadow-lg shadow-emerald/[0.02]'
                       : 'bg-white/[0.01] border-white/[0.04] hover:bg-white/[0.02] hover:border-white/[0.08]'
@@ -535,13 +632,15 @@ export default function Home() {
             ) : (
               // STANDARD TOPIC VIEW
               <>
-                {selectedTopic && (
+                {activeSelection && (
                   <div className="glass-card noise-texture p-4 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-white/[0.04] bg-[#0a0a0d]/60">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl">{selectedTopic.icon}</span>
+                      <span className="text-xl">{activeSelection.icon}</span>
                       <div>
-                        <h2 className="text-base font-extrabold text-white">{selectedTopic.name} Problems</h2>
-                        <p className="text-[10px] text-muted-foreground font-medium">400+ Problem Sheet Core Section</p>
+                        <h2 className="text-base font-extrabold text-white">{activeSelection.name} Problems</h2>
+                        <p className="text-[10px] text-muted-foreground font-medium">
+                          {viewMode === 'topic' ? '400+ Problem Sheet Core Section' : 'Organized by Algorithmic Pattern'}
+                        </p>
                       </div>
                     </div>
 
@@ -552,7 +651,7 @@ export default function Home() {
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder={`Search ${selectedTopic.name} problems...`}
+                        placeholder={`Search ${activeSelection.name} problems...`}
                         className="w-full bg-[#0d0d12] border border-white/[0.08] focus:border-emerald/50 focus:ring-1 focus:ring-emerald/10 text-xs px-9 py-2 rounded-xl text-white placeholder-muted-foreground/50 transition-all outline-none"
                       />
                     </div>
@@ -561,12 +660,12 @@ export default function Home() {
 
                 {/* Interactive Problems list when a topic is selected */}
                 <AnimatePresence mode="wait">
-                  {selectedTopicId && selectedTopic && (
+                  {activeSelection && (
                     <div className="bento-animate flex-1 flex flex-col min-h-0">
                       <TopicProblems
                         problems={topicProblems}
                         isLoading={false}
-                        topicName={selectedTopic.name}
+                        topicName={activeSelection.name}
                       />
                     </div>
                   )}
@@ -575,13 +674,13 @@ export default function Home() {
             )}
           </div>
         </main>
-      </div>
+      </div >
 
       <footer className="h-10 border-t border-white/[0.04] flex items-center justify-center">
         <p className="text-[9px] text-muted-foreground/30 font-medium">
           Hardcoded and Local. Fast and Resilient. Built with focus.
         </p>
       </footer>
-    </div>
+    </div >
   );
 }
