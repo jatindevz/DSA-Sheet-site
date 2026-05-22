@@ -8,6 +8,7 @@ import { useDSAStore } from '@/store/dsa-store';
 import { BABBAR_SHEET_DATA } from '@/lib/babbar-sheet-data';
 import { TopicProblems } from '@/components/dsa/TopicProblems';
 import { RevisionQueue } from '@/components/dsa/RevisionQueue';
+import { AuthDropdown } from '@/components/AuthDropdown';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface LeetCodePOTD {
@@ -237,7 +238,7 @@ export default function Home() {
           </div>
           <div>
             <h1 className="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
-              Love Babbar DSA Console
+              DSA Console
               <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-emerald/10 text-emerald border border-emerald/20">
                 v2.0
               </span>
@@ -268,19 +269,7 @@ export default function Home() {
             />
           </div>
 
-          <Button
-            onClick={() => {
-              if (confirm('Reset tracker? All your custom solving status, confidence ratings, and notes will be permanently deleted.')) {
-                resetProgress();
-              }
-            }}
-            variant="ghost"
-            size="sm"
-            className="h-8 border border-white/[0.06] bg-white/[0.02] text-xs text-muted-foreground hover:text-foreground hover:bg-white/[0.04] gap-1.5 rounded-lg px-3"
-          >
-            <Database size={13} />
-            Reset Console
-          </Button>
+          <AuthDropdown />
         </div>
       </header>
 
@@ -324,7 +313,7 @@ export default function Home() {
               </p>
               <div className="flex items-center gap-1.5 mt-1.5">
                 <Award size={12} className="text-emerald shrink-0" />
-                <span className="text-[10px] text-muted-foreground font-medium">Love Babbar 450 Sheet</span>
+                <span className="text-[10px] text-muted-foreground font-medium"> 400+ Problem Sheet</span>
               </div>
             </div>
           </div>
@@ -552,7 +541,7 @@ export default function Home() {
                       <span className="text-xl">{selectedTopic.icon}</span>
                       <div>
                         <h2 className="text-base font-extrabold text-white">{selectedTopic.name} Problems</h2>
-                        <p className="text-[10px] text-muted-foreground font-medium">Love Babbar 450 Sheet Core Section</p>
+                        <p className="text-[10px] text-muted-foreground font-medium">400+ Problem Sheet Core Section</p>
                       </div>
                     </div>
 

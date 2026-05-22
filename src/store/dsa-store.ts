@@ -15,6 +15,7 @@ interface DSAStore {
   setSelectedTopicId: (topicId: string | null) => void;
   progress: Record<string, UserProgress>; // Key is problem title
   updateProgress: (problemTitle: string, update: Partial<UserProgress>) => void;
+  setBulkProgress: (progress: Record<string, UserProgress>) => void;
   resetProgress: () => void;
 }
 
@@ -24,7 +25,7 @@ export const useDSAStore = create<DSAStore>()(
       selectedTopicId: null,
       setSelectedTopicId: (topicId) => set({ selectedTopicId: topicId }),
       progress: {},
-      updateProgress: (problemTitle, update) =>
+      updateProgress: (problemTitle, update) => {
         set((state) => {
           const existing = state.progress[problemTitle] || {
             status: 'todo',
@@ -40,7 +41,34 @@ export const useDSAStore = create<DSAStore>()(
               [problemTitle]: { ...existing, ...update },
             },
           };
-        }),
+        });
+
+        // Fire-and-forget sync to Supabase (Optimistic UI)
+        import('@/lib/supabase').then(({ supabase }) => {
+          if (!supabase) return;
+          supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+              const currentState = useDSAStore.getState();
+              const updatedItem = currentState.progress[problemTitle];
+              if (updatedItem) {
+                supabase.from('dsa_progress').upsert({
+                  user_id: session.user.id,
+                  problem_title: problemTitle,
+                  status: updatedItem.status,
+                  marks: updatedItem.marks,
+                  notes: updatedItem.notes,
+                  revision_stage: updatedItem.revisionStage,
+                  next_revision_date: updatedItem.nextRevisionDate,
+                  solved_at: updatedItem.solvedAt,
+                }, { onConflict: 'user_id,problem_title' }).catch((err) => {
+                  console.error('Failed to sync problem update to Supabase:', err);
+                });
+              }
+            }
+          });
+        });
+      },
+      setBulkProgress: (progress) => set({ progress }),
       resetProgress: () => set({ progress: {} }),
     }),
     {
