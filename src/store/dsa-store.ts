@@ -68,8 +68,8 @@ export const useDSAStore = create<DSAStore>()(
                   revision_stage: updatedItem.revisionStage,
                   next_revision_date: updatedItem.nextRevisionDate,
                   solved_at: updatedItem.solvedAt,
-                }, { onConflict: 'user_id,problem_title' }).catch((err) => {
-                  console.error('Failed to sync problem update to Supabase:', err);
+                }, { onConflict: 'user_id,problem_title' }).then(({ error }) => {
+                  if (error) console.error('Failed to sync problem update to Supabase:', error);
                 });
               }
             }

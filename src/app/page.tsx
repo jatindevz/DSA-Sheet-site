@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useDSAStore } from '@/store/dsa-store';
 import { BABBAR_SHEET_DATA } from '@/lib/babbar-sheet-data';
+import { PATTERN_SHEET_DATA } from '@/lib/pattern-data';
 import { TopicProblems } from '@/components/dsa/TopicProblems';
 import { RevisionQueue } from '@/components/dsa/RevisionQueue';
 import { AuthDropdown } from '@/components/AuthDropdown';
@@ -165,68 +166,19 @@ export default function Home() {
     });
   }, [allProblems]);
 
-  // Compute Patterns
+  // Compute Patterns using the actual PATTERN_SHEET_DATA
   const patterns = useMemo(() => {
-    const patternMap = new Map<string, any[]>();
-
-    allProblems.forEach(p => {
-      if (!patternMap.has(p.pattern)) {
-        patternMap.set(p.pattern, []);
-      }
-      patternMap.get(p.pattern)!.push(p);
-    });
-
-    return Array.from(patternMap.entries()).map(([name, probs]) => {
-      // Map icons for common patterns (fallback to puzzle piece)
-      let icon = '🧩';
-      let color = '#f59e0b';
-
-      const patternStyles: Record<string, { i: string, c: string }> = {
-        'Two Pointers': { i: '✌️', c: '#3b82f6' },
-        'Sliding Window': { i: '🪟', c: '#10b981' },
-        'Fast & Slow Pointers': { i: '🐢', c: '#06b6d4' },
-        'Merge Intervals': { i: '↔️', c: '#8b5cf6' },
-        'Cyclic Sort': { i: '🔄', c: '#f43f5e' },
-        'Binary Search': { i: '🔍', c: '#eab308' },
-        'Backtracking': { i: '🔙', c: '#ec4899' },
-        'Depth-First Search (DFS)': { i: '🕳️', c: '#84cc16' },
-        'Breadth-First Search (BFS)': { i: '🌊', c: '#0ea5e9' },
-        'Dynamic Programming (DP)': { i: '🧠', c: '#a855f7' },
-        'Greedy Algorithms': { i: '🤑', c: '#f97316' },
-        'Topological Sort': { i: '🕸️', c: '#14b8a6' },
-        'Union Find / Disjoint Set': { i: '🔗', c: '#6366f1' },
-        'Heap / Priority Queue': { i: '🏔️', c: '#fb923c' },
-        'Monotonic Stack / Queue': { i: '📉', c: '#ef4444' },
-        'Trie': { i: '🌲', c: '#22c55e' },
-        'Prefix Sum': { i: '➕', c: '#d946ef' },
-        'Bit Manipulation': { i: '0️⃣', c: '#64748b' },
-        'Kadane’s Algorithm': { i: '📈', c: '#10b981' },
-        'Graph Shortest Path (Dijkstra, Bellman-Ford)': { i: '🗺️', c: '#3b82f6' },
-        'Tree Traversals': { i: '🌳', c: '#84cc16' },
-        'Divide and Conquer': { i: '⚔️', c: '#f43f5e' },
-        'Recursion': { i: '🪆', c: '#ec4899' },
-        'Hashing': { i: '#️⃣', c: '#f59e0b' },
-        'Segment Tree / Fenwick Tree': { i: '🪵', c: '#8b5cf6' },
-        'Uncategorized': { i: '📁', c: '#71717a' },
-      };
-
-      if (patternStyles[name]) {
-        icon = patternStyles[name].i;
-        color = patternStyles[name].c;
-      }
-
+    return PATTERN_SHEET_DATA.map(t => {
+      // Find all problems in allProblems that belong to this pattern
+      const patternProbs = allProblems.filter(p => p.pattern === t.name);
       return {
-        id: name,
-        name: name,
-        icon,
-        color,
-        total: probs.length,
-        solved: probs.filter(p => p.status === 'solved').length,
+        id: t.name,
+        name: t.name,
+        icon: t.icon,
+        color: t.color,
+        total: patternProbs.length,
+        solved: patternProbs.filter(p => p.status === 'solved').length,
       };
-    }).sort((a, b) => {
-      if (a.name === 'Uncategorized') return 1;
-      if (b.name === 'Uncategorized') return -1;
-      return b.total - a.total; // Sort by problem count descending
     });
   }, [allProblems]);
 
@@ -491,17 +443,17 @@ export default function Home() {
                 📂 By Topic
               </button>
               {/* <button
-              onClick={() => setViewMode('pattern')}
-              className={`flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${viewMode === 'pattern'
-                ? 'bg-emerald/20 text-emerald shadow-sm'
-                : 'text-muted-foreground hover:text-white/80'
-                }`}
-            >
-              🧩 By Pattern
-            </button> */}
+                onClick={() => setViewMode('pattern')}
+                className={`flex-1 flex items-center justify-center gap-2 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${viewMode === 'pattern'
+                  ? 'bg-emerald/20 text-emerald shadow-sm'
+                  : 'text-muted-foreground hover:text-white/80'
+                  }`}
+              >
+                🧩 By Pattern
+              </button> */}
             </div>
 
-            <div className="space-y-1.5 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[420px] lg:max-h-none">
+            <div className="space-y-1.5 overflow-y-auto pr-1 flex-1 custom-scrollbar max-h-[95vh]">
               {(viewMode === 'topic' ? topics : patterns).map((t) => {
                 const isSelected = viewMode === 'topic' ? selectedTopicId === t.id : selectedPatternId === t.id;
                 const percent = t.total > 0 ? Math.round((t.solved / t.total) * 100) : 0;
