@@ -355,7 +355,7 @@ export default function Home() {
             <div className="relative glass-card-glow noise-texture p-4 rounded-2xl flex flex-col gap-3 border border-amber/20 bg-amber/[0.01] overflow-hidden">
               {potdDone && (
                 <div className="absolute inset-0 bg-[#0a0a0e]/95 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4 z-20 border border-emerald/20 rounded-2xl animate-fade-in">
-                  <span className="text-[18px] font-extrabold uppercase tracking-widest text-emerald">
+                  <span className="text-[18px] font-extrabold uppercase tracking-widest text-white ">
                     Today's challenge completed
                   </span>
                   <button
