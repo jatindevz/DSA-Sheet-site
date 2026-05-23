@@ -358,7 +358,7 @@ export default function Home() {
                   <span className="text-[18px] font-extrabold uppercase tracking-widest text-white ">
                     Today's challenge completed
                   </span>
-                  <button
+                  {/* <button
                     onClick={() => {
                       localStorage.removeItem('potdDoneDate');
                       setPotdDone(false);
@@ -368,7 +368,7 @@ export default function Home() {
                     className="mt-3 text-[10px] font-mono font-bold text-muted-foreground hover:text-white transition-colors"
                   >
                     Reset
-                  </button>
+                  </button> */}
                 </div>
               )}
 

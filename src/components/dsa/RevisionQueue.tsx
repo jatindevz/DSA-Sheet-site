@@ -91,7 +91,7 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
       nextDate = next.toISOString();
     }
 
-    updateProgress(selectedProblemId, {
+    updateProgress(activeProblem.title, {
       marks,
       notes,
       revisionStage: newStage,

@@ -60,7 +60,7 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
   };
 
   const handleSaveSolve = () => {
-    if (!selectedProblemId) return;
+    if (!selectedProblemId || !activeProblem) return;
 
     // Add logic for nextRevisionDate based on marks and revisionStage
     const today = new Date();
@@ -68,7 +68,7 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
     const nextDate = new Date(today);
     nextDate.setDate(today.getDate() + 3); // Default Stage 1 = 3 days
 
-    updateProgress(selectedProblemId, {
+    updateProgress(activeProblem.title, {
       status: 'solved',
       marks: tempMarks,
       notes: tempNotes,
@@ -79,9 +79,9 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
     setSelectedProblemId(null);
   };
 
-  const handleResetProblem = (id: string) => {
+  const handleResetProblem = (title: string) => {
     if (confirm('Are you sure you want to reset this problem? Your solve date, marks, and revision history will be cleared.')) {
-      updateProgress(id, {
+      updateProgress(title, {
         status: 'todo',
         marks: 0,
         notes: '',
@@ -351,7 +351,7 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
 
                   {activeProblem.status === 'solved' && (
                     <Button
-                      onClick={() => handleResetProblem(activeProblem.id)}
+                      onClick={() => handleResetProblem(activeProblem.title)}
                       variant="ghost"
                       size="sm"
                       className="border border-white/[0.08] hover:bg-rose/10 hover:text-rose hover:border-rose/30 text-xs h-9 px-3"
