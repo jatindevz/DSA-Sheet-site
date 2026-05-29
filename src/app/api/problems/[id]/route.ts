@@ -100,7 +100,7 @@ export async function PATCH(
       }
 
       // Update history logs
-      let history = [];
+      let history: any[] = [];
       try {
         history = existing.revisionHistory ? JSON.parse(existing.revisionHistory) : [];
       } catch (e) {

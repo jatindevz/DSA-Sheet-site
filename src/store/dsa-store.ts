@@ -17,6 +17,8 @@ interface DSAStore {
   setSelectedTopicId: (topicId: string | null) => void;
   selectedPatternId: string | null;
   setSelectedPatternId: (patternId: string | null) => void;
+  selectedStriverTopicId: string | null;
+  setSelectedStriverTopicId: (topicId: string | null) => void;
   progress: Record<string, UserProgress>; // Key is problem title
   updateProgress: (problemTitle: string, update: Partial<UserProgress>) => void;
   setBulkProgress: (progress: Record<string, UserProgress>) => void;
@@ -32,6 +34,8 @@ export const useDSAStore = create<DSAStore>()(
       setSelectedTopicId: (topicId) => set({ selectedTopicId: topicId }),
       selectedPatternId: null,
       setSelectedPatternId: (patternId) => set({ selectedPatternId: patternId }),
+      selectedStriverTopicId: null,
+      setSelectedStriverTopicId: (topicId) => set({ selectedStriverTopicId: topicId }),
       progress: {},
       updateProgress: (problemTitle, update) => {
         set((state) => {

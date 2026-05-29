@@ -104,41 +104,38 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
     <motion.div
       whileHover={{ scale: 1.002, y: -1 }}
       transition={{ duration: 0.2 }}
-      className={`glass-card noise-texture p-6 col-span-2 flex flex-col transition-all duration-300 ${
-        items.length === 0 ? 'min-h-[180px]' : 'min-h-[420px]'
-      }`}
+      className={`glass-card noise-texture p-4 col-span-2 flex flex-col transition-all duration-300 ${items.length === 0 ? 'min-h-[120px]' : 'min-h-[242px]'}`}
     >
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <Calendar size={16} className="text-emerald" />
-          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-1.5">
+          <Calendar size={13} className="text-emerald" />
+          <h3 className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
             Revision Queue
           </h3>
         </div>
         <Badge
           variant="outline"
-          className={`border-0 font-mono text-[10px] ${
-            items.length > 0
-              ? 'bg-rose/10 text-rose font-bold filter drop-shadow-[0_0_8px_rgba(244,63,94,0.15)] animate-pulse'
-              : 'bg-emerald/10 text-emerald'
-          }`}
+          className={`border-0 font-mono text-[9px] ${items.length > 0
+            ? 'bg-rose/10 text-rose font-bold filter drop-shadow-[0_0_8px_rgba(244,63,94,0.15)] animate-pulse'
+            : 'bg-emerald/10 text-emerald'
+            }`}
         >
           {items.length} Due Today
         </Badge>
       </div>
 
       {items.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center py-6 text-muted-foreground text-center">
-          <CheckCircle size={32} className="mb-2 text-emerald opacity-60" />
-          <p className="text-sm font-medium text-foreground">All Revisions Cleared!</p>
-          <p className="text-[11px] text-muted-foreground/60 max-w-[280px] mt-0.5">
+        <div className="flex-1 flex flex-col items-center justify-center py-4 text-muted-foreground text-center">
+          <CheckCircle size={24} className="mb-1.5 text-emerald opacity-60" />
+          <p className="text-xs font-medium text-foreground">All Revisions Cleared!</p>
+          <p className="text-[10px] text-muted-foreground/60 max-w-[260px] mt-0.5">
             Outstanding! Your revision queue is empty. Keep solving new problems.
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
           {/* Left column: Problems due for revision */}
-          <div className="lg:col-span-2 space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+          <div className="lg:col-span-2 space-y-1.5 max-h-[300px] overflow-y-auto pr-1.5 custom-scrollbar">
             {items.map((item) => {
               const stage = stageConfig[item.revisionStage] || { label: 'Review', color: '#71717a', bg: 'rgba(113,113,122,0.1)', icon: '⚪' };
               const overdueDays = getOverdueDays(item.nextRevisionDate);
@@ -148,17 +145,16 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
                 <div
                   key={item.id}
                   onClick={() => handleSelectProblem(item)}
-                  className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-4 group ${
-                    selectedProblemId === item.id
-                      ? 'bg-emerald/5 border-emerald/30 shadow-lg shadow-emerald/5'
-                      : 'bg-white/[0.01] border-white/[0.03] hover:bg-white/[0.02]'
-                  }`}
+                  className={`p-2.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-3 group ${selectedProblemId === item.id
+                    ? 'bg-emerald/5 border-emerald/30 shadow-lg shadow-emerald/5'
+                    : 'bg-white/[0.01] border-white/[0.03] hover:bg-white/[0.02]'
+                    }`}
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-base shrink-0">{item.topic?.icon || '📝'}</span>
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="text-sm shrink-0">{item.topic?.icon || '📝'}</span>
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <p className="text-sm font-medium text-foreground truncate group-hover:text-emerald transition-colors">{item.title}</p>
+                        <p className="text-xs font-medium text-foreground truncate group-hover:text-emerald transition-colors">{item.title}</p>
                         {overdueDays > 0 && (
                           <Badge
                             variant="outline"
@@ -168,8 +164,8 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
                           </Badge>
                         )}
                       </div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] text-muted-foreground">{item.topic?.name}</span>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className="text-[9px] text-muted-foreground">{item.topic?.name}</span>
                         <span className="w-1 h-1 rounded-full bg-white/10" />
                         <Badge
                           variant="outline"

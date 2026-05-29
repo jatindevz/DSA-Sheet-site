@@ -1,0 +1,360 @@
+Problem Name,Topic,Pattern,LeetCode Link,GFG Link
+Largest Element in an Array,Arrays,Array Basics,https://leetcode.com/problems/largest-number/,https://www.geeksforgeeks.org/problems/largest-element-in-array4002/1
+Second Largest Element,Arrays,Array Basics,https://leetcode.com/problems/second-largest-digit-in-a-string/,https://www.geeksforgeeks.org/problems/second-largest3735/1
+Check if Array is Sorted,Arrays,Array Basics,https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/,https://www.geeksforgeeks.org/problems/check-if-an-array-is-sorted0701/1
+Remove Duplicates from Sorted Array,Arrays,Two Pointers,https://leetcode.com/problems/remove-duplicates-from-sorted-array/,https://www.geeksforgeeks.org/problems/remove-duplicate-elements-from-sorted-array/1
+Left Rotate an Array by One,Arrays,Array Basics,,https://www.geeksforgeeks.org/problems/cyclically-rotate-an-array-by-one2614/1
+Left Rotate an Array by D Places,Arrays,Array Basics,https://leetcode.com/problems/rotate-array/,
+Move Zeroes to End,Arrays,Two Pointers,https://leetcode.com/problems/move-zeroes/,
+Linear Search,Arrays,Array Basics,,https://www.geeksforgeeks.org/problems/search-an-element-in-an-array-1587115621/1
+Union of Two Sorted Arrays,Arrays,Two Pointers,,https://www.geeksforgeeks.org/problems/union-of-two-arrays3538/1
+Intersection of Two Sorted Arrays,Arrays,Two Pointers,https://leetcode.com/problems/intersection-of-two-arrays/,
+Find Missing Number in Array,Arrays,Math,https://leetcode.com/problems/missing-number/,https://www.geeksforgeeks.org/problems/missing-number-in-array1416/1
+Maximum Consecutive Ones,Arrays,Sliding Window,https://leetcode.com/problems/max-consecutive-ones/,
+Find the Number that Appears Once (Single Number),Arrays,Bit Manipulation,https://leetcode.com/problems/single-number/,
+Longest Subarray with Sum K (Positives),Arrays,Sliding Window / Prefix Sum,,https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1
+Longest Subarray with Sum K (Positives + Negatives),Arrays,Prefix Sum / Hashing,,https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1
+2Sum Problem,Arrays,Hashing / Two Pointers,https://leetcode.com/problems/two-sum/,
+Sort an Array of 0s 1s and 2s,Arrays,Three Pointers,https://leetcode.com/problems/sort-colors/,
+Majority Element (>n/2 times),Arrays,Moore's Voting,https://leetcode.com/problems/majority-element/,
+Majority Element II (>n/3 times),Arrays,Extended Moore's Voting,https://leetcode.com/problems/majority-element-ii/,
+Maximum Subarray Sum (Kadane's Algo),Arrays,Dynamic Programming / Kadane,https://leetcode.com/problems/maximum-subarray/,
+Best Time to Buy and Sell Stock,Arrays,Array / DP,https://leetcode.com/problems/best-time-to-buy-and-sell-stock/,
+Rearrange Array Elements by Sign,Arrays,Two Pointers,https://leetcode.com/problems/rearrange-array-elements-by-sign/,
+Next Permutation,Arrays,Array Mathematics,https://leetcode.com/problems/next-permutation/,
+Leaders in an Array,Arrays,Array Traversal,,https://www.geeksforgeeks.org/problems/leaders-in-an-array-1587115620/1
+Longest Consecutive Sequence,Arrays,Hashing,https://leetcode.com/problems/longest-consecutive-sequence/,
+Set Matrix Zeroes,Arrays,Matrix,https://leetcode.com/problems/set-matrix-zeroes/,
+Rotate Matrix by 90 Degrees,Arrays,Matrix,https://leetcode.com/problems/rotate-image/,
+Spiral Matrix,Arrays,Matrix Simulation,https://leetcode.com/problems/spiral-matrix/,
+Count Subarrays with Given Sum,Arrays,Prefix Sum / Hashing,https://leetcode.com/problems/subarray-sum-equals-k/,
+Pascal's Triangle,Arrays,DP / Combinatorics,https://leetcode.com/problems/pascals-triangle/,
+Majority Element (N/3),Arrays,Moore's Voting,,https://www.geeksforgeeks.org/problems/majority-element-ii/1
+3Sum Problem,Arrays,Two Pointers / Sorting,https://leetcode.com/problems/3sum/,
+4Sum Problem,Arrays,Two Pointers / Sorting,https://leetcode.com/problems/4sum/,
+Subarray with 0 sum,Arrays,Prefix Sum / Hashing,,https://www.geeksforgeeks.org/problems/subarray-with-0-sum-1587115621/1
+Merge Overlapping Intervals,Arrays,Sorting / Intervals,https://leetcode.com/problems/merge-intervals/,
+Count Inversions,Arrays,Divide and Conquer (Merge Sort),,https://www.geeksforgeeks.org/problems/inversion-of-array-1587115620/1
+Reverse Pairs,Arrays,Divide and Conquer (Merge Sort),https://leetcode.com/problems/reverse-pairs/,
+Maximum Product Subarray,Arrays,Kadane's Variation,https://leetcode.com/problems/maximum-product-subarray/,
+Binary Search on 1D Array,Binary Search,BS Fundamentals,https://leetcode.com/problems/binary-search/,
+Floor and Ceil in Sorted Array,Binary Search,BS on Array,,https://www.geeksforgeeks.org/problems/floor-in-a-sorted-array-1587115620/1
+First and Last Position of Element,Binary Search,BS on Array,https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/,
+Search in Rotated Sorted Array I,Binary Search,BS on Rotated Array,https://leetcode.com/problems/search-in-rotated-sorted-array/,
+Search in Rotated Sorted Array II,Binary Search,BS on Rotated Array,https://leetcode.com/problems/search-in-rotated-sorted-array-ii/,
+Find Minimum in Rotated Sorted Array,Binary Search,BS on Rotated Array,https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/,
+Find Peak Element,Binary Search,BS on Unsorted Array,https://leetcode.com/problems/find-peak-element/,
+Square Root of a Number,Binary Search,BS on Answer,https://leetcode.com/problems/sqrtx/,
+Koko Eating Bananas,Binary Search,BS on Answer,https://leetcode.com/problems/koko-eating-bananas/,
+Minimum Number of Days to Make m Bouquets,Binary Search,BS on Answer,https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/,
+Find the Smallest Divisor Given a Threshold,Binary Search,BS on Answer,https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/,
+Capacity to Ship Packages within D Days,Binary Search,BS on Answer,https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/,
+Kth Missing Positive Number,Binary Search,BS on Answer,https://leetcode.com/problems/kth-missing-positive-number/,
+Aggressive Cows,Binary Search,BS on Answer,,https://www.geeksforgeeks.org/problems/aggressive-cows/1
+Allocate Books,Binary Search,BS on Answer,,https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1
+Split Array Largest Sum,Binary Search,BS on Answer,https://leetcode.com/problems/split-array-largest-sum/,
+Median of Two Sorted Arrays,Binary Search,BS on Two Arrays,https://leetcode.com/problems/median-of-two-sorted-arrays/,
+K-th Element of Two Sorted Arrays,Binary Search,BS on Two Arrays,,https://www.geeksforgeeks.org/problems/k-th-element-of-two-sorted-array1317/1
+Row with Maximum 1s,Binary Search,BS in 2D,,https://www.geeksforgeeks.org/problems/row-with-max-1s0023/1
+Search in a 2D Matrix I,Binary Search,BS in 2D,https://leetcode.com/problems/search-a-2d-matrix/,
+Search in a 2D Matrix II,Binary Search,BS in 2D,https://leetcode.com/problems/search-a-2d-matrix-ii/,
+Find Peak Element II,Binary Search,BS in 2D,https://leetcode.com/problems/find-a-peak-element-ii/,
+Median in a Row-wise Sorted Matrix,Binary Search,BS in 2D,,https://www.geeksforgeeks.org/problems/median-in-a-row-wise-sorted-matrix1527/1
+Remove Outermost Parentheses,Strings,Stack/String Basics,https://leetcode.com/problems/remove-outermost-parentheses/,
+Reverse Words in a String,Strings,String Manipulation,https://leetcode.com/problems/reverse-words-in-a-string/,
+Largest Odd Number in String,Strings,String Traversal,https://leetcode.com/problems/largest-odd-number-in-string/,
+Longest Common Prefix,Strings,Trie/String Sorting,https://leetcode.com/problems/longest-common-prefix/,
+Isomorphic Strings,Strings,Hashing,https://leetcode.com/problems/isomorphic-strings/,
+Rotate String,Strings,String Matching,https://leetcode.com/problems/rotate-string/,
+Valid Anagram,Strings,Hashing,https://leetcode.com/problems/valid-anagram/,
+Sort Characters by Frequency,Strings,Sorting/Hashing,https://leetcode.com/problems/sort-characters-by-frequency/,
+Maximum Nesting Depth of Parentheses,Strings,Stack,https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/,
+Roman to Integer,Strings,Simulation/Hashing,https://leetcode.com/problems/roman-to-integer/,
+String to Integer (atoi),Strings,Simulation,https://leetcode.com/problems/string-to-integer-atoi/,
+Count With K Different Characters,Strings,Sliding Window,,https://www.geeksforgeeks.org/problems/longest-k-unique-characters-substring0853/1
+Longest Substring Without Repeating Characters,Strings,Sliding Window,https://leetcode.com/problems/longest-substring-without-repeating-characters/,
+Longest Palindromic Substring,Strings,DP / Expand Around Center,https://leetcode.com/problems/longest-palindromic-substring/,
+Sum of Beauty of All Substrings,Strings,Sliding Window/DP,https://leetcode.com/problems/sum-of-beauty-of-all-substrings/,
+Minimum Add to Make Parentheses Valid,Strings,Stack,https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/,
+Count and Say,Strings,Simulation,https://leetcode.com/problems/count-and-say/,
+Compare Version Numbers,Strings,Tokenisation,https://leetcode.com/problems/compare-version-numbers/,
+Shortest Palindrome (KMP),Strings,KMP,https://leetcode.com/problems/shortest-palindrome/,
+Longest Happy Prefix,Strings,KMP,https://leetcode.com/problems/longest-happy-prefix/,
+Repeated String Match (Rabin-Karp),Strings,Rabin-Karp,https://leetcode.com/problems/repeated-string-match/,
+Find the Index of First Occurrence in a String,Strings,Pattern Matching,https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/,
+Valid Palindrome II,Strings,Two Pointers,https://leetcode.com/problems/valid-palindrome-ii/,
+Minimum Characters for Palindrome,Strings,LPS Array,,https://www.geeksforgeeks.org/problems/minimum-characters-to-be-added-at-front-to-make-string-palindrome4547/1
+Z-Function,Strings,Z-Algorithm,,https://www.geeksforgeeks.org/problems/z-function/1
+Introduction to Linked List,LinkedList,Basic Operations,,
+Insertion and Deletion in LL,LinkedList,Basic Operations,,
+Find Length of Loop,LinkedList,Cycle Detection,,https://www.geeksforgeeks.org/problems/find-length-of-loop/1
+Middle of Linked List,LinkedList,Slow-Fast Pointer,https://leetcode.com/problems/middle-of-the-linked-list/,
+Reverse a Linked List,LinkedList,Iterative/Recursive,https://leetcode.com/problems/reverse-linked-list/,
+Detect a Loop in LL,LinkedList,Cycle Detection,https://leetcode.com/problems/linked-list-cycle/,
+Start of Loop in LL,LinkedList,Cycle Detection,https://leetcode.com/problems/linked-list-cycle-ii/,
+Palindrome Linked List,LinkedList,Reversal + Two Pointers,https://leetcode.com/problems/palindrome-linked-list/,
+Odd Even Linked List,LinkedList,Pointer Manipulation,https://leetcode.com/problems/odd-even-linked-list/,
+Delete Middle of LL,LinkedList,Slow-Fast Pointer,https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/,
+Sort LL,LinkedList,Merge Sort on LL,https://leetcode.com/problems/sort-list/,
+Remove N-th Node from Back,LinkedList,Slow-Fast Pointer,https://leetcode.com/problems/remove-nth-node-from-end-of-list/,
+Delete Node without Head,LinkedList,Pointer Trick,https://leetcode.com/problems/delete-node-in-a-linked-list/,
+Intersection of Two Linked Lists,LinkedList,Hashing/Two Pointers,https://leetcode.com/problems/intersection-of-two-linked-lists/,
+Add Two Numbers in LL,LinkedList,Math Simulation,https://leetcode.com/problems/add-two-numbers/,
+Add 1 to a Number Represented as LL,LinkedList,Recursion,,https://www.geeksforgeeks.org/problems/add-1-to-a-number-represented-as-linked-list/1
+Reverse Nodes in k-Group,LinkedList,Recursion/Iterative,https://leetcode.com/problems/reverse-nodes-in-k-group/,
+Rotate a LL,LinkedList,Circular Trick,https://leetcode.com/problems/rotate-list/,
+Flattening a LL,LinkedList,Recursion/Heap,,https://www.geeksforgeeks.org/problems/flattening-a-linked-list/1
+Clone a LL with Random Pointers,LinkedList,Hashing/Link Manipulation,https://leetcode.com/problems/copy-list-with-random-pointer/,
+LRU Cache,LinkedList,Design + Doubly Linked List,https://leetcode.com/problems/lru-cache/,
+LFU Cache,LinkedList,Design + Frequency,https://leetcode.com/problems/lfu-cache/,
+Count All Subarrays with Given Sum,Prefix Sum / Hashing,Prefix Sum,,https://www.geeksforgeeks.org/problems/subarray-range-with-given-sum2804/1
+Number of Submatrices that Sum to Target,Prefix Sum / Hashing,2D Prefix + Hashmap,https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/,
+Longest Subarray with Sum Divisible by K,Prefix Sum / Hashing,Modulo Hashmap,,https://www.geeksforgeeks.org/problems/longest-subarray-with-sum-divisible-by-k1259/1
+Subarray Sum Divisible by K,Prefix Sum / Hashing,Modulo Hashmap,https://leetcode.com/problems/subarray-sums-divisible-by-k/,
+Fruit Into Baskets,Two Pointers / Sliding Window,Variable Sliding Window,https://leetcode.com/problems/fruit-into-baskets/,
+Longest Repeating Character Replacement,Two Pointers / Sliding Window,Variable Sliding Window,https://leetcode.com/problems/longest-repeating-character-replacement/,
+Binary Subarrays With Sum,Two Pointers / Sliding Window,AtMost Trick,https://leetcode.com/problems/binary-subarrays-with-sum/,
+Count Number of Nice Subarrays,Two Pointers / Sliding Window,AtMost Trick,https://leetcode.com/problems/count-number-of-nice-subarrays/,
+Number of Substrings Containing All Three Characters,Two Pointers / Sliding Window,Variable Sliding Window,https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/,
+Max Consecutive Ones III,Two Pointers / Sliding Window,Variable Sliding Window,https://leetcode.com/problems/max-consecutive-ones-iii/,
+Longest Substring with At Most K Distinct Characters,Two Pointers / Sliding Window,Variable Sliding Window,,https://www.geeksforgeeks.org/problems/longest-k-unique-characters-substring0853/1
+Minimum Window Substring,Two Pointers / Sliding Window,Variable Sliding Window,https://leetcode.com/problems/minimum-window-substring/,
+Minimum Window Subsequence,Two Pointers / Sliding Window,DP / Two Pointers,,
+Longest Subarray with Sum K (Pos + Neg),Hashing,Prefix Sum Map,,
+4Sum,Arrays / Two Pointers,Sort + Two Pointers,https://leetcode.com/problems/4sum/,
+Subarrays with exactly K different integers,Two Pointers / Sliding Window,AtMost(K) - AtMost(K-1),https://leetcode.com/problems/subarrays-with-k-different-integers/,
+Number of Subarrays with GCD equals K,Math,Prefix GCD,,https://www.geeksforgeeks.org/problems/number-of-subarrays-with-gcd-equal-to-k/1
+Implement Stack using Arrays,Stack and Queue,Basic Stack Implementation,,
+Implement Queue using Arrays,Stack and Queue,Basic Queue Implementation,,
+Implement Stack using Queue,Stack and Queue,Design,https://leetcode.com/problems/implement-stack-using-queues/,
+Implement Queue using Stack,Stack and Queue,Design,https://leetcode.com/problems/implement-queue-using-stacks/,
+Valid Parentheses,Stack and Queue,Stack Application,https://leetcode.com/problems/valid-parentheses/,
+Min Stack,Stack and Queue,Design + Monotonic,https://leetcode.com/problems/min-stack/,
+Next Greater Element I,Stack and Queue,Monotonic Stack,https://leetcode.com/problems/next-greater-element-i/,
+Next Greater Element II,Stack and Queue,Monotonic Stack (Circular),https://leetcode.com/problems/next-greater-element-ii/,
+Previous Smaller Element,Stack and Queue,Monotonic Stack,,https://www.geeksforgeeks.org/problems/smallest-number-on-left3403/1
+Trapping Rain Water,Stack and Queue,Two Pointers / Monotonic Stack,https://leetcode.com/problems/trapping-rain-water/,
+Sum of Subarray Minimums,Stack and Queue,Monotonic Stack,https://leetcode.com/problems/sum-of-subarray-minimums/,
+Asteroid Collision,Stack and Queue,Simulation with Stack,https://leetcode.com/problems/asteroid-collision/,
+Remove K Digits,Stack and Queue,Monotonic Stack,https://leetcode.com/problems/remove-k-digits/,
+Largest Rectangle in Histogram,Stack and Queue,Monotonic Stack,https://leetcode.com/problems/largest-rectangle-in-histogram/,
+Maximal Rectangle,Stack and Queue,2D Histogram,https://leetcode.com/problems/maximal-rectangle/,
+Sliding Window Maximum,Stack and Queue,Monotonic Deque,https://leetcode.com/problems/sliding-window-maximum/,
+Stock Span Problem,Stack and Queue,Monotonic Stack,,https://www.geeksforgeeks.org/problems/stock-span-problem-1587115621/1
+Celebrity Problem,Stack and Queue,Indegree/Outdegree,,https://www.geeksforgeeks.org/problems/the-celebrity-problem/1
+LRU Cache Implementation,Stack and Queue,Design,https://leetcode.com/problems/lru-cache/,
+LFU Cache Implementation,Stack and Queue,Design,https://leetcode.com/problems/lfu-cache/,
+Gas Station,Greedy,Greedy Circular,https://leetcode.com/problems/gas-station/,
+Jump Game I,Greedy,Greedy Reachability,https://leetcode.com/problems/jump-game/,
+Jump Game II,Greedy,Greedy BFS-like,https://leetcode.com/problems/jump-game-ii/,
+Min Platforms,Greedy,Sweep Line / Greedy,,https://www.geeksforgeeks.org/problems/minimum-platforms-1587115620/1
+N Meetings in One Room,Greedy,Activity Selection,,https://www.geeksforgeeks.org/problems/n-meetings-in-one-room-1587115620/1
+Job Sequencing Problem,Greedy,Greedy with Deadline,,https://www.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1
+Fractional Knapsack,Greedy,Greedy by Ratio,,https://www.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1
+Assign Cookies,Greedy,Two Pointer / Greedy,https://leetcode.com/problems/assign-cookies/,
+Lemonade Change,Greedy,Greedy Simulation,https://leetcode.com/problems/lemonade-change/,
+Shortest Job First (SJF),Greedy,CPU Scheduling,,https://www.geeksforgeeks.org/problems/shortest-job-first/1
+Insert Interval,Greedy,Interval Greedy,https://leetcode.com/problems/insert-interval/,
+Merge Intervals,Greedy,Interval Sorting,https://leetcode.com/problems/merge-intervals/,
+Non-overlapping Intervals,Greedy,Interval Greedy,https://leetcode.com/problems/non-overlapping-intervals/,
+Candy,Greedy,Two-pass Greedy,https://leetcode.com/problems/candy/,
+Kth Largest Element in an Array,Heaps,Heap / QuickSelect,https://leetcode.com/problems/kth-largest-element-in-an-array/,
+Kth Smallest Element in a Sorted Matrix,Heaps,Heap,https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/,
+Top K Frequent Elements,Heaps,Heap + HashMap,https://leetcode.com/problems/top-k-frequent-elements/,
+Find Median from Data Stream,Heaps,Two Heaps,https://leetcode.com/problems/find-median-from-data-stream/,
+Merge K Sorted Arrays,Heaps,Heap / Divide & Conquer,https://leetcode.com/problems/merge-k-sorted-lists/,
+Replace Elements by Rank,Heaps,Sorting / Hashing,,
+Task Scheduler,Heaps,Greedy + Heap,https://leetcode.com/problems/task-scheduler/,
+Hand of Straights,Heaps,TreeMap / Heap,https://leetcode.com/problems/hand-of-straights/,
+Design Twitter,Heaps,Design + Heap,https://leetcode.com/problems/design-twitter/,
+Connect N Ropes with Minimum Cost,Heaps,Greedy Heap,,https://www.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1
+K Most Frequent Elements in Data Stream,Heaps,Heap + HashMap,,https://www.geeksforgeeks.org/problems/top-k-frequent-elements-in-array/1
+Maximum Sum Combinations,Heaps,Heap,,https://www.interviewbit.com/problems/maximum-sum-combinations/
+Convert Min Heap to Max Heap,Heaps,Heapify,,
+Sort a K Sorted Array,Heaps,Nearly Sorted Heap,,https://www.geeksforgeeks.org/problems/nearly-sorted-1587115620/1
+All Root to Leaf Paths in Binary Tree,Binary Trees,Tree Traversal,,https://www.geeksforgeeks.org/problems/root-to-leaf-paths/1
+Height of Binary Tree,Binary Trees,Tree DFS,https://leetcode.com/problems/maximum-depth-of-binary-tree/,
+Balanced Binary Tree,Binary Trees,Tree DFS,https://leetcode.com/problems/balanced-binary-tree/,
+Diameter of Binary Tree,Binary Trees,Tree DFS,https://leetcode.com/problems/diameter-of-binary-tree/,
+Maximum Path Sum,Binary Trees,Tree DFS,https://leetcode.com/problems/binary-tree-maximum-path-sum/,
+Identical Trees,Binary Trees,Tree DFS/BFS,,https://www.geeksforgeeks.org/problems/determine-if-two-trees-are-identical/1
+Symmetric Tree,Binary Trees,Tree Traversal,https://leetcode.com/problems/symmetric-tree/,
+Zig-Zag Traversal,Binary Trees,BFS with Deque,https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/,
+Boundary Traversal,Binary Trees,Tree Traversal,,https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1
+Vertical Order Traversal,Binary Trees,Tree BFS + Map,https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/,
+Top View of Binary Tree,Binary Trees,Tree BFS + Map,,https://www.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+Bottom View of Binary Tree,Binary Trees,Tree BFS + Map,,https://www.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1
+Left View of Binary Tree,Binary Trees,Tree BFS/DFS,,https://www.geeksforgeeks.org/problems/left-view-of-binary-tree/1
+Right View of Binary Tree,Binary Trees,Tree BFS/DFS,https://leetcode.com/problems/binary-tree-right-side-view/,
+Preorder Traversal (Iterative),Binary Trees,Tree Stack,https://leetcode.com/problems/binary-tree-preorder-traversal/,
+Inorder Traversal (Iterative),Binary Trees,Tree Stack,https://leetcode.com/problems/binary-tree-inorder-traversal/,
+Postorder Traversal (Iterative),Binary Trees,Tree Stack,https://leetcode.com/problems/binary-tree-postorder-traversal/,
+Morris Inorder Traversal,Binary Trees,Threaded Tree,,
+Morris Preorder Traversal,Binary Trees,Threaded Tree,,
+Flatten Binary Tree to Linked List,Binary Trees,Tree Manipulation,https://leetcode.com/problems/flatten-binary-tree-to-linked-list/,
+Construct Binary Tree from Inorder and Preorder,Binary Trees,Recursive Build,https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/,
+Construct Binary Tree from Inorder and Postorder,Binary Trees,Recursive Build,https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/,
+Serialize and Deserialize Binary Tree,Binary Trees,Design + Traversal,https://leetcode.com/problems/serialize-and-deserialize-binary-tree/,
+Lowest Common Ancestor,Binary Trees,Tree DFS,https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/,
+Print Root to Node Path,Binary Trees,Tree DFS,,https://www.geeksforgeeks.org/problems/root-to-leaf-paths/1
+Maximum Width of Binary Tree,Binary Trees,BFS with Indexing,https://leetcode.com/problems/maximum-width-of-binary-tree/,
+Children Sum Property,Binary Trees,Tree Modification,,https://www.geeksforgeeks.org/problems/children-sum-parent/1
+Nodes at Distance K,Binary Trees,BFS + Parent Map,https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/,
+Count Total Nodes in Complete Binary Tree,Binary Trees,Complete Tree Property,https://leetcode.com/problems/count-complete-tree-nodes/,
+Requirements to Construct a Unique Binary Tree,Binary Trees,Theory,,
+BST Search,Binary Search Trees,BST Property,,https://www.geeksforgeeks.org/problems/search-a-node-in-bst/1
+Insert into BST,Binary Search Trees,BST Insertion,https://leetcode.com/problems/insert-into-a-binary-search-tree/,
+Delete Node in BST,Binary Search Trees,BST Deletion,https://leetcode.com/problems/delete-node-in-a-bst/,
+Ceil in BST,Binary Search Trees,BST Traversal,,https://www.geeksforgeeks.org/problems/implementing-ceil-in-bst/1
+Floor in BST,Binary Search Trees,BST Traversal,,https://www.geeksforgeeks.org/problems/floor-in-bst/1
+Check for BST,Binary Search Trees,Valid BST,https://leetcode.com/problems/validate-binary-search-tree/,
+K-th Smallest in BST,Binary Search Trees,BST Inorder,https://leetcode.com/problems/kth-smallest-element-in-a-bst/,
+K-th Largest in BST,Binary Search Trees,BST Reverse Inorder,,https://www.geeksforgeeks.org/problems/kth-largest-element-in-bst/1
+LCA in BST,Binary Search Trees,BST Property,https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/,
+Construct BST from Preorder,Binary Search Trees,Build BST,https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/,
+Inorder Successor/Predecessor in BST,Binary Search Trees,BST Traversal,,https://www.geeksforgeeks.org/problems/predecessor-and-successor/1
+Merge Two BSTs,Binary Search Trees,BST to DLL + Merge,,https://www.geeksforgeeks.org/problems/merge-two-bst-s/1
+Two Sum in BST,Binary Search Trees,BST Iterator,https://leetcode.com/problems/two-sum-iv-input-is-a-bst/,
+Recover BST,Binary Search Trees,BST Correction,https://leetcode.com/problems/recover-binary-search-tree/,
+Largest BST in Binary Tree,Binary Search Trees,Postorder Check,,https://www.geeksforgeeks.org/problems/largest-bst/1
+Clone Graph,Graphs,DFS/BFS,https://leetcode.com/problems/clone-graph/,
+DFS of Graph,Graphs,Graph Traversal,,https://www.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
+BFS of Graph,Graphs,Graph Traversal,,https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
+Detect Cycle in Undirected Graph (BFS),Graphs,Cycle Detection BFS,,https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
+Detect Cycle in Undirected Graph (DFS),Graphs,Cycle Detection DFS,,https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
+Detect Cycle in Directed Graph (DFS),Graphs,DFS with Recursion Stack,,https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
+Detect Cycle in Directed Graph (BFS/Kahn's),Graphs,Topological Sort,,
+Topological Sort (DFS),Graphs,Topological Sort,,https://www.geeksforgeeks.org/problems/topological-sort/1
+Topological Sort (BFS - Kahn's),Graphs,Topological Sort,,https://www.geeksforgeeks.org/problems/topological-sort/1
+Number of Provinces,Graphs,Connected Components,https://leetcode.com/problems/number-of-provinces/,
+Number of Islands,Graphs,BFS/DFS on Grid,https://leetcode.com/problems/number-of-islands/,
+Flood Fill,Graphs,BFS/DFS on Grid,https://leetcode.com/problems/flood-fill/,
+Rotten Oranges,Graphs,BFS on Grid,https://leetcode.com/problems/rotting-oranges/,
+Course Schedule I,Graphs,Cycle Detection (Topo),https://leetcode.com/problems/course-schedule/,
+Course Schedule II,Graphs,Topological Sort,https://leetcode.com/problems/course-schedule-ii/,
+Alien Dictionary,Graphs,Topological Sort,,https://www.geeksforgeeks.org/problems/alien-dictionary/1
+Shortest Path in DAG,Graphs,Shortest Path,,
+Shortest Path in Undirected Graph (Unit Weights),Graphs,BFS Shortest Path,,https://www.geeksforgeeks.org/problems/shortest-path-in-undirected-graph-having-unit-distance/1
+Word Ladder I,Graphs,BFS on Words,https://leetcode.com/problems/word-ladder/,
+Word Ladder II,Graphs,BFS + DFS Backtrack,https://leetcode.com/problems/word-ladder-ii/,
+Dijkstra's Algorithm (Priority Queue),Graphs,Shortest Path,,https://www.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
+Dijkstra's Algorithm (Set),Graphs,Shortest Path,,
+Bellman Ford Algorithm,Graphs,Shortest Path (Neg),,https://www.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/1
+Floyd Warshall Algorithm,Graphs,All Pairs Shortest Path,,https://www.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1
+Prim's Algorithm (MST),Graphs,MST,,https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1
+Kruskal's Algorithm (MST),Graphs,MST,,https://www.geeksforgeeks.org/problems/minimum-spanning-tree/1
+Cheapest Flights Within K Stops,Graphs,Modified Dijkstra,https://leetcode.com/problems/cheapest-flights-within-k-stops/,
+Network Delay Time,Graphs,Dijkstra,https://leetcode.com/problems/network-delay-time/,
+Path with Minimum Effort,Graphs,Dijkstra Variation,https://leetcode.com/problems/path-with-minimum-effort/,
+Shortest Path in Binary Matrix,Graphs,BFS on Grid,https://leetcode.com/problems/shortest-path-in-binary-matrix/,
+Number of Ways to Arrive at Destination,Graphs,Dijkstra with Count,https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/,
+Minimum Multiplications to Reach End,Graphs,BFS / Dijkstra,,https://www.geeksforgeeks.org/problems/minimum-multiplications-to-reach-end/1
+Articulation Point,Graphs,Tarjan's / DFS,,https://www.geeksforgeeks.org/problems/articulation-point-1/1
+Bridges in Graph,Graphs,Tarjan's,,https://leetcode.com/problems/critical-connections-in-a-network/,
+Kosaraju's Algorithm,Graphs,SCC,,https://www.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1
+Tarjan's Algorithm for SCC,Graphs,SCC,,
+1D DP Introduction,Dynamic Programming,DP Fundamentals,,
+Climbing Stairs,Dynamic Programming,Fibonacci DP,https://leetcode.com/problems/climbing-stairs/,
+Frog Jump (Energy Problem),Dynamic Programming,DP on Array,,
+Frog Jump with K Distance,Dynamic Programming,DP on Array,,
+House Robber,Dynamic Programming,Max Non-Adjacent Sum,https://leetcode.com/problems/house-robber/,
+House Robber II,Dynamic Programming,Circular DP,https://leetcode.com/problems/house-robber-ii/,
+Ninja's Training,Dynamic Programming,2D DP,,
+Unique Paths,Dynamic Programming,Grid DP,https://leetcode.com/problems/unique-paths/,
+Unique Paths II,Dynamic Programming,Grid DP with Obstacles,https://leetcode.com/problems/unique-paths-ii/,
+Minimum Path Sum,Dynamic Programming,Grid DP,https://leetcode.com/problems/minimum-path-sum/,
+Triangle Minimum Path Sum,Dynamic Programming,Grid DP,https://leetcode.com/problems/triangle/,
+Minimum Falling Path Sum,Dynamic Programming,Grid DP,https://leetcode.com/problems/minimum-falling-path-sum/,
+Cherry Pickup (3D DP),Dynamic Programming,3D DP,https://leetcode.com/problems/cherry-pickup/,
+Subset Sum Equals to K,Dynamic Programming,Subset Sum DP,,
+Partition Equal Subset Sum,Dynamic Programming,Subset Sum DP,https://leetcode.com/problems/partition-equal-subset-sum/,
+Count Subsets with Sum K,Dynamic Programming,Subset Sum DP,,https://www.geeksforgeeks.org/problems/perfect-sum-problem5633/1
+Partition Set Into 2 Subsets with Min Absolute Diff,Dynamic Programming,Subset Sum DP,,https://www.geeksforgeeks.org/problems/minimum-sum-partition3317/1
+Count Partitions with Given Difference,Dynamic Programming,Subset Sum DP,,https://www.geeksforgeeks.org/problems/partitions-with-given-difference/1
+0/1 Knapsack,Dynamic Programming,Knapsack DP,,https://www.geeksforgeeks.org/problems/0-1-knapsack-problem0945/1
+Coin Change (Minimum Coins),Dynamic Programming,Unbounded Knapsack,https://leetcode.com/problems/coin-change/,
+Coin Change II (Ways),Dynamic Programming,Unbounded Knapsack,https://leetcode.com/problems/coin-change-ii/,
+Rod Cutting,Dynamic Programming,Unbounded Knapsack,,https://www.geeksforgeeks.org/problems/rod-cutting0840/1
+Longest Common Subsequence,Dynamic Programming,String DP,https://leetcode.com/problems/longest-common-subsequence/,
+Print LCS,Dynamic Programming,String DP,,
+Longest Common Substring,Dynamic Programming,String DP,,https://www.geeksforgeeks.org/problems/longest-common-substring1452/1
+Longest Palindromic Subsequence,Dynamic Programming,String DP,https://leetcode.com/problems/longest-palindromic-subsequence/,
+Minimum Insertions to Make String Palindrome,Dynamic Programming,String DP,https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/,
+Delete Operation for Two Strings,Dynamic Programming,String DP,https://leetcode.com/problems/delete-operation-for-two-strings/,
+Shortest Common Supersequence,Dynamic Programming,String DP,https://leetcode.com/problems/shortest-common-supersequence/,
+Distinct Subsequences,Dynamic Programming,String DP,https://leetcode.com/problems/distinct-subsequences/,
+Edit Distance,Dynamic Programming,String DP,https://leetcode.com/problems/edit-distance/,
+Wildcard Matching,Dynamic Programming,String DP,https://leetcode.com/problems/wildcard-matching/,
+Best Time to Buy and Sell Stock II,Dynamic Programming,Stock DP,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/,
+Best Time to Buy and Sell Stock III,Dynamic Programming,Stock DP,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/,
+Best Time to Buy and Sell Stock IV,Dynamic Programming,Stock DP,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/,
+Best Time to Buy and Sell Stock with Cooldown,Dynamic Programming,Stock DP,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/,
+Best Time to Buy and Sell Stock with Transaction Fee,Dynamic Programming,Stock DP,https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/,
+Longest Increasing Subsequence (LIS),Dynamic Programming,LIS DP,https://leetcode.com/problems/longest-increasing-subsequence/,
+Print LIS,Dynamic Programming,LIS DP,,
+LIS using Binary Search,Dynamic Programming,LIS DP + Binary Search,https://leetcode.com/problems/longest-increasing-subsequence/,
+Largest Divisible Subset,Dynamic Programming,LIS Variation,https://leetcode.com/problems/largest-divisible-subset/,
+Longest String Chain,Dynamic Programming,LIS Variation,https://leetcode.com/problems/longest-string-chain/,
+Longest Bitonic Subsequence,Dynamic Programming,LIS Variation,,https://www.geeksforgeeks.org/problems/longest-bitonic-subsequence0824/1
+Number of Longest Increasing Subsequence,Dynamic Programming,LIS DP,https://leetcode.com/problems/number-of-longest-increasing-subsequence/,
+Matrix Chain Multiplication,Dynamic Programming,Partition DP,,https://www.geeksforgeeks.org/problems/matrix-chain-multiplication0303/1
+Minimum Cost to Cut Stick,Dynamic Programming,Partition DP,https://leetcode.com/problems/minimum-cost-to-cut-a-stick/,
+Burst Balloons,Dynamic Programming,Partition DP,https://leetcode.com/problems/burst-balloons/,
+Palindrome Partitioning II,Dynamic Programming,Partition DP,https://leetcode.com/problems/palindrome-partitioning-ii/,
+Partition Array for Maximum Sum,Dynamic Programming,Partition DP,https://leetcode.com/problems/partition-array-for-maximum-sum/,
+Maximum Rectangle Area with all 1's,Dynamic Programming,Maximal Rectangle DP,https://leetcode.com/problems/maximal-rectangle/,
+Count Square Submatrices with all 1s,Dynamic Programming,DP on Grid,https://leetcode.com/problems/count-square-submatrices-with-all-ones/,
+Minimum Cost Path (Grid),Dynamic Programming,Grid DP,,https://www.geeksforgeeks.org/problems/minimum-cost-path3833/1
+Minimum Falling Path Sum II,Dynamic Programming,Grid DP,https://leetcode.com/problems/minimum-falling-path-sum-ii/,
+Maximum Sum of Non-Adjacent Elements (Stickler Thief),Dynamic Programming,DP on Array,,https://www.geeksforgeeks.org/problems/stickler-theif-1587115621/1
+Implement Trie (Prefix Tree),Trie,Trie Implementation,https://leetcode.com/problems/implement-trie-prefix-tree/,
+Implement Trie - II (Count Words),Trie,Trie Design,,
+Longest Word in Dictionary,Trie,Trie + Sorting,https://leetcode.com/problems/longest-word-in-dictionary/,
+Number of Distinct Substrings in a String,Trie,Count Substrings,,https://www.geeksforgeeks.org/problems/count-of-distinct-substrings/1
+Maximum XOR of Two Numbers in an Array,Trie,Bit Trie,https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/,
+Power Set (Subsets),Recursion / Backtracking,Recursion / Iterative,https://leetcode.com/problems/subsets/,
+Subsets II,Recursion / Backtracking,Recursion + Avoid Duplicates,https://leetcode.com/problems/subsets-ii/,
+Combination Sum I,Recursion / Backtracking,Combination Sum,https://leetcode.com/problems/combination-sum/,
+Combination Sum II,Recursion / Backtracking,Combination Sum + No Reuse,https://leetcode.com/problems/combination-sum-ii/,
+Combination Sum III,Recursion / Backtracking,Combination Sum k numbers,https://leetcode.com/problems/combination-sum-iii/,
+Palindrome Partitioning,Recursion / Backtracking,Partitioning,https://leetcode.com/problems/palindrome-partitioning/,
+Permutations I,Recursion / Backtracking,All Arrangements,https://leetcode.com/problems/permutations/,
+Permutations II,Recursion / Backtracking,Unique Permutations,https://leetcode.com/problems/permutations-ii/,
+N-Queens,Recursion / Backtracking,Constraint Satisfaction,https://leetcode.com/problems/n-queens/,
+Word Break (Backtracking),Recursion / Backtracking,Word Segmentation,https://leetcode.com/problems/word-break/,
+Sudoku Solver,Recursion / Backtracking,Constraint Satisfaction,https://leetcode.com/problems/sudoku-solver/,
+M-Coloring Problem,Recursion / Backtracking,Graph Coloring,,https://www.geeksforgeeks.org/problems/m-coloring-problem-1587115620/1
+Rat in a Maze,Recursion / Backtracking,Grid Pathfinding,,https://www.geeksforgeeks.org/problems/rat-in-a-maze-problem/1
+K-th Permutation Sequence,Recursion / Backtracking,Math + Recursion,https://leetcode.com/problems/permutation-sequence/,
+Bit Manipulation Introduction,Bit Manipulation,Bit Basics,,
+Check if i-th Bit is Set,Bit Manipulation,Bit Mask,,
+Set i-th Bit,Bit Manipulation,Bit Mask,,
+Clear i-th Bit,Bit Manipulation,Bit Mask,,
+Toggle i-th Bit,Bit Manipulation,Bit Mask,,
+Remove Last Set Bit,Bit Manipulation,Bit Trick,,
+Count Set Bits,Bit Manipulation,Bit Count,https://leetcode.com/problems/number-of-1-bits/,
+Power of Two,Bit Manipulation,Bit Check,https://leetcode.com/problems/power-of-two/,
+Single Number,Bit Manipulation,XOR,https://leetcode.com/problems/single-number/,
+Single Number II,Bit Manipulation,Bit Count/State,https://leetcode.com/problems/single-number-ii/,
+Single Number III,Bit Manipulation,XOR + Bucket,https://leetcode.com/problems/single-number-iii/,
+Divide Two Integers,Bit Manipulation,Bit Shifts,https://leetcode.com/problems/divide-two-integers/,
+Minimum Bit Flips to Convert Number,Bit Manipulation,XOR,https://leetcode.com/problems/minimum-bit-flips-to-convert-number/,
+Power Set using Bit Manipulation,Bit Manipulation,Bit Masking,https://leetcode.com/problems/subsets/,
+XOR of 1 to N,Bit Manipulation,XOR Pattern,,
+Two Numbers with Odd Occurrences,Bit Manipulation,XOR Buckets,,https://www.geeksforgeeks.org/problems/two-numbers-with-odd-occurrences5846/1
+XOR of a Given Range,Bit Manipulation,Prefix XOR,,
+All Divisors of a Number,Basic Math,Math Fundamentals,,https://www.geeksforgeeks.org/problems/all-divisors-of-a-number/1
+Check Prime,Basic Math,Math,,
+Sieve of Eratosthenes,Basic Math,Prime Generation,,https://www.geeksforgeeks.org/problems/sieve-of-eratosthenes5242/1
+Prime Factorisation,Basic Math,Math,,
+Pow(x,n),Basic Math,Binary Exponentiation,https://leetcode.com/problems/powx-n/,
+Count Primes,Basic Math,Sieve,https://leetcode.com/problems/count-primes/,
+GCD / LCM,Basic Math,Euclidean Algorithm,,https://www.geeksforgeeks.org/problems/lcm-and-gcd4516/1
+Armstrong Numbers,Basic Math,Math,,https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1
+Palindrome Number,Basic Math,Math,https://leetcode.com/problems/palindrome-number/,
+Reverse Integer,Basic Math,Math Overflow Handle,https://leetcode.com/problems/reverse-integer/,
+Count Digits,Basic Math,Math,,https://www.geeksforgeeks.org/problems/count-digits5716/1
+Merge Sort,Sorting,Divide and Conquer,,https://www.geeksforgeeks.org/problems/merge-sort/1
+Quick Sort,Sorting,Divide and Conquer,,https://www.geeksforgeeks.org/problems/quick-sort/1
+Recursive Insertion Sort,Sorting,Recursion,,https://www.geeksforgeeks.org/problems/insertion-sort/1
+Recursive Bubble Sort,Sorting,Recursion,,https://www.geeksforgeeks.org/problems/bubble-sort/1

@@ -3,15 +3,23 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    // Get last 91 days of activity (13 weeks)
     const today = new Date();
-    const startDate = new Date(today);
-    startDate.setDate(startDate.getDate() - 90);
+    today.setHours(0, 0, 0, 0);
+    const startDate = new Date(today.getFullYear(), 0, 1);
+    const endDate = today;
+
+    const toDateStr = (d: Date) => {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    };
 
     const activities = await db.dailyActivity.findMany({
       where: {
         date: {
-          gte: startDate.toISOString().split('T')[0],
+          gte: toDateStr(startDate),
+          lte: toDateStr(endDate),
         },
       },
       orderBy: { date: 'asc' },
@@ -19,16 +27,14 @@ export async function GET() {
 
     const activityMap = new Map(activities.map((a) => [a.date, a.count]));
 
-    // Build the 91-day grid
     const days: { date: string; count: number; dayOfWeek: number }[] = [];
-    for (let i = 90; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      const copy = new Date(d);
+      const dateStr = toDateStr(copy);
       days.push({
         date: dateStr,
         count: activityMap.get(dateStr) ?? 0,
-        dayOfWeek: d.getDay(),
+        dayOfWeek: copy.getDay(),
       });
     }
 

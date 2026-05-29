@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, ExternalLink, CheckCircle, Circle, Star, Save, Loader2, ArrowLeft, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDSAStore } from '@/store/dsa-store';
 
 interface Problem {
@@ -28,6 +27,9 @@ interface TopicProblemsProps {
   isLoading?: boolean;
   topicName: string;
   onBack?: () => void;
+  /** Fits parent height; hides title header (for /sheets layout) */
+  embedded?: boolean;
+  sheetLabel?: string;
 }
 
 const difficultyConfig: Record<string, { color: string; bg: string }> = {
@@ -36,7 +38,14 @@ const difficultyConfig: Record<string, { color: string; bg: string }> = {
   hard: { color: '#f43f5e', bg: 'rgba(244, 63, 94, 0.1)' },
 };
 
-export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicProblemsProps) {
+export function TopicProblems({
+  problems,
+  isLoading,
+  topicName,
+  onBack,
+  embedded = false,
+  sheetLabel = 'Love Babbar 450 Sheet',
+}: TopicProblemsProps) {
   const { setSelectedTopicId, updateProgress } = useDSAStore();
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
   const [tempMarks, setTempMarks] = useState<number>(0);
@@ -53,6 +62,14 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
     return problems;
   }, [problems, showSolvedOnly]);
 
+  // Drop selection if filtered out of the visible list
+  useEffect(() => {
+    if (!selectedProblemId) return;
+    if (!displayedProblems.some((p) => p.id === selectedProblemId)) {
+      setSelectedProblemId(null);
+    }
+  }, [displayedProblems, selectedProblemId]);
+
   const handleOpenSolveDialog = (problem: Problem) => {
     setSelectedProblemId(problem.id);
     setTempMarks(problem.marks || 3);
@@ -68,15 +85,19 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
     const nextDate = new Date(today);
     nextDate.setDate(today.getDate() + 3); // Default Stage 1 = 3 days
 
-    updateProgress(activeProblem.title, {
-      status: 'solved',
-      marks: tempMarks,
-      notes: tempNotes,
-      revisionStage: 1,
-      nextRevisionDate: nextDate.toISOString(),
-      solvedAt: new Date().toISOString(),
-    });
-    setSelectedProblemId(null);
+    const wasSolved = activeProblem.status === 'solved';
+    if (wasSolved) {
+      updateProgress(activeProblem.title, { marks: tempMarks, notes: tempNotes });
+    } else {
+      updateProgress(activeProblem.title, {
+        status: 'solved',
+        marks: tempMarks,
+        notes: tempNotes,
+        revisionStage: 1,
+        nextRevisionDate: nextDate.toISOString(),
+        solvedAt: new Date().toISOString(),
+      });
+    }
   };
 
   const handleResetProblem = (title: string) => {
@@ -106,54 +127,64 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="glass-card noise-texture p-6 col-span-2 sm:col-span-4 flex-1 flex flex-col min-h-[600px]"
+      className={`flex flex-col min-h-0 h-full overflow-hidden ${
+        embedded
+          ? 'p-3 bg-transparent'
+          : 'glass-card noise-texture col-span-2 sm:col-span-4 p-4 sm:p-5 flex-1'
+      }`}
     >
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-        <div className="flex items-center gap-3">
-          <Button
-            onClick={() => {
-              if (onBack) {
-                onBack();
-              } else {
-                setSelectedTopicId(null);
-              }
-            }}
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground bg-white/[0.03]"
-          >
-            <ArrowLeft size={16} />
-          </Button>
-          <div>
-            <h2 className="text-xl font-bold text-foreground">{topicName} Problems</h2>
-            <p className="text-xs text-muted-foreground">Love Babbar 450 Sheet</p>
+      <div
+        className={`flex items-center justify-between gap-3 shrink-0 ${
+          embedded ? 'mb-2' : 'mb-4 flex-col sm:flex-row sm:items-center'
+        }`}
+      >
+        {!embedded && (
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => {
+                if (onBack) {
+                  onBack();
+                } else {
+                  setSelectedTopicId(null);
+                }
+              }}
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground bg-white/[0.03]"
+            >
+              <ArrowLeft size={16} />
+            </Button>
+            <div>
+              <h2 className="text-lg font-bold text-foreground">{topicName} Problems</h2>
+              <p className="text-xs text-muted-foreground">{sheetLabel}</p>
+            </div>
           </div>
-        </div>
-        
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        )}
+
+        <div className={`flex items-center gap-2 ${embedded ? 'ml-auto' : 'self-start sm:self-auto'}`}>
           <Button
             variant="outline"
             size="sm"
             onClick={() => setShowSolvedOnly(!showSolvedOnly)}
-            className={`h-8 text-xs font-medium gap-1.5 transition-colors ${
-              showSolvedOnly 
-                ? 'bg-emerald/10 text-emerald border-emerald/30 hover:bg-emerald/20 hover:text-emerald' 
+            className={`h-7 text-xs font-medium gap-1.5 transition-colors ${
+              showSolvedOnly
+                ? 'bg-emerald/10 text-emerald border-emerald/30 hover:bg-emerald/20 hover:text-emerald'
                 : 'bg-white/[0.02] text-muted-foreground border-white/[0.08] hover:bg-white/[0.05] hover:text-foreground'
             }`}
           >
             <Filter size={12} className={showSolvedOnly ? 'fill-emerald' : ''} />
             {showSolvedOnly ? 'Solved Only' : 'All Problems'}
           </Button>
-          
-          <Badge variant="outline" className="h-8 border-emerald/30 bg-emerald/5 text-emerald font-mono">
+
+          <Badge variant="outline" className="h-7 border-emerald/30 bg-emerald/5 text-emerald font-mono text-[10px]">
             {problems?.filter((p) => p.status === 'solved').length} / {problems?.length} Solved
           </Badge>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
+      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-3 lg:gap-4 flex-1 min-h-0 overflow-hidden">
         {/* Problems List */}
-        <div className="lg:col-span-2 space-y-2 max-h-[calc(100vh-265px)] min-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
+        <div className="lg:col-span-2 space-y-1.5 min-h-0 flex-1 overflow-y-auto pr-1 custom-scrollbar order-2 lg:order-1">
           {displayedProblems?.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-muted-foreground">
               <Circle className="opacity-20 mb-2" size={32} />
@@ -218,7 +249,7 @@ export function TopicProblems({ problems, isLoading, topicName, onBack }: TopicP
         </div>
 
         {/* Action Panel (Solve / Revision Panel) */}
-        <div className="lg:col-span-1 border-t lg:border-t-0 lg:border-l border-white/[0.06] pt-6 lg:pt-0 lg:pl-6">
+        <div className="lg:col-span-1 shrink-0 lg:shrink border-t lg:border-t-0 lg:border-l border-white/[0.06] pt-3 lg:pt-0 lg:pl-4 min-h-[200px] lg:min-h-0 max-h-[40vh] lg:max-h-none overflow-y-auto custom-scrollbar order-1 lg:order-2">
           <AnimatePresence mode="wait">
             {activeProblem ? (
               <motion.div

@@ -42,3 +42,34 @@ $$ language plpgsql;
 create trigger update_dsa_progress_modtime
 before update on dsa_progress
 for each row execute function update_modified_column();
+
+-- 4. Create the table to store user profiles (LC and GFG usernames)
+create table user_profiles (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users(id) not null,
+  lc_username text,
+  gfg_username text,
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now(),
+  unique (user_id)
+);
+
+-- 5. Enable Row Level Security (RLS) for user_profiles
+alter table user_profiles enable row level security;
+
+-- 6. Create policies for user_profiles
+create policy "Users can view their own profile" on user_profiles
+  for select using (auth.uid() = user_id);
+
+create policy "Users can insert their own profile" on user_profiles
+  for insert with check (auth.uid() = user_id);
+
+create policy "Users can update their own profile" on user_profiles
+  for update using (auth.uid() = user_id);
+
+create policy "Users can delete their own profile" on user_profiles
+  for delete using (auth.uid() = user_id);
+
+create trigger update_user_profiles_modtime
+before update on user_profiles
+for each row execute function update_modified_column();
