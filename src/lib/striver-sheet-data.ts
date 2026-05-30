@@ -144,6 +144,7 @@ export const STRIVER_SHEET_DATA = [
       { title: "Number of Submatrices that Sum to Target", difficulty: 'medium', url: "https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/", articleUrl: "", pattern: "2D Prefix + Hashmap" },
       { title: "Longest Subarray with Sum Divisible by K", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/longest-subarray-with-sum-divisible-by-k1259/1", articleUrl: "", pattern: "Modulo Hashmap" },
       { title: "Subarray Sum Divisible by K", difficulty: 'medium', url: "https://leetcode.com/problems/subarray-sums-divisible-by-k/", articleUrl: "", pattern: "Modulo Hashmap" },
+      { title: "Longest Subarray with Sum K (Pos + Neg)", difficulty: 'medium', url: "", articleUrl: "", pattern: "Prefix Sum Map" }
     ]
   },
   {
@@ -161,21 +162,6 @@ export const STRIVER_SHEET_DATA = [
       { title: "Minimum Window Substring", difficulty: 'medium', url: "https://leetcode.com/problems/minimum-window-substring/", articleUrl: "", pattern: "Variable Sliding Window" },
       { title: "Minimum Window Subsequence", difficulty: 'medium', url: "", articleUrl: "", pattern: "DP / Two Pointers" },
       { title: "Subarrays with exactly K different integers", difficulty: 'medium', url: "https://leetcode.com/problems/subarrays-with-k-different-integers/", articleUrl: "", pattern: "AtMost(K) - AtMost(K-1)" },
-    ]
-  },
-  {
-    name: 'Hashing',
-    icon: '🕸️',
-    color: '#ec4899',
-    problems: [
-      { title: "Longest Subarray with Sum K (Pos + Neg)", difficulty: 'medium', url: "", articleUrl: "", pattern: "Prefix Sum Map" },
-    ]
-  },
-  {
-    name: 'Arrays / Two Pointers',
-    icon: '🧮',
-    color: '#84cc16',
-    problems: [
       { title: "4Sum", difficulty: 'medium', url: "https://leetcode.com/problems/4sum/", articleUrl: "", pattern: "Sort + Two Pointers" },
     ]
   },
@@ -185,6 +171,17 @@ export const STRIVER_SHEET_DATA = [
     color: '#14b8a6',
     problems: [
       { title: "Number of Subarrays with GCD equals K", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/number-of-subarrays-with-gcd-equal-to-k/1", articleUrl: "", pattern: "Prefix GCD" },
+      { title: "All Divisors of a Number", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/all-divisors-of-a-number/1", articleUrl: "", pattern: "Math Fundamentals" },
+      { title: "Check Prime", difficulty: 'medium', url: "", articleUrl: "", pattern: "Math" },
+      { title: "Sieve of Eratosthenes", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/sieve-of-eratosthenes5242/1", articleUrl: "", pattern: "Prime Generation" },
+      { title: "Prime Factorisation", difficulty: 'medium', url: "", articleUrl: "", pattern: "Math" },
+      { title: "Count Primes", difficulty: 'medium', url: "https://leetcode.com/problems/count-primes/", articleUrl: "", pattern: "Sieve" },
+      { title: "GCD / LCM", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/lcm-and-gcd4516/1", articleUrl: "", pattern: "Euclidean Algorithm" },
+      { title: "Armstrong Numbers", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1", articleUrl: "", pattern: "Math" },
+      { title: "Palindrome Number", difficulty: 'medium', url: "https://leetcode.com/problems/palindrome-number/", articleUrl: "", pattern: "Math" },
+      { title: "Reverse Integer", difficulty: 'medium', url: "https://leetcode.com/problems/reverse-integer/", articleUrl: "", pattern: "Math Overflow Handle" },
+      { title: "Count Digits", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/count-digits5716/1", articleUrl: "", pattern: "Math" },
+      { title: "Pow(x", difficulty: 'medium', url: "Binary Exponentiation", articleUrl: "", pattern: "Basic Math" },
     ]
   },
   {
@@ -474,31 +471,6 @@ export const STRIVER_SHEET_DATA = [
       { title: "XOR of 1 to N", difficulty: 'medium', url: "", articleUrl: "", pattern: "XOR Pattern" },
       { title: "Two Numbers with Odd Occurrences", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/two-numbers-with-odd-occurrences5846/1", articleUrl: "", pattern: "XOR Buckets" },
       { title: "XOR of a Given Range", difficulty: 'medium', url: "", articleUrl: "", pattern: "Prefix XOR" },
-    ]
-  },
-  {
-    name: 'Basic Math',
-    icon: '🧩',
-    color: '#6366f1',
-    problems: [
-      { title: "All Divisors of a Number", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/all-divisors-of-a-number/1", articleUrl: "", pattern: "Math Fundamentals" },
-      { title: "Check Prime", difficulty: 'medium', url: "", articleUrl: "", pattern: "Math" },
-      { title: "Sieve of Eratosthenes", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/sieve-of-eratosthenes5242/1", articleUrl: "", pattern: "Prime Generation" },
-      { title: "Prime Factorisation", difficulty: 'medium', url: "", articleUrl: "", pattern: "Math" },
-      { title: "Count Primes", difficulty: 'medium', url: "https://leetcode.com/problems/count-primes/", articleUrl: "", pattern: "Sieve" },
-      { title: "GCD / LCM", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/lcm-and-gcd4516/1", articleUrl: "", pattern: "Euclidean Algorithm" },
-      { title: "Armstrong Numbers", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1", articleUrl: "", pattern: "Math" },
-      { title: "Palindrome Number", difficulty: 'medium', url: "https://leetcode.com/problems/palindrome-number/", articleUrl: "", pattern: "Math" },
-      { title: "Reverse Integer", difficulty: 'medium', url: "https://leetcode.com/problems/reverse-integer/", articleUrl: "", pattern: "Math Overflow Handle" },
-      { title: "Count Digits", difficulty: 'medium', url: "https://www.geeksforgeeks.org/problems/count-digits5716/1", articleUrl: "", pattern: "Math" },
-    ]
-  },
-  {
-    name: 'n)',
-    icon: '📊',
-    color: '#10b981',
-    problems: [
-      { title: "Pow(x", difficulty: 'medium', url: "Binary Exponentiation", articleUrl: "", pattern: "Basic Math" },
     ]
   },
   {

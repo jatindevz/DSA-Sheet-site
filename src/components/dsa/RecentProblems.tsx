@@ -78,7 +78,7 @@ export function RecentProblems({ problems, isLoading }: RecentProblemsProps) {
       className="glass-card noise-texture p-6 col-span-2"
     >
       <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">Recent Solves</h3>
-      <div className="max-h-64 overflow-y-auto custom-scrollbar space-y-2 pr-1">
+      <div className="max-h-64 overflow-y-auto scrollbar-none space-y-2 pr-1">
         {solvedProblems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
             <Clock size={24} className="mb-2 opacity-50" />

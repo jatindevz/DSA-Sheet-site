@@ -82,7 +82,7 @@ export function ActivityHeatmap({ activity, isLoading }: ActivityHeatmapProps) {
 
   return (
     <div className="noise-texture px-2 py-1.5 rounded-lg border border-white/[0.04]  max-w-full min-w-0 self-start">
-      <div className="lc-activity-calendar overflow-x-auto custom-scrollbar max-w-full">
+      <div className="lc-activity-calendar overflow-x-auto scrollbar-none max-w-full">
         <ActivityCalendar
           data={calendarData}
           colorScheme="dark"

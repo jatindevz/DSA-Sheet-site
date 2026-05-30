@@ -320,7 +320,7 @@ export default function Home() {
       {/* Main Workspace Frame */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden w-full mx-auto">
         {/* LEFT COLUMN: Clean Sidebar Nav & Overall Progress */}
-        <aside className="w-full lg:w-[260px] border-r border-white/[0.04] bg-[#0a0a0d]/40 p-4 flex flex-col gap-4 shrink-0 overflow-y-auto custom-scrollbar">
+        <aside className="w-full lg:w-[260px] border-r border-white/[0.04] bg-[#0a0a0d]/40 p-4 flex flex-col gap-4 shrink-0 overflow-y-auto scrollbar-none">
           {/* Progress Widget */}
           <div className="glass-card-glow noise-texture p-3.5 rounded-xl flex items-center gap-3.5 border border-emerald/20">
             <div className="relative w-16 h-16 flex items-center justify-center shrink-0">
@@ -421,7 +421,7 @@ export default function Home() {
         </aside>
 
         {/* RIGHT COLUMN: Interactive Workspace Grid */}
-        <main className="flex-1 overflow-y-auto custom-scrollbar p-4 max-w-[1200px] w-full mx-auto flex flex-col gap-4">
+        <main className="flex-1 overflow-y-auto scrollbar-none p-4 max-w-[1200px] w-full mx-auto flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
 

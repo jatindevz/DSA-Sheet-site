@@ -226,7 +226,7 @@ export default function SheetPage({ params }: { params: Promise<{ sheetId: strin
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row overflow-hidden w-full max-w-[1600px] mx-auto">
         {/* Topics — vertical sidebar on desktop, horizontal strip on mobile */}
         <aside className="shrink-0 border-b lg:border-b-0 lg:border-r border-white/[0.04] bg-[#0a0a0d]/40 lg:w-[260px] xl:w-[280px] lg:min-h-0 lg:flex lg:flex-col lg:overflow-hidden">
-          <div className="p-2 lg:p-3 lg:flex-1 lg:min-h-0 lg:overflow-y-auto custom-scrollbar flex gap-1.5 lg:flex-col lg:gap-1 overflow-x-auto lg:overflow-x-visible">
+          <div className="p-2 lg:p-3 lg:flex-1 lg:min-h-0 lg:overflow-y-auto scrollbar-none flex gap-1.5 lg:flex-col lg:gap-1 overflow-x-auto lg:overflow-x-visible">
             {topics.map((t) => {
               const isSelected = activeTopicId === t.id;
               const percent = t.total > 0 ? Math.round((t.solved / t.total) * 100) : 0;

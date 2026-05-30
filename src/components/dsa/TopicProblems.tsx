@@ -184,7 +184,7 @@ export function TopicProblems({
 
       <div className="flex flex-col lg:grid lg:grid-cols-3 gap-3 lg:gap-4 flex-1 min-h-0 overflow-hidden">
         {/* Problems List */}
-        <div className="lg:col-span-2 space-y-1.5 min-h-0 flex-1 overflow-y-auto pr-1 custom-scrollbar order-2 lg:order-1">
+        <div className="lg:col-span-2 space-y-1.5 min-h-0 flex-1 overflow-y-auto pr-1 scrollbar-none order-2 lg:order-1">
           {displayedProblems?.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-muted-foreground">
               <Circle className="opacity-20 mb-2" size={32} />
@@ -249,7 +249,7 @@ export function TopicProblems({
         </div>
 
         {/* Action Panel (Solve / Revision Panel) */}
-        <div className="lg:col-span-1 shrink-0 lg:shrink border-t lg:border-t-0 lg:border-l border-white/[0.06] pt-3 lg:pt-0 lg:pl-4 min-h-[200px] lg:min-h-0 max-h-[40vh] lg:max-h-none overflow-y-auto custom-scrollbar order-1 lg:order-2">
+        <div className="lg:col-span-1 shrink-0 lg:shrink border-t lg:border-t-0 lg:border-l border-white/[0.06] pt-3 lg:pt-0 lg:pl-4 min-h-[200px] lg:min-h-0 max-h-[40vh] lg:max-h-none overflow-y-auto scrollbar-none order-1 lg:order-2">
           <AnimatePresence mode="wait">
             {activeProblem ? (
               <motion.div

@@ -135,7 +135,7 @@ export function RevisionQueue({ allProblems }: { allProblems?: Problem[] }) {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1 min-h-0">
           {/* Left column: Problems due for revision */}
-          <div className="lg:col-span-2 space-y-1.5 max-h-[300px] overflow-y-auto pr-1.5 custom-scrollbar">
+          <div className="lg:col-span-2 space-y-1.5 max-h-[300px] overflow-y-auto pr-1.5 scrollbar-none">
             {items.map((item) => {
               const stage = stageConfig[item.revisionStage] || { label: 'Review', color: '#71717a', bg: 'rgba(113,113,122,0.1)', icon: '⚪' };
               const overdueDays = getOverdueDays(item.nextRevisionDate);

@@ -44,7 +44,7 @@ export function TopicProgress({ topics, isLoading }: TopicProgressProps) {
       className="glass-card noise-texture p-6"
     >
       <h3 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">Topics</h3>
-      <div className="max-h-80 overflow-y-auto custom-scrollbar space-y-3 pr-1">
+      <div className="max-h-80 overflow-y-auto scrollbar-none space-y-3 pr-1">
         {topics?.map((topic) => {
           const progress = topic.total > 0 ? (topic.solved / topic.total) * 100 : 0;
           const isSelected = selectedTopicId === topic.id;
