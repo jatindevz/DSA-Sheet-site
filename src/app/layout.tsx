@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { QueryProvider } from "@/lib/query-provider";
 import { Analytics } from "@vercel/analytics/react";
+import { SurveyWidget } from "@/components/survey/SurveyWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         <QueryProvider>
           {children}
+          <SurveyWidget />
         </QueryProvider>
         <Toaster />
         <Analytics />

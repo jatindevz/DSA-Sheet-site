@@ -256,37 +256,89 @@ const FullStatsDashboard = ({
     const [gfgData, setGfgData] = useState<any>(null);
     const [loadingLc, setLoadingLc] = useState(false);
     const [loadingGfg, setLoadingGfg] = useState(false);
+    const [lcFetchError, setLcFetchError] = useState<string | null>(null);
     const sectionRef = useRef(null);
     const isInView = useInView(sectionRef, { once: true, margin: '-50px' });
 
     useEffect(() => {
-        if (lcUsername) {
-            setLoadingLc(true);
-            fetch(`https://leetcode-api-faisalshohag.vercel.app/${lcUsername}`)
-                .then(async (r) => {
-                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                    return JSON.parse(await r.text());
-                })
-                .then((d) => {
-                    if (d && !d.errors) setLcData(d);
-                })
-                .catch((e) => console.error('LeetCode fetch error:', e))
-                .finally(() => setLoadingLc(false));
+        if (!lcUsername) return;
+
+        const cacheKey = `lc-profile:${lcUsername}`;
+        const CACHE_TTL = 15 * 60 * 1000;
+
+        try {
+            const raw = sessionStorage.getItem(cacheKey);
+            if (raw) {
+                const { data, at } = JSON.parse(raw) as { data: unknown; at: number };
+                if (Date.now() - at < CACHE_TTL && data && typeof data === 'object') {
+                    setLcData(data);
+                    setLcFetchError(null);
+                    return;
+                }
+            }
+        } catch {
+            /* ignore corrupt cache */
         }
+
+        const controller = new AbortController();
+        setLoadingLc(true);
+        setLcFetchError(null);
+
+        fetch(`/api/leetcode-profile?username=${encodeURIComponent(lcUsername)}`, {
+            signal: controller.signal,
+        })
+            .then(async (r) => {
+                const body = await r.json().catch(() => null);
+                if (!r.ok) {
+                    if (r.status === 429) {
+                        setLcFetchError(
+                            body?.message ?? 'LeetCode API rate limited — try again in a few minutes.',
+                        );
+                    } else {
+                        setLcFetchError(body?.message ?? 'Could not load LeetCode stats.');
+                    }
+                    return null;
+                }
+                return body;
+            })
+            .then((d) => {
+                if (d && !d.errors) {
+                    setLcData(d);
+                    setLcFetchError(null);
+                    try {
+                        sessionStorage.setItem(
+                            cacheKey,
+                            JSON.stringify({ data: d, at: Date.now() }),
+                        );
+                    } catch {
+                        /* quota */
+                    }
+                }
+            })
+            .catch((e) => {
+                if (e instanceof Error && e.name === 'AbortError') return;
+                setLcFetchError('Could not load LeetCode stats.');
+            })
+            .finally(() => setLoadingLc(false));
+
+        return () => controller.abort();
     }, [lcUsername]);
 
     useEffect(() => {
         if (gfgUsername) {
             setLoadingGfg(true);
-            fetch(`/api/gfg-profile?handle=${gfgUsername}`)
+            fetch(`/api/gfg-profile?handle=${encodeURIComponent(gfgUsername)}`)
                 .then(async (r) => {
-                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                    return JSON.parse(await r.text());
+                    const body = await r.json().catch(() => null);
+                    if (!r.ok) return null;
+                    return body;
                 })
                 .then((d) => {
                     if (d?.data) setGfgData(d.data);
                 })
-                .catch((e) => console.error('GFG fetch error:', e))
+                .catch(() => {
+                    /* silent — GFG card shows zeros */
+                })
                 .finally(() => setLoadingGfg(false));
         }
     }, [gfgUsername]);
@@ -368,6 +420,9 @@ const FullStatsDashboard = ({
                                 <StatPill label="Rank" value={animLcRank === 0 ? '--' : `#${animLcRank.toLocaleString()}`} color="#ffa116" />
                                 <StatPill label="Subs" value={lcAllSubs === 0 ? '--' : lcAllSubs.toLocaleString()} color="#a78bfa" />
                             </div>
+                            {lcFetchError && (
+                                <p className="mt-3 text-[10px] text-amber-400/90 z-10">{lcFetchError}</p>
+                            )}
                         </motion.div>
                     ) : (
                         <ConnectPlatformCard

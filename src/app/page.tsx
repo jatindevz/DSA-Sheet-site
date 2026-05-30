@@ -453,7 +453,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="lg:col-span-2">
+              <div className="col-span-2">
                 <ActivityHeatmap activity={activityData} />
               </div>
             </div>

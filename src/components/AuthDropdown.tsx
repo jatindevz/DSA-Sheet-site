@@ -4,15 +4,19 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import { syncLocalDataToServer, fetchServerDataToLocal } from '@/lib/sync';
-import { Cloud, LogOut, Loader2, User as UserIcon, RefreshCw } from 'lucide-react';
+import { Cloud, LogOut, Loader2, User as UserIcon, RefreshCw, MessageCircleHeart } from 'lucide-react';
 import { User } from '@supabase/supabase-js';
 import { useDSAStore } from '@/store/dsa-store';
+import { SurveyModal } from '@/components/survey/SurveyModal';
+import { useSurveyEligible } from '@/hooks/use-survey-eligible';
 
 export function AuthDropdown() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  
+  const [surveyOpen, setSurveyOpen] = useState(false);
+  const surveyEligible = useSurveyEligible();
+
   const resetProgress = useDSAStore((state) => state.resetProgress);
 
   useEffect(() => {
@@ -114,6 +118,19 @@ export function AuthDropdown() {
               <p className="text-[10px] text-muted-foreground truncate">{user.email}</p>
             </div>
             <div className="p-1">
+              {surveyEligible && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    setSurveyOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2 px-2 py-2 text-xs text-emerald hover:bg-emerald/10 rounded-lg transition-colors text-left"
+                >
+                  <MessageCircleHeart size={14} />
+                  Help us improve
+                </button>
+              )}
               <button
                 onClick={handleResetConsole}
                 className="w-full flex items-center gap-2 px-2 py-2 text-xs text-rose hover:bg-rose/10 rounded-lg transition-colors text-left"
@@ -131,6 +148,7 @@ export function AuthDropdown() {
             </div>
           </div>
         )}
+        <SurveyModal variant="quick" open={surveyOpen} onOpenChange={setSurveyOpen} />
       </div>
     );
   }
