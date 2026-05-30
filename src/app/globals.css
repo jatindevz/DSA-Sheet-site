@@ -170,10 +170,10 @@ body::after {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — slim thumb, no arrow buttons (consistent Chrome/Firefox/Edge) */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(16, 185, 129, 0.35) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -181,22 +181,28 @@ body::after {
   height: 6px;
 }
 
+/* Hide native up/down arrow buttons (common on Windows/Linux Chromium in prod) */
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
-  margin: 4px 0;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
   border-radius: 999px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.45);
-  border: 2px solid transparent;
-  background-clip: padding-box;
+  background: rgba(16, 185, 129, 0.4);
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* Noise texture for individual elements */
