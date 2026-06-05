@@ -130,7 +130,7 @@ export default function SheetPage({ params }: { params: Promise<{ sheetId: strin
           difficulty: p.difficulty,
           url: p.url,
           leetcodeUrl: p.leetcodeUrl || null,
-          articleUrl: p.articleUrl || null,
+          articleUrl: p.articleUrl || p.articleleetcodeUrl || null,
           topicId: topic.name,
           topic: { name: topic.name, icon: topic.icon, color: topic.color },
           platform: sheetId ?? 'babbar',
