@@ -1,0 +1,66 @@
+# Add Revision Sheet Implementation Plan
+
+This document outlines the plan to add the new "Revision Sheet" containing 50 carefully selected problems to the DSA Tracker Dashboard while maintaining consistency with the existing architecture.
+
+## Proposed Changes
+
+We will introduce the new problem sheet by defining its dataset and wiring it into the existing global store and dashboard UI.
+
+### 1. Data Layer
+
+#### [NEW] `src/lib/revision-sheet-data.ts`
+Create a new file exporting `REVISION_SHEET_DATA`. This array will group the 50 provided problems by their respective topics (Arrays, Strings, Linked List, Stack, Queue, Binary Search, Trees, BST, Heap, Graphs, Backtracking, Greedy, DP, Trie, Union Find).
+Each problem object will be formatted consistently with existing datasets:
+```typescript
+{
+  title: 'Two Sum',
+  leetcodeUrl: 'https://leetcode.com/problems/two-sum/',
+  articleUrl: '',
+  pattern: 'Hashing / Two Pointers', // inferred or left generic if unknown
+  url: 'https://leetcode.com/problems/two-sum/' // fallback url
+}
+```
+Topics will be assigned unique icons and colors for consistency (e.g., Arrays: 📊, Strings: 📝).
+
+### 2. Sheet Configuration
+
+#### [MODIFY] `src/lib/sheets.ts`
+- **Add to `SHEET_IDS`**: Append `'revision'` to the `SHEET_IDS` array.
+- **Update `getSheetData`**: Add a case for `'revision'` returning `REVISION_SHEET_DATA`.
+- **Update `getSheetMeta`**: Add a case for `'revision'` returning:
+  - `title: 'Revision Sheet'`
+  - `subtitle: 'Top 50 Curated Problems'`
+  - `defaultTopic: 'Arrays'`
+
+### 3. Dashboard Integration
+
+#### [MODIFY] `src/app/page.tsx`
+- **Import Dataset**: Import `REVISION_SHEET_DATA` at the top.
+- **Update Global State**: In the `allProblems` useMemo hook, add the new sheet to ensure problems in the Revision Sheet contribute to global stats, active streak, and revision queue:
+  ```typescript
+  addSheet(REVISION_SHEET_DATA, 'revision');
+  ```
+- **Update Grid Layout**: Currently, the Problem Sheets section uses a 3-column grid (`grid-cols-1 md:grid-cols-3`). To gracefully fit the 4th sheet, we will change it to a 2-by-2 or 4-column layout:
+  ```tsx
+  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+  ```
+- **Add Bento Card**: Append a new card configuration for the `'revision'` sheet alongside Babbar, Patterns, and Striver, using a distinct accent color (e.g., `#f43f5e` Rose or `#8b5cf6` Violet) and a matching icon (e.g., `<Award />` or `<CheckCircle2 />`).
+
+## Maintaining Consistency
+
+1. **State Persistence**: By adding `'revision'` to `SHEET_IDS`, the existing Zustand store and Supabase synchronization will work automatically without modifications to `src/store/dsa-store.ts`.
+2. **UI Aesthetic**: The new Bento box card will strictly follow the existing "deep black" SaaS style, utilizing `glass-card`, `noise-texture`, and identical hover/glow behaviors.
+3. **Routing**: The dynamic route `/sheets/[sheetId]` already supports any ID in `SHEET_IDS`, so navigating to `/sheets/revision` will automatically render the new topic list and problem grid correctly.
+
+## User Review Required
+
+> [!IMPORTANT]
+> The problem list has topics like "Queue", "Trie", and "Union Find" which only have a single problem each. Grouping them exactly as requested is straightforward. If you'd prefer to merge them (e.g., "Queue" into "Stack"), please let me know. Otherwise, I will follow the exact mapping provided.
+
+## Verification Plan
+
+### Automated / Browser Tests
+1. Verify `REVISION_SHEET_DATA` compiles correctly.
+2. Load the homepage to verify the presence of the 4 problem sheet cards and that the UI layout remains aligned.
+3. Navigate to `/sheets/revision` to ensure topics and problems render accurately.
+4. Mark a problem from the Revision Sheet as "solved" to confirm it affects overall progress stats and persists on reload.

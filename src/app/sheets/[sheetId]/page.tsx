@@ -2,7 +2,7 @@
 
 import { use, useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Terminal, Search, ChevronLeft, Sparkles, Database, Trophy } from 'lucide-react';
+import { Terminal, Search, ChevronLeft, Sparkles, Database, Trophy, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDSAStore } from '@/store/dsa-store';
 import { TopicProblems } from '@/components/dsa/TopicProblems';
@@ -37,6 +37,13 @@ const SHEETS_NAV = [
     shortLabel: 'Striver',
     icon: Trophy,
     idle: 'text-muted-foreground hover:text-amber hover:bg-amber/10 hover:border-amber/20',
+  },
+  {
+    id: 'revision' as const,
+    label: 'Revision Sheet',
+    shortLabel: 'Revision',
+    icon: CheckCircle2,
+    idle: 'text-muted-foreground hover:text-rose hover:bg-rose/10 hover:border-rose/20',
   },
 ];
 
@@ -130,7 +137,7 @@ export default function SheetPage({ params }: { params: Promise<{ sheetId: strin
           difficulty: p.difficulty,
           url: p.url,
           leetcodeUrl: p.leetcodeUrl || null,
-          articleUrl: p.articleUrl || p.articleleetcodeUrl || null,
+          articleUrl: p.articleUrl || null,
           topicId: topic.name,
           topic: { name: topic.name, icon: topic.icon, color: topic.color },
           platform: sheetId ?? 'babbar',

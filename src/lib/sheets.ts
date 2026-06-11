@@ -1,8 +1,9 @@
 import { BABBAR_SHEET_DATA } from '@/lib/babbar-sheet-data';
 import { PATTERN_SHEET_DATA } from '@/lib/pattern-data';
 import { STRIVER_SHEET_DATA } from '@/lib/striver-sheet-data';
+import { REVISION_SHEET_DATA } from '@/lib/revision-sheet-data';
 
-export const SHEET_IDS = ['babbar', 'patterns', 'striver'] as const;
+export const SHEET_IDS = ['babbar', 'patterns', 'striver', 'revision'] as const;
 export type SheetId = (typeof SHEET_IDS)[number];
 
 export function isSheetId(id: string): id is SheetId {
@@ -15,6 +16,8 @@ export function getSheetData(sheetId: SheetId) {
       return PATTERN_SHEET_DATA;
     case 'striver':
       return STRIVER_SHEET_DATA;
+    case 'revision':
+      return REVISION_SHEET_DATA;
     default:
       return BABBAR_SHEET_DATA;
   }
@@ -33,6 +36,12 @@ export function getSheetMeta(sheetId: SheetId) {
         title: "Striver's SDE Sheet",
         subtitle: 'Top Interview Questions',
         defaultTopic: STRIVER_SHEET_DATA[0]?.name ?? 'Arrays',
+      };
+    case 'revision':
+      return {
+        title: 'Revision Sheet',
+        subtitle: 'Top 50 Curated Problems',
+        defaultTopic: REVISION_SHEET_DATA[0]?.name ?? 'Arrays',
       };
     default:
       return {

@@ -8,10 +8,18 @@ import { useDSAStore } from '@/store/dsa-store';
 import { BABBAR_SHEET_DATA } from '@/lib/babbar-sheet-data';
 import { PATTERN_SHEET_DATA } from '@/lib/pattern-data';
 import { STRIVER_SHEET_DATA } from '@/lib/striver-sheet-data';
+import { REVISION_SHEET_DATA } from '@/lib/revision-sheet-data';
 import Link from 'next/link';
 import { TopicProblems } from '@/components/dsa/TopicProblems';
 import { RevisionQueue } from '@/components/dsa/RevisionQueue';
 import { AuthDropdown } from '@/components/AuthDropdown';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { CodingStats } from '@/components/dsa/CodingStats';
@@ -156,7 +164,7 @@ export default function Home() {
             difficulty: p.difficulty,
             url: p.url,
             leetcodeUrl: p.leetcodeUrl || null,
-            articleUrl: p.articleUrl || p.articleleetcodeUrl || null,
+            articleUrl: p.articleUrl || null,
             topicId: topic.name,
             topic: { name: topic.name, icon: topic.icon, color: topic.color },
             platform: sheetLabel,
@@ -175,6 +183,7 @@ export default function Home() {
     addSheet(BABBAR_SHEET_DATA, 'babbar');
     addSheet(PATTERN_SHEET_DATA, 'patterns');
     addSheet(STRIVER_SHEET_DATA, 'striver');
+    addSheet(REVISION_SHEET_DATA, 'revision');
 
     return arr;
   }, [progress]);
@@ -509,7 +518,8 @@ export default function Home() {
                   Problem Sheets
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Carousel opts={{ align: "start" }} className="w-full relative">
+                  <CarouselContent className="-ml-4">
                   {[
                     {
                       id: 'babbar',
@@ -558,6 +568,22 @@ export default function Home() {
                         glow: 'bg-amber/10',
                         glowHover: 'group-hover:bg-amber/20'
                       }
+                    },
+                    {
+                      id: 'revision',
+                      title: 'Revision Sheet',
+                      subtitle: 'Top 50 Curated Problems',
+                      icon: <CheckCircle2 size={24} className="text-rose" />,
+                      data: REVISION_SHEET_DATA,
+                      classes: {
+                        bgIcon: 'bg-rose/10',
+                        borderIcon: 'border-rose/20',
+                        textIcon: 'text-rose',
+                        hoverText: 'group-hover:text-rose',
+                        bgBar: 'bg-rose',
+                        glow: 'bg-rose/10',
+                        glowHover: 'group-hover:bg-rose/20'
+                      }
                     }
                   ].map((sheet) => {
                     const sheetTotal = sheet.data.reduce((acc: number, t: any) => acc + t.problems.length, 0);
@@ -565,7 +591,8 @@ export default function Home() {
                     const percent = sheetTotal > 0 ? Math.round((sheetSolved / sheetTotal) * 100) : 0;
 
                     return (
-                      <Link href={`/sheets/${sheet.id}`} key={sheet.id} className="block group">
+                      <CarouselItem key={sheet.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                        <Link href={`/sheets/${sheet.id}`} className="block group h-full">
                         <div className="glass-card noise-texture h-full p-4 rounded-xl flex flex-col gap-3 border border-white/[0.04] group-hover:border-white/[0.1] group-hover:bg-white/[0.02] transition-all relative overflow-hidden">
                           <div className="flex items-start justify-between z-10">
                             <div className={`p-2 rounded-lg ${sheet.classes.bgIcon} border ${sheet.classes.borderIcon} ${sheet.classes.textIcon}`}>
@@ -593,10 +620,16 @@ export default function Home() {
 
                           <div className={`absolute -bottom-10 -right-10 w-32 h-32 ${sheet.classes.glow} rounded-full blur-[40px] ${sheet.classes.glowHover} transition-all z-0 pointer-events-none`} />
                         </div>
-                      </Link>
+                        </Link>
+                      </CarouselItem>
                     );
                   })}
-                </div>
+                  </CarouselContent>
+                  <div className="absolute -top-10 right-12 flex gap-2">
+                    <CarouselPrevious className="static translate-y-0 h-7 w-7 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white" />
+                    <CarouselNext className="static translate-y-0 h-7 w-7 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white" />
+                  </div>
+                </Carousel>
               </div>
               {/* Coding Stats Footer Area */}
               {session && (
