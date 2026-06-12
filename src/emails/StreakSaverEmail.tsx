@@ -27,25 +27,25 @@ export const StreakSaverEmail = ({
       <Body style={main}>
         <Container style={container}>
           <Heading style={h1}>🚨 Keep the momentum going!</Heading>
-          
+
           <Text style={text}>
             Hey {username},
           </Text>
-          
+
           <Text style={text}>
-            You've been crushing it with a <strong>{streakDays}-day streak</strong> on the DSA Console, but you haven't solved a problem today! 
+            You've been crushing it with a <strong>{streakDays}-day streak</strong> on the DSA Console, but you haven't solved a problem today!
           </Text>
-          
+
           <Text style={text}>
             It takes just one problem to keep the streak alive and your brain sharp. You've got this!
           </Text>
-          
+
           <Section style={btnContainer}>
-            <Button style={button} href="https://dsatrackme.vercel.app">
+            <Button style={button} href="https://love-babber-dsa-sheet-site.vercel.app/">
               Solve a Problem Now
             </Button>
           </Section>
-          
+
           <Text style={footer}>
             — The DSA Console Team<br />
             Building habits that build careers.

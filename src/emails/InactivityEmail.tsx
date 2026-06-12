@@ -27,26 +27,26 @@ export const InactivityEmail = ({
       <Body style={main}>
         <Container style={container}>
           <Heading style={h1}>Time to get back in the game! 🎮</Heading>
-          
+
           <Text style={text}>
             Hey {username},
           </Text>
-          
+
           <Text style={text}>
-            It's been <strong>{daysInactive} days</strong> since your last coding session on the DSA Console. 
+            It's been <strong>{daysInactive} days</strong> since your last coding session on the DSA Console.
             We know life gets busy, but consistency is the key to mastering algorithms!
           </Text>
-          
+
           <Text style={text}>
             The hardest part is just opening the editor again. Why not start with something easy today? Check out an 'Easy' problem in the DSA Patterns sheet to warm up.
           </Text>
-          
+
           <Section style={btnContainer}>
-            <Button style={button} href="https://dsatrackme.vercel.app">
+            <Button style={button} href="https://love-babber-dsa-sheet-site.vercel.app/">
               Start Warming Up
             </Button>
           </Section>
-          
+
           <Text style={footer}>
             — The DSA Console Team<br />
             Building habits that build careers.
