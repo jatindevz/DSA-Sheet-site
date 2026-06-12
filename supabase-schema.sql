@@ -49,6 +49,8 @@ create table user_profiles (
   user_id uuid references auth.users(id) not null,
   lc_username text,
   gfg_username text,
+  email_notifications_enabled boolean default true,
+  last_active_at timestamp with time zone default now(),
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now(),
   unique (user_id)

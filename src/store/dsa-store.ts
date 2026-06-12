@@ -75,6 +75,13 @@ export const useDSAStore = create<DSAStore>()(
                 }, { onConflict: 'user_id,problem_title' }).then(({ error }) => {
                   if (error) console.error('Failed to sync problem update to Supabase:', error);
                 });
+
+                // Update last_active_at
+                supabase.from('user_profiles').update({
+                  last_active_at: new Date().toISOString(),
+                }).eq('user_id', session.user.id).then(({ error }) => {
+                  if (error) console.error('Failed to update last_active_at:', error);
+                });
               }
             }
           });

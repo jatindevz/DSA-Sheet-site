@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import { syncLocalDataToServer, fetchServerDataToLocal } from '@/lib/sync';
-import { Cloud, LogOut, Loader2, User as UserIcon, RefreshCw, MessageCircleHeart } from 'lucide-react';
+import { Cloud, LogOut, Loader2, User as UserIcon, RefreshCw, MessageCircleHeart, Mail, MailX } from 'lucide-react';
 import { User } from '@supabase/supabase-js';
 import { useDSAStore } from '@/store/dsa-store';
 import { SurveyModal } from '@/components/survey/SurveyModal';
@@ -15,6 +15,7 @@ export function AuthDropdown() {
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [surveyOpen, setSurveyOpen] = useState(false);
+  const [emailEnabled, setEmailEnabled] = useState(true);
   const surveyEligible = useSurveyEligible();
 
   const resetProgress = useDSAStore((state) => state.resetProgress);
@@ -28,10 +29,14 @@ export function AuthDropdown() {
     // Check active session on load
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      if (session?.user) {
+      if (session?.user && supabase) {
         // We sync local -> server, then server -> local to merge
         syncLocalDataToServer(session.user.id).then(() => {
           fetchServerDataToLocal(session.user.id);
+        });
+        // Fetch email preferences
+        supabase.from('user_profiles').select('email_notifications_enabled').eq('user_id', session.user.id).single().then(({ data }) => {
+          if (data) setEmailEnabled(data.email_notifications_enabled);
         });
       }
       setLoading(false);
@@ -41,9 +46,12 @@ export function AuthDropdown() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
       
-      if (event === 'SIGNED_IN' && session?.user) {
+      if (event === 'SIGNED_IN' && session?.user && supabase) {
         syncLocalDataToServer(session.user.id).then(() => {
           fetchServerDataToLocal(session.user.id);
+        });
+        supabase.from('user_profiles').select('email_notifications_enabled').eq('user_id', session.user.id).single().then(({ data }) => {
+          if (data) setEmailEnabled(data.email_notifications_enabled);
         });
       }
       
@@ -80,6 +88,13 @@ export function AuthDropdown() {
       }
       setDropdownOpen(false);
     }
+  };
+
+  const toggleEmailPreferences = async () => {
+    if (!user || !supabase) return;
+    const newValue = !emailEnabled;
+    setEmailEnabled(newValue);
+    await supabase.from('user_profiles').update({ email_notifications_enabled: newValue }).eq('user_id', user.id);
   };
 
   if (loading) {
@@ -137,6 +152,13 @@ export function AuthDropdown() {
               >
                 <RefreshCw size={14} />
                 Reset Console
+              </button>
+              <button
+                onClick={toggleEmailPreferences}
+                className="w-full flex items-center gap-2 px-2 py-2 text-xs text-muted-foreground hover:bg-white/[0.05] hover:text-white rounded-lg transition-colors text-left"
+              >
+                {emailEnabled ? <Mail size={14} className="text-emerald" /> : <MailX size={14} />}
+                {emailEnabled ? 'Emails: ON' : 'Emails: OFF'}
               </button>
               <button
                 onClick={handleLogout}
