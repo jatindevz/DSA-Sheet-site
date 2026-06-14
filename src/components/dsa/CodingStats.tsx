@@ -249,8 +249,8 @@ const FullStatsDashboard = ({
     gfgUsername: string | null;
     generalStats: any;
     userId: string;
-    onConnectedLC: (username: string) => void;
-    onConnectedGFG: (username: string) => void;
+    onConnectedLC: (username: string | null) => void;
+    onConnectedGFG: (username: string | null) => void;
 }) => {
     const [lcData, setLcData] = useState<any>(null);
     const [gfgData, setGfgData] = useState<any>(null);
@@ -390,14 +390,29 @@ const FullStatsDashboard = ({
                                     </div>
                                     <span className="text-white font-bold text-sm">LeetCode</span>
                                 </div>
-                                <a
-                                    href={`https://leetcode.com/u/${lcUsername}/`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[10px] font-bold text-muted-foreground hover:text-amber-400 transition-colors uppercase tracking-wider"
-                                >
-                                    View
-                                </a>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        onClick={async () => {
+                                            if (confirm("Disconnect LeetCode profile?")) {
+                                                if (supabase) {
+                                                    await supabase.from('user_profiles').update({ lc_username: null }).eq('user_id', userId);
+                                                }
+                                                onConnectedLC(null);
+                                            }
+                                        }}
+                                        className="text-[10px] font-bold text-rose/60 hover:text-rose transition-colors uppercase tracking-wider"
+                                    >
+                                        Disconnect
+                                    </button>
+                                    <a
+                                        href={`https://leetcode.com/u/${lcUsername}/`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[10px] font-bold text-muted-foreground hover:text-amber-400 transition-colors uppercase tracking-wider"
+                                    >
+                                        View
+                                    </a>
+                                </div>
                             </div>
                             <div className="flex items-center gap-4 mb-4 z-10">
                                 <ProgressRing percentage={parseFloat(lcPct as string)} size={72} strokeWidth={4} color="#ffa116">
@@ -456,14 +471,29 @@ const FullStatsDashboard = ({
                                     </div>
                                     <span className="text-white font-bold text-sm">GeeksForGeeks</span>
                                 </div>
-                                <a
-                                    href={`https://www.geeksforgeeks.org/profile/${gfgUsername}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-[10px] font-bold text-muted-foreground hover:text-green-400 transition-colors uppercase tracking-wider"
-                                >
-                                    View
-                                </a>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        onClick={async () => {
+                                            if (confirm("Disconnect GeeksForGeeks profile?")) {
+                                                if (supabase) {
+                                                    await supabase.from('user_profiles').update({ gfg_username: null }).eq('user_id', userId);
+                                                }
+                                                onConnectedGFG(null);
+                                            }
+                                        }}
+                                        className="text-[10px] font-bold text-rose/60 hover:text-rose transition-colors uppercase tracking-wider"
+                                    >
+                                        Disconnect
+                                    </button>
+                                    <a
+                                        href={`https://www.geeksforgeeks.org/profile/${gfgUsername}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[10px] font-bold text-muted-foreground hover:text-green-400 transition-colors uppercase tracking-wider"
+                                    >
+                                        View
+                                    </a>
+                                </div>
                             </div>
                             <div className="flex items-center gap-4 mb-4 z-10">
                                 <ProgressRing
