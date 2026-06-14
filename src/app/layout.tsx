@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: "A minimal, beautiful DSA problem tracker with bento grid layout and glass UI. Track your progress across topics, difficulties, and platforms.",
   keywords: ["DSA", "Tracker", "LeetCode", "Coding", "Algorithms", "Data Structures"],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/logo.png",
   },
 };
 

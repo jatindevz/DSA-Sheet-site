@@ -520,110 +520,110 @@ export default function Home() {
 
                 <Carousel opts={{ align: "start" }} className="w-full relative">
                   <CarouselContent className="-ml-4">
-                  {[
-                    {
-                      id: 'babbar',
-                      title: 'Love Babbar 450',
-                      subtitle: 'Core Data Structures',
-                      icon: <Database size={24} className="text-emerald" />,
-                      data: BABBAR_SHEET_DATA,
-                      classes: {
-                        bgIcon: 'bg-emerald/10',
-                        borderIcon: 'border-emerald/20',
-                        textIcon: 'text-emerald',
-                        hoverText: 'group-hover:text-emerald',
-                        bgBar: 'bg-emerald',
-                        glow: 'bg-emerald/10',
-                        glowHover: 'group-hover:bg-emerald/20'
+                    {[
+                      {
+                        id: 'babbar',
+                        title: 'Love Babbar 450',
+                        subtitle: 'Core Data Structures',
+                        icon: <Database size={24} className="text-emerald" />,
+                        data: BABBAR_SHEET_DATA,
+                        classes: {
+                          bgIcon: 'bg-emerald/10',
+                          borderIcon: 'border-emerald/20',
+                          textIcon: 'text-emerald',
+                          hoverText: 'group-hover:text-emerald',
+                          bgBar: 'bg-emerald',
+                          glow: 'bg-emerald/10',
+                          glowHover: 'group-hover:bg-emerald/20'
+                        }
+                      },
+                      {
+                        id: 'patterns',
+                        title: 'DSA Patterns',
+                        subtitle: 'Organized by Algorithm',
+                        icon: <Sparkles size={24} className="text-cyan" />,
+                        data: PATTERN_SHEET_DATA,
+                        classes: {
+                          bgIcon: 'bg-cyan/10',
+                          borderIcon: 'border-cyan/20',
+                          textIcon: 'text-cyan',
+                          hoverText: 'group-hover:text-cyan',
+                          bgBar: 'bg-cyan',
+                          glow: 'bg-cyan/10',
+                          glowHover: 'group-hover:bg-cyan/20'
+                        }
+                      },
+                      {
+                        id: 'striver',
+                        title: "Striver's SDE Sheet",
+                        subtitle: 'Top Interview Questions',
+                        icon: <Trophy size={24} className="text-amber" />,
+                        data: STRIVER_SHEET_DATA,
+                        classes: {
+                          bgIcon: 'bg-amber/10',
+                          borderIcon: 'border-amber/20',
+                          textIcon: 'text-amber',
+                          hoverText: 'group-hover:text-amber',
+                          bgBar: 'bg-amber',
+                          glow: 'bg-amber/10',
+                          glowHover: 'group-hover:bg-amber/20'
+                        }
+                      },
+                      {
+                        id: 'revision',
+                        title: 'Revision Sheet',
+                        subtitle: 'Top 50 Curated Problems',
+                        icon: <CheckCircle2 size={24} className="text-rose" />,
+                        data: REVISION_SHEET_DATA,
+                        classes: {
+                          bgIcon: 'bg-rose/10',
+                          borderIcon: 'border-rose/20',
+                          textIcon: 'text-rose',
+                          hoverText: 'group-hover:text-rose',
+                          bgBar: 'bg-rose',
+                          glow: 'bg-rose/10',
+                          glowHover: 'group-hover:bg-rose/20'
+                        }
                       }
-                    },
-                    {
-                      id: 'patterns',
-                      title: 'DSA Patterns',
-                      subtitle: 'Organized by Algorithm',
-                      icon: <Sparkles size={24} className="text-cyan" />,
-                      data: PATTERN_SHEET_DATA,
-                      classes: {
-                        bgIcon: 'bg-cyan/10',
-                        borderIcon: 'border-cyan/20',
-                        textIcon: 'text-cyan',
-                        hoverText: 'group-hover:text-cyan',
-                        bgBar: 'bg-cyan',
-                        glow: 'bg-cyan/10',
-                        glowHover: 'group-hover:bg-cyan/20'
-                      }
-                    },
-                    {
-                      id: 'striver',
-                      title: "Striver's SDE Sheet",
-                      subtitle: 'Top Interview Questions',
-                      icon: <Trophy size={24} className="text-amber" />,
-                      data: STRIVER_SHEET_DATA,
-                      classes: {
-                        bgIcon: 'bg-amber/10',
-                        borderIcon: 'border-amber/20',
-                        textIcon: 'text-amber',
-                        hoverText: 'group-hover:text-amber',
-                        bgBar: 'bg-amber',
-                        glow: 'bg-amber/10',
-                        glowHover: 'group-hover:bg-amber/20'
-                      }
-                    },
-                    {
-                      id: 'revision',
-                      title: 'Revision Sheet',
-                      subtitle: 'Top 50 Curated Problems',
-                      icon: <CheckCircle2 size={24} className="text-rose" />,
-                      data: REVISION_SHEET_DATA,
-                      classes: {
-                        bgIcon: 'bg-rose/10',
-                        borderIcon: 'border-rose/20',
-                        textIcon: 'text-rose',
-                        hoverText: 'group-hover:text-rose',
-                        bgBar: 'bg-rose',
-                        glow: 'bg-rose/10',
-                        glowHover: 'group-hover:bg-rose/20'
-                      }
-                    }
-                  ].map((sheet) => {
-                    const sheetTotal = sheet.data.reduce((acc: number, t: any) => acc + t.problems.length, 0);
-                    const sheetSolved = sheet.data.reduce((acc: number, t: any) => acc + t.problems.filter((p: any) => progress[p.title]?.status === 'solved').length, 0);
-                    const percent = sheetTotal > 0 ? Math.round((sheetSolved / sheetTotal) * 100) : 0;
+                    ].map((sheet) => {
+                      const sheetTotal = sheet.data.reduce((acc: number, t: any) => acc + t.problems.length, 0);
+                      const sheetSolved = sheet.data.reduce((acc: number, t: any) => acc + t.problems.filter((p: any) => progress[p.title]?.status === 'solved').length, 0);
+                      const percent = sheetTotal > 0 ? Math.round((sheetSolved / sheetTotal) * 100) : 0;
 
-                    return (
-                      <CarouselItem key={sheet.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                        <Link href={`/sheets/${sheet.id}`} className="block group h-full">
-                        <div className="glass-card noise-texture h-full p-4 rounded-xl flex flex-col gap-3 border border-white/[0.04] group-hover:border-white/[0.1] group-hover:bg-white/[0.02] transition-all relative overflow-hidden">
-                          <div className="flex items-start justify-between z-10">
-                            <div className={`p-2 rounded-lg ${sheet.classes.bgIcon} border ${sheet.classes.borderIcon} ${sheet.classes.textIcon}`}>
-                              {sheet.icon}
+                      return (
+                        <CarouselItem key={sheet.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                          <Link href={`/sheets/${sheet.id}`} className="block group h-full">
+                            <div className="glass-card noise-texture h-full p-4 rounded-xl flex flex-col gap-3 border border-white/[0.04] group-hover:border-white/[0.1] group-hover:bg-white/[0.02] transition-all relative overflow-hidden">
+                              <div className="flex items-start justify-between z-10">
+                                <div className={`p-2 rounded-lg ${sheet.classes.bgIcon} border ${sheet.classes.borderIcon} ${sheet.classes.textIcon}`}>
+                                  {sheet.icon}
+                                </div>
+                                <Badge variant="outline" className={`font-mono text-[9px] bg-white/5 border-white/10`}>
+                                  {sheetSolved} / {sheetTotal} Solved
+                                </Badge>
+                              </div>
+
+                              <div className="z-10 mt-1">
+                                <h4 className={`text-sm font-bold text-white ${sheet.classes.hoverText} transition-colors`}>{sheet.title}</h4>
+                                <p className="text-[11px] text-muted-foreground mt-0.5">{sheet.subtitle}</p>
+                              </div>
+
+                              <div className="mt-auto pt-3 z-10">
+                                <div className="flex items-center justify-between text-[9px] font-bold font-mono text-muted-foreground mb-1.5">
+                                  <span>PROGRESS</span>
+                                  <span className="text-white">{percent}%</span>
+                                </div>
+                                <div className="h-1 w-full bg-black/40 rounded-full overflow-hidden border border-white/[0.04]">
+                                  <div className={`h-full ${sheet.classes.bgBar} rounded-full transition-all duration-1000`} style={{ width: `${percent}%` }} />
+                                </div>
+                              </div>
+
+                              <div className={`absolute -bottom-10 -right-10 w-32 h-32 ${sheet.classes.glow} rounded-full blur-[40px] ${sheet.classes.glowHover} transition-all z-0 pointer-events-none`} />
                             </div>
-                            <Badge variant="outline" className={`font-mono text-[9px] bg-white/5 border-white/10`}>
-                              {sheetSolved} / {sheetTotal} Solved
-                            </Badge>
-                          </div>
-
-                          <div className="z-10 mt-1">
-                            <h4 className={`text-sm font-bold text-white ${sheet.classes.hoverText} transition-colors`}>{sheet.title}</h4>
-                            <p className="text-[11px] text-muted-foreground mt-0.5">{sheet.subtitle}</p>
-                          </div>
-
-                          <div className="mt-auto pt-3 z-10">
-                            <div className="flex items-center justify-between text-[9px] font-bold font-mono text-muted-foreground mb-1.5">
-                              <span>PROGRESS</span>
-                              <span className="text-white">{percent}%</span>
-                            </div>
-                            <div className="h-1 w-full bg-black/40 rounded-full overflow-hidden border border-white/[0.04]">
-                              <div className={`h-full ${sheet.classes.bgBar} rounded-full transition-all duration-1000`} style={{ width: `${percent}%` }} />
-                            </div>
-                          </div>
-
-                          <div className={`absolute -bottom-10 -right-10 w-32 h-32 ${sheet.classes.glow} rounded-full blur-[40px] ${sheet.classes.glowHover} transition-all z-0 pointer-events-none`} />
-                        </div>
-                        </Link>
-                      </CarouselItem>
-                    );
-                  })}
+                          </Link>
+                        </CarouselItem>
+                      );
+                    })}
                   </CarouselContent>
                   <div className="absolute -top-10 right-12 flex gap-2">
                     <CarouselPrevious className="static translate-y-0 h-7 w-7 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white" />

@@ -203,7 +203,7 @@ export default function SheetPage({ params }: { params: Promise<{ sheetId: strin
           <div className="w-px h-5 bg-white/[0.06] hidden sm:block" />
           <div className="flex items-center gap-2 min-w-0">
             <div className="p-1.5 rounded-lg bg-emerald/10 border border-emerald/20 text-emerald shrink-0">
-              <Terminal size={16} />
+              <img src="/logo.png" alt="DSA Console" className="w-[18px] h-[18px] object-contain rounded" />
             </div>
             <div className="min-w-0">
               <h1 className="text-sm font-bold text-white truncate">{sheetMeta.title}</h1>
