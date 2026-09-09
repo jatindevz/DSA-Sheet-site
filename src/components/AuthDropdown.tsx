@@ -26,15 +26,12 @@ export function AuthDropdown() {
       return;
     }
 
-    // Check active session on load
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user && supabase) {
-        // We sync local -> server, then server -> local to merge
         syncLocalDataToServer(session.user.id).then(() => {
           fetchServerDataToLocal(session.user.id);
         });
-        // Fetch email preferences
         supabase.from('user_profiles').select('email_notifications_enabled').eq('user_id', session.user.id).single().then(({ data }) => {
           if (data) setEmailEnabled(data.email_notifications_enabled);
         });
@@ -42,7 +39,6 @@ export function AuthDropdown() {
       setLoading(false);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
       
@@ -83,7 +79,6 @@ export function AuthDropdown() {
     if (confirm('Are you sure you want to reset your console? This will wipe ALL progress locally and in the cloud.')) {
       resetProgress();
       if (user && supabase) {
-        // Wipe cloud data
         await supabase.from('dsa_progress').delete().eq('user_id', user.id);
       }
       setDropdownOpen(false);
